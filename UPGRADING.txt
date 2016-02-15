@@ -14,6 +14,8 @@ Version 1.0.3
 
 - Autoassign new tickets over web to a given department hiding the department selection step. (see departments settings site)
 
+- Added option to trigger notification to staff, when clients make an update through the web interface (see Tickets > general)
+
 - Integrated filemanager to knowledgebase editor (such as to directly embed pictures) using folder public-files
     NOTE: please set write access
 
