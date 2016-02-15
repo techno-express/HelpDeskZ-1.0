@@ -83,7 +83,7 @@ function helpdeskz_103(){
     $db->query("INSERT INTO `".TABLE_PREFIX."settings` (`field` ,`value`)VALUES ('imap_mail_downloader_processaction', 'move');");
     $db->query("INSERT INTO `".TABLE_PREFIX."settings` (`field` ,`value`)VALUES ('imap_mail_downloader_processaction_folder', 'processed');");
     $db->query("INSERT INTO `".TABLE_PREFIX."settings` (`field` ,`value`)VALUES ('email_piping_trigger_notification', 'no');");
-
+    $db->query("INSERT INTO `".TABLE_PREFIX."settings` (`field` ,`value`)VALUES ('email_on_new_reply', 'no');");
 
     $db->query("INSERT INTO `".TABLE_PREFIX."emails` (`id`, `orderlist`, `name`, `subject`, `message`) VALUES
     ('staff_ticketupdate_notification', 7, 'Ticket update notification to staff', '[#%ticket_id%] %ticket_subject% (Update)', 'Dear %staff_name%,\r\n\r\nA ticket has been updated in department assigned for you, please login to staff panel to answer it.\r\n\r\n\r\nTicket Details\r\n---------------\r\n\r\nTicket ID: %ticket_id%\r\nDepartment: %ticket_department%\r\nStatus: %ticket_status%\r\nPriority: %ticket_priority%\r\n\r\n\r\nHelpdesk: %helpdesk_url%\r\n\r\n%message%');");

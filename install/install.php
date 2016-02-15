@@ -293,7 +293,8 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 ('imap_password',''),
 ('imap_mail_downloader_processaction','move'),
 ('imap_mail_downloader_processaction_folder','processed'),
-('email_piping_trigger_notification','no');";
+('email_piping_trigger_notification','no'),
+('email_on_new_reply','no');";
 
 
 	$query[] = "INSERT INTO `".$db_prefix."staff` (`id`, `username`, `password`, `fullname`, `email`, `login`, `last_login`, `department`, `timezone`, `signature`, `avatar`, `admin`, `status`) VALUES

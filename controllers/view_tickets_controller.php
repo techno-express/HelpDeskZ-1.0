@@ -82,7 +82,7 @@ $template_vars['ticket_status'] = $ticket_status;
 							$db->insert(TABLE_PREFIX."attachments", $data);
 						}
 
-//						if ($settings['email_piping_trigger_notification']){
+						if ($settings['email_on_new_reply'] == 'yes'){
 
 							$status_name = $ticket_status[$ticket['status']];
 							$priority_name = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."priority WHERE id={$ticket['priority_id']}");
@@ -114,7 +114,7 @@ $template_vars['ticket_status'] = $ticket_status;
 									$mailer = new Mailer($data_mail);
 								}
 							}
-//						}
+						}
 
 						header('location: '.getUrl('view_tickets','ticket',array($ticket['id'],'sent')));
 						exit;

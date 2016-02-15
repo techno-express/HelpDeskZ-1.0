@@ -386,6 +386,9 @@ $LANG['AUTOASSIGN_TICKETS_WEB_INFO'] = 'If enabled for any department, clients w
 $LANG['EMAIL_PIPING_NOTIFICATION'] = "Auto-generate notification to staff assigned to specified department.";
 $LANG['EMAIL_PIPING_NOTIFICATION_INFO'] = "";
 
+$LANG['EMAIL_ON_NEW_REPLY'] = 'Send notification on client update';
+$LANG['EMAIL_ON_NEW_REPLY_INFO'] = 'If enabled the associated staff will receive an email once client make updates on the web frontend.';
+
 $LANG['IMAP_DOWNLOADER_TITLE'] = "Email Cronjob Downloader";
 $LANG['IMAP_DOWNLOADER_DESCRIPTION'] = "";
 $LANG['IMAP_HOST'] = 'IMAP Host';
