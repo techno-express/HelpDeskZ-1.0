@@ -64,7 +64,10 @@ switch ($settings['imap_mail_downloader_processaction']) {
 
     case ProcessAction::ACTION_MOVE:
         $folder = 'INBOX/'.$settings['imap_mail_downloader_processaction_folder'];
-        $defaultProcessAction = ProcessAction::move($folder);
+        $defaultProcessAction = ProcessAction::callback(function($mailbox,$emailIndex)use($folder){
+            imap_setflag_full($mailbox,$emailIndex, "\\Seen",0);
+            imap_mail_move($mailbox,$emailIndex,$folder,0);
+        });
         break;
 
     default:
@@ -115,23 +118,23 @@ function pipe($data)
             fclose($pipes[2]);
         }
 
-        // Es ist wichtig, dass Sie alle Pipes schließen bevor Sie
-        // proc_close aufrufen, um Deadlocks zu vermeiden
         $return_value = proc_close($process);
 
-//        if ($return_value != 0) {
+        if ($return_value != 0) {
             throw new Exception("Unexpected return value {$return_value}.\r\nSTDOUT\r\n{$stdout}\r\nSTDERR\r\n{$stderr}");
-//        }
+        }
     }
 }
 
 try {
     $downloader->fetch($criteria, function (Email $email) {
 
+//        echo $email->getFrom() ."\r\n";
+
         pipe($email->getSource());
 
-        return false;
-    }, Downloader::FETCH_SOURCE);
+        return true;
+    }, Downloader::FETCH_SOURCE | Downloader::FETCH_OVERVIEW);
 
 } catch (ImapException $e) {
     // this is an imap exception/error

@@ -415,9 +415,9 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
                     <span class="description">{{ LANG.EMAIL_PIPING_NOTIFICATION_INFO }}</span>
                 </td>
                 <td>
-                    <select name="email_piping">
-                        <option value="yes" {% if settings.email_piping == 'yes' %}selected{% endif %}>{{ LANG.YES }}</option>
-                        <option value="no" {% if settings.email_piping != 'yes' %}selected{% endif %}>{{ LANG.NO }}</option>
+                    <select name="email_piping_trigger_notification">
+                        <option value="yes" {% if settings.email_piping_trigger_notification == 'yes' %}selected{% endif %}>{{ LANG.YES }}</option>
+                        <option value="no" {% if settings.email_piping_trigger_notification != 'yes' %}selected{% endif %}>{{ LANG.NO }}</option>
                     </select>
                 </td>
             </tr>

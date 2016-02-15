@@ -85,19 +85,20 @@ if($ticket['total'] != 0){
 		{
 			$department_list = unserialize($r['department']);
 			$department_list = (is_array($department_list)?$department_list:array());
-			if(in_array($department['id'],$department_list))
+			if(in_array($ticket['department_id'],$department_list))
 			{
 				/* Mailer */
 				$data_mail = array(
 					'id' => 'staff_ticketupdate_notification',
 					'to' => $r['fullname'],
 					'to_mail' => $r['email'],
-					'vars' => array('%staff_name%' => $r['fullname'],
-						'%ticket_id%' => $ticket_id,
-						'%ticket_subject%' => $input->p['subject'],
-						'%ticket_department%' => $department['name'],
-						'%ticket_status%' => $LANG['OPEN'],
-						'%ticket_priority%' => $priorityvar['name'],
+					'vars' => array(
+						'%staff_name%' => $r['fullname'],
+						'%ticket_id%' => $ticket['code'],
+						'%ticket_subject%' => $ticket['subject'],
+						'%ticket_department%' => $department_name,
+						'%ticket_status%' => $status_name,
+						'%ticket_priority%' => $priority_name,
 						'%message%' => $text
 					),
 				);
