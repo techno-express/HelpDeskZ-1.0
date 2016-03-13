@@ -9,6 +9,11 @@
 require_once INCLUDES.'PHPMailer/PHPMailerAutoload.php';
 class Mailer
 {
+
+	public function __construct($data_mail) {
+		$this->Mailer($data_mail);
+	}
+	
 	function Mailer($data_mail){
 		global $db, $settings;
 		$this->data = $data_mail;

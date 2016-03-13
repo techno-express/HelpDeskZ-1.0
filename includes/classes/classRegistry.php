@@ -9,6 +9,11 @@
 class Registry
 {
 	var $input;
+
+	public function __construct() {
+		$this->Registry();
+	}
+
 	function Registry(){
 		define('CWD', (($getcwd = getcwd()) ? $getcwd : '.'));
 		$config = array();
