@@ -15,7 +15,7 @@
     	<li id="tab1">{{ LANG.DEPARTMENT }}</li>
     </ul>
     <div id="ctab1">
-        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_DEPARTMENT }}" onclick="showDepartmentsForm(0);" /> 
+        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_DEPARTMENT }}" onclick="showDepartmentsForm(0);" />
 <br />
 <br />
     	<table width="100%"  class="widget-table">
@@ -45,7 +45,7 @@
 					<td>
   		        {% if r.dep_order != 1 %}<a href="{{ getUrl(controller, action, ['departments','move_department','up',r.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
                 {% if r.dep_order != last_position %}<a href="{{ getUrl(controller, action, ['departments','move_department','down',r.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
-                
+
                     {% if r.id != 1 %}
                     <a href="{{ getUrl(controller, action, ['departments','delete_department',r.id])|raw }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>{% endif %}</td>
                 </tr>

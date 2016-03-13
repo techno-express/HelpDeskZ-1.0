@@ -36,7 +36,7 @@ if($settings['permalink'] == 1){
     }
 
 	$filename = CONTROLLERS.$controller.'_controller.php';
-	
+
 	if (!is_file($filename)){
 		$filename = CONTROLLERS.'home_controller.php';
 		$controller = 'home';

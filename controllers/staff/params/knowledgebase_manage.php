@@ -11,7 +11,7 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 	$article = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."articles WHERE id=$article_id");
 	if($article['total'] == 0){
 		header('location: '.getUrl($controller,$action,array('manage')));
-		exit;	
+		exit;
 	}else{
 		if($params[3] == 'remove_attachment' && is_numeric($params[4])){
 			$attachment_id = $db->real_escape_string($params[4]);
@@ -20,19 +20,19 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 				removeAttachment($attachment_id,'article');
 			}
 			header('location: '.getUrl($controller,$action,array('manage','edit',$article_id,'attached_removed')));
-			exit;	
+			exit;
 		}elseif($params[3] == 'update'){
 			if(verifyToken('article', $input->p['csrfhash']) !== true){
 					$error_msg = $LANG['CSRF_ERROR'];
 			}else{
 				if($input->p['title'] == ''){
-					$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];	
+					$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];
 				}elseif($input->p['content'] == ''){
-					$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];	
+					$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];
 				}elseif(!is_numeric($input->p['category'])){
 					$error_msg = $LANG['SELECT_CATEGORY'];
 				}else{
-					$uploaddir = UPLOAD_DIR.'articles/';		
+					$uploaddir = UPLOAD_DIR.'articles/';
 					if($_FILES['file1']['error'] == 0){
 						$ext = pathinfo($_FILES['file1']['name'], PATHINFO_EXTENSION);
 						$filename = md5($_FILES['file1']['name'].time()).".".$ext;
@@ -78,7 +78,7 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 						exit;
 					}
 				}
-		
+
 			}
 		}
 		$article_title = ($input->p['title'] == ''?$article['title']:$input->p['title']);
@@ -87,7 +87,7 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 
 		$q = $db->query("SELECT * FROM ".TABLE_PREFIX."attachments WHERE article_id=$article_id");
 		while($r = $db->fetch_array($q)){
-			$attachments[] = $r;	
+			$attachments[] = $r;
 		}
 		$template_vars['error_msg'] = $error_msg;
 		$template_vars['article_id'] = $article_id;
@@ -103,28 +103,28 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 	}
 }
 if(is_numeric($input->g['cat'])){
-	$whereq = "WHERE category=".$db->real_escape_string($input->g['cat']);	
+	$whereq = "WHERE category=".$db->real_escape_string($input->g['cat']);
 }
 if($params[1] == 'page'){
 	$page = (!is_numeric($params[2])?1:$params[2]);
 }else{
-	$page = 1;	
+	$page = 1;
 }
 
 
 
 if($input->p['do'] == 'update'){
 	if(verifyToken('knowledgebase', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];	
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(!is_array($input->p['kb_id'])){
-		$error_msg = $LANG['NO_SELECT_ARTICLE'];	
+		$error_msg = $LANG['NO_SELECT_ARTICLE'];
 	}else{
 		foreach($input->p['kb_id'] as $k){
 			if(is_numeric($k)){
 				$kb_id = $db->real_escape_string($k);
 				if($input->p['remove'] == 1){
-					$db->delete(TABLE_PREFIX."articles", "id='$kb_id'");						
-					removeAttachment($kb_id,'articles');			
+					$db->delete(TABLE_PREFIX."articles", "id='$kb_id'");
+					removeAttachment($kb_id,'articles');
 				}else{
 					if(array_key_exists($input->p['kb_category'],$kb_category)){
 						$db->query("UPDATE ".TABLE_PREFIX."articles SET category='".$db->real_escape_string($input->p['kb_category'])."' WHERE id='$kb_id'");
@@ -143,13 +143,13 @@ $orderby = (in_array($params[3],$order_list)?$params[3]:'id');
 $sortby = ($params[4] == 'asc'?'asc':'desc');
 $max_results = $settings['page_size'];
 $count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."articles");
-$total_pages = ceil($count/$max_results);	
+$total_pages = ceil($count/$max_results);
 $page = ($page>$total_pages?$total_pages:$page);
 $from = ($max_results*$page) - $max_results;
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."articles {$whereq} ORDER BY {$orderby} {$sortby} LIMIT $from, $max_results");
 while($r = $db->fetch_array($q)){
 	$r['category_name'] = ($r['category'] == 0?$LANG['ROOT_CATEGORY']:$kb_category[$r['category']]);
-	$kb_article[] = $r;	
+	$kb_article[] = $r;
 }
 $template_vars['kb_category'] = $kb_category;
 $template_vars['kb_article'] = $kb_article;

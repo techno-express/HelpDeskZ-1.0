@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-        
+
 {% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
 {% if ticket.status == 'Closed' %}{{ error_message(LANG.TICKET_IS_CLOSED) }}{% endif %}
 
@@ -39,8 +39,8 @@
     <div><input type="file" name="attachment" /></div>
     {% endif %}
     <br /><input type="submit" name="btn2" value="{{ LANG.SUBMIT }}" />
-</form>     
-</div>	
+</form>
+</div>
 {% endif %}
 
 {% if params[1] == 'sent' %}{{ success_message(LANG.YOUR_REPLY_SENT) }}{% endif %}
@@ -64,11 +64,11 @@
            <div class="ticket_date">{{ LANG.POSTED_ON }} : {{ displayDate(messages.date) }}</div>
             <div class="ticket_msg">
             {{ messages.message|nl2br }}
-            {% if messages.attachments.total != 0 %}
-            	{% set attachlink = {'0': messages.ticket_id, '1':'attachment', '2': messages.attachments.id, '3': messages.id} %}
-				<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>	
-                <div><span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,attachlink) }}" target="_blank">{{ messages.attachments.name }} ({{ messages.attachments.filesize }})</a></div>
-            {% endif %}
+            {% for attachment in messages.attachments %}
+            	{% set attachlink = {'0': messages.ticket_id, '1':'attachment', '2': attachment.id, '3': messages.id} %}
+				<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>
+                <div><span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,attachlink) }}" target="_blank">{{ attachment.name }} ({{ attachment.filesize }})</a></div>
+            {% endfor %}
             </div>
     </div>
 </div>

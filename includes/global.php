@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 session_start();
-error_reporting(E_ALL & ~E_NOTICE);	
+error_reporting(E_ALL & ~E_NOTICE);
 define('ROOTPATH', dirname(dirname(__FILE__)).'/');
 define('INCLUDES', ROOTPATH . 'includes/');
 define('CONTROLLERS', ROOTPATH . 'controllers/');
@@ -26,10 +26,10 @@ require_once INCLUDES.'timezone.inc.php';
 $helpdeskz = new Registry();
 $input = new Input_Cleaner();
 if($helpdeskz->config['Database']['type'] == 'mysqli'){
-	require_once INCLUDES.'classes/classMysqli.php';	
+	require_once INCLUDES.'classes/classMysqli.php';
 	$db = new MySQLIDB();
 }else{
-	require_once INCLUDES.'classes/classMysql.php';	
+	require_once INCLUDES.'classes/classMysql.php';
 	$db = new MySQLDB();
 }
 $db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);

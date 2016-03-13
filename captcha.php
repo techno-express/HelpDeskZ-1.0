@@ -6,18 +6,18 @@
  * @author Evolution Script S.A.C.
  * @since 1.0.0
  */
-error_reporting(E_ALL & ~E_NOTICE);	
+error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 // Create a 300x100 image
 $im = imagecreatetruecolor(180, 40);
 /******************/
 //Letras
-$letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789'; 
-$letraA = $letras[rand(0, strlen($letras)-1)]; 
-$letraB = $letras[rand(0, strlen($letras)-1)]; 
-$letraC = $letras[rand(0, strlen($letras)-1)]; 
-$letraD = $letras[rand(0, strlen($letras)-1)]; 
-$letraE = $letras[rand(0, strlen($letras)-1)]; 
+$letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+$letraA = $letras[rand(0, strlen($letras)-1)];
+$letraB = $letras[rand(0, strlen($letras)-1)];
+$letraC = $letras[rand(0, strlen($letras)-1)];
+$letraD = $letras[rand(0, strlen($letras)-1)];
+$letraE = $letras[rand(0, strlen($letras)-1)];
 $tuner = "$letraA$letraB$letraC$letraD$letraE";
 $_SESSION['captcha'] = $tuner;
 //Tamaño de letra entre 12 y 24

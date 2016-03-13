@@ -8,7 +8,7 @@
  */
 	if($action == 'login'){
 		if(verifyToken('login', $input->p['csrfhash']) !== true){
-			$error_msg = $LANG['CSRF_ERROR'];	
+			$error_msg = $LANG['CSRF_ERROR'];
 		}elseif(empty($input->p['username']) || empty($input->p['password'])){
 			$error_msg = $LANG['USERNAME_PASSWORD_INCORRECT'];
 		}else{
@@ -65,7 +65,7 @@
 			}
 		}
 	}
-	
+
 $template_vars['error_msg'] = $error_msg;
 $template = $twig->loadTemplate('login.html');
 echo $template->render($template_vars);

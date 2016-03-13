@@ -26,7 +26,7 @@ if($params[1] == 'article' && is_numeric($params[2])){
 			}else{
 				header("Content-disposition: attachment; filename=".$attachment['name']);
 				header("Content-type: ".$attachment['filetype']);
-				readfile(UPLOAD_DIR.'articles/'.$attachment['enc']);	
+				readfile(UPLOAD_DIR.'articles/'.$attachment['enc']);
 				exit;
 			}
 		}
@@ -53,7 +53,7 @@ if(is_numeric($params[1])){
 $article_url = getUrl($controller,$action,array('preview','article',''));
 $template_vars['article_url'] = $article_url;
 
-$q = $db->query("SELECT * FROM ".TABLE_PREFIX."knowledgebase_category WHERE parent=".$db->real_escape_string($cat_id)." ORDER BY position ASC");	
+$q = $db->query("SELECT * FROM ".TABLE_PREFIX."knowledgebase_category WHERE parent=".$db->real_escape_string($cat_id)." ORDER BY position ASC");
 while($r = $db->fetch_array($q)){
 	$r['total_articles'] = $db->fetchOne("SELECT COUNT(id) AS total FROM ".TABLE_PREFIX."articles WHERE category=".$r['id']);
 	if($r['total_articles'] != 0){
@@ -64,7 +64,7 @@ while($r = $db->fetch_array($q)){
 		}
 		$r['article_list'] = $article_list;
 	}
-	$kb_cat[] = $r;	
+	$kb_cat[] = $r;
 }
 $template_vars['kb_cat'] = $kb_cat;
 
@@ -77,12 +77,12 @@ $template_vars['articles'] = $articles;
 
 $q = $db->query("SELECT id, title, category FROM ".TABLE_PREFIX."articles ORDER BY views DESC LIMIT {$settings['knowledgebase_mostpopulartotal']}");
 while($r = $db->fetch_array($q)){
-	$popular_articles[] = $r;	
+	$popular_articles[] = $r;
 }
 $template_vars['popular_articles'] = $popular_articles;
 $q = $db->query("SELECT id, title, category FROM ".TABLE_PREFIX."articles ORDER BY date DESC LIMIT {$settings['knowledgebase_newesttotal']}");
 while($r = $db->fetch_array($q)){
-	$newest_articles[] = $r;	
+	$newest_articles[] = $r;
 }
 $template_vars['newest_articles'] = $newest_articles;
 $template = $twig->loadTemplate('knowledgebase_preview.html');

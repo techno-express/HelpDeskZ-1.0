@@ -13,17 +13,17 @@ function daterange($date){ //mm/dd/yyyy
 	if (preg_match($date_regex, $date)){
 		$daterange[0] = mktime(0,0,0,$date1e[0],$date1e[1],$date1e[2]);
 		$daterange[1] = mktime(23,59,59,$date1e[0],$date1e[1],$date1e[2]);
-		return $daterange;	
+		return $daterange;
 	}
 }
 function error_message($msg){
 	echo '<div class="error_box">'.$msg.'</div>';
-}	
+}
 function success_message($msg){
 	echo '<div class="success_box">'.$msg.'</div>';
 }
 function getToken($token_name){
-	$newtoken = 1;	
+	$newtoken = 1;
 	if(isset($_SESSION['token'][$token_name]['token'])) {
 		$token_age = time() - $_SESSION['token'][$token_name]['time'];
 		if($token_age < 600){
@@ -82,12 +82,12 @@ function removeAttachment($id,$type=null){
 	if($type == 'ticket'){
 		$attachment = $db->fetchOne("SELECT enc FROM ".TABLE_PREFIX."attachments WHERE id=".$id);
 		$db->delete("attachments", "id=".$id);
-		$dirfile = UPLOAD_DIR.'tickets/'.$attachment;		
+		$dirfile = UPLOAD_DIR.'tickets/'.$attachment;
 		@unlink($dirfile);
 	}elseif($type == 'article'){
 		$attachment = $db->fetchOne("SELECT enc FROM ".TABLE_PREFIX."attachments WHERE id=".$id);
 		$db->delete("attachments", "id=".$id);
-		$dirfile = UPLOAD_DIR.'articles/'.$attachment;		
+		$dirfile = UPLOAD_DIR.'articles/'.$attachment;
 		@unlink($dirfile);
 	}elseif($type == 'msg'){
 		$q = $db->query("SELECT id, enc	FROM ".TABLE_PREFIX."attachments WHERE msg_id=".$id);
@@ -111,11 +111,11 @@ function removeAttachment($id,$type=null){
 			$db->delete(TABLE_PREFIX."attachments", "article_id=".$id);
 		}
 	}
-	
+
 }
 
 function verifyAttachment($filename){
-	global $db;	
+	global $db;
 	$namepart = explode('.', $filename['name']);
 	$totalparts = count($namepart)-1;
 	$file_extension = $namepart[$totalparts];
@@ -128,7 +128,7 @@ function verifyAttachment($filename){
 		}elseif($filename['size'] > $filetype['size'] && $filetype['size'] > 0){
 			$msg_code = 3;
 			$misc = formatBytes($filetype['size']);
-		}else{	
+		}else{
 			$msg_code = 0;
 		}
 	}
@@ -145,12 +145,12 @@ function strtourl($str) {
 	return $clean;
 }
 
-function formatBytes($bytes, $precision = 2) { 
+function formatBytes($bytes, $precision = 2) {
     $base = log($bytes) / log(1024);
     $suffixes = array('B', 'KB', 'MB');
 
-    return round(pow(1024, $base - floor($base)), $precision) ." ". $suffixes[floor($base)]; 
-} 
+    return round(pow(1024, $base - floor($base)), $precision) ." ". $suffixes[floor($base)];
+}
 function getUrl($controller=null,$action=null,$params=null,$getvar=null){
 	global $settings;
 	if($controller == ''){
@@ -191,14 +191,14 @@ function clientLogout(){
 	setcookie('usrhash','',time()-5,'/');
 	unset($_SESSION['user']);
 	header('location: '.getUrl());
-	exit;	
+	exit;
 }
 function staffLogout(){
 	global $controller;
 	setcookie('stfhash','',time()-5,'/');
 	unset($_SESSION['staff']);
 	header('location: '.getUrl($controller));
-	exit;	
+	exit;
 }
 function displayDate($date){
 	global $settings;
@@ -208,7 +208,7 @@ function displayDate($date){
 function ticketpaginator($total_pages,$page,$url){
 	  if($total_pages && $total_pages > 1){
 		echo '<div class="paginator">';
-			
+
 			if($page != 1){
 				if($page-2>1){
 				echo '<a href="'.str_replace('#page#',1,$url).'">&laquo;</a> ';

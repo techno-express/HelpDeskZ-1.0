@@ -3,7 +3,7 @@
 {% block content %}
 {% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
 <script>
-	var csrfhash = '{{ getToken('tickets') }}'; 
+	var csrfhash = '{{ getToken('tickets') }}';
 	$(document).ready(function(){
 		$(".csrfhash").val(csrfhash);
 	});

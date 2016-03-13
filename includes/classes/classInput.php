@@ -14,7 +14,7 @@ class Input_Cleaner
 		$this->test = 'asas';
 		if(function_exists('get_magic_quotes_runtime') && get_magic_quotes_runtime())
 			set_magic_quotes_runtime(false);
-			
+
 			if(get_magic_quotes_gpc()) {
 				$this->array_stripslashes($_POST);
 				$this->array_stripslashes($_GET);
@@ -56,9 +56,9 @@ class Input_Cleaner
 				$this->c[$kk] = $vv;
 				$this->cc[$kk] = $vv_cleaned;
 			}
-			
+
 	}
-	
+
 	function array_stripslashes(&$array) {
 		if(is_array($array))
 			while(list($key) = each($array))

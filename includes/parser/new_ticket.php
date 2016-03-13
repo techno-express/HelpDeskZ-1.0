@@ -10,7 +10,7 @@ $department = $db->fetchRow("SELECT id, name FROM ".TABLE_PREFIX."departments WH
 if($text != '' && is_array($department)){
 	$user = $db->fetchRow("SELECT COUNT(id) AS total, id FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($from_email)."'");
 	$fullname = $from_name;
-	$email = $from_email;	
+	$email = $from_email;
 	if($user['total'] == 0){
 		$password = substr((md5(time().$fullname)),5,7);
 		$data = array('fullname' => $fullname,
@@ -28,7 +28,7 @@ if($text != '' && is_array($department)){
 		);
 		$mailer = new Mailer($data_mail);
 	}else{
-		$user_id = $user['id'];	
+		$user_id = $user['id'];
 	}
 	$ticket_id = substr(strtoupper(sha1(time().$email)), 0, 11);
 	$ticket_id = substr_replace($ticket_id, '-',3,0);
@@ -70,7 +70,7 @@ if($text != '' && is_array($department)){
 			}
 			fclose($fp);
 		  }
-			
+
 		  $filesize = @filesize(UPLOAD_DIR.$filename);
 		  if($filesize){
 			  $fileinfo = array('name' => $filename, 'size' => $filesize);
@@ -92,8 +92,8 @@ if($text != '' && is_array($department)){
 	'id' => 'new_ticket',
 	'to' => $fullname,
 	'to_mail' => $email,
-	'vars' => array('%client_name%' => $fullname, 
-					'%client_email%' => $email, 
+	'vars' => array('%client_name%' => $fullname,
+					'%client_email%' => $email,
 					'%ticket_id%' => $ticket_id,
 					'%ticket_subject%' => $subject,
 					'%ticket_department%' => $department['name'],

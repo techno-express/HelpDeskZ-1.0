@@ -1,11 +1,10 @@
-#!/usr/bin/php -q
 <?php
 
 ini_set('error_reporting',E_ALL& ~E_NOTICE);
 
-define('INCLUDES','./');
-define('UPLOAD_DIR','../uploads/');
-require_once INCLUDES.'parser/MimeMailParser.class.php';
+define('INCLUDES', __DIR__.'/');
+define('UPLOAD_DIR', dirname(__DIR__).'/uploads/');
+
 require_once INCLUDES.'classes/classRegistry.php';
 require_once INCLUDES.'classes/classMailer.php';
 require_once INCLUDES.'functions.php';
@@ -25,124 +24,95 @@ $q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
 while($r = $db->fetch_array($q)){
     $settings[$r['field']] = $r['value'];
 }
-if($settings['email_piping'] == 'no'){
-    exit;
-}
 
+include_once(INCLUDES.'language/'.$settings['client_language'].'.php');
 
 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
     echo "This script requires PHP version 5.3.0 or higher to work, sorry.";
     exit(1);
 }
 
-// because version 5.3.0 is required, we could in theory use the autoloader :)
-//require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'autoload.php';
-
-// ... but this project is not so much inteded to be installed through composer etc which is a bit of a pain, but that's okay.
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tomaj' . DIRECTORY_SEPARATOR . 'imap-mail-downloader' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'ProcessAction.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tomaj' . DIRECTORY_SEPARATOR . 'imap-mail-downloader' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Downloader.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tomaj' . DIRECTORY_SEPARATOR . 'imap-mail-downloader' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'MailCriteria.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tomaj' . DIRECTORY_SEPARATOR . 'imap-mail-downloader' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Email.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tomaj' . DIRECTORY_SEPARATOR . 'imap-mail-downloader' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'ImapException.php';
-
-
-use Tomaj\ImapMailDownloader\ProcessAction;
-use Tomaj\ImapMailDownloader\Downloader;
-use Tomaj\ImapMailDownloader\MailCriteria;
-use Tomaj\ImapMailDownloader\Email;
-use Tomaj\ImapMailDownloader\ImapException;
+require_once(__DIR__.'/vendor/autoload.php');
 
 $imapHost = $settings['imap_host'];
 $imapPort = intval($settings['imap_port']);
 $imapUsername = $settings['imap_username'];
 $imapPassword = $settings['imap_password'];
+$processing = $settings['imap_mail_downloader_processaction'];
+$processed_folder = $settings['imap_mail_downloader_processaction_folder'];
 
-switch ($settings['imap_mail_downloader_processaction']) {
-    case ProcessAction::ACTION_DELETE:
-        $defaultProcessAction = ProcessAction::delete();
-        break;
+use Ddeboer\Imap\Server;
+$server = new Server(
+    $imapHost,
+    $imapPort,     // defaults to 993
+    '/imap/notls/novalidate-cert'
+);
 
-    case ProcessAction::ACTION_MOVE:
-        $folder = 'INBOX/'.$settings['imap_mail_downloader_processaction_folder'];
-        $defaultProcessAction = ProcessAction::callback(function($mailbox,$emailIndex)use($folder){
-            imap_setflag_full($mailbox,$emailIndex, "\\Seen",0);
-            imap_mail_move($mailbox,$emailIndex,$folder,0);
-        });
-        break;
-
-    default:
-        throw new Exception("Invalid process action: {$settings['imap_mail_downloader_processaction']}");
+// $connection is instance of \Ddeboer\Imap\Connection
+$connection = $server->authenticate($imapUsername, $imapPassword);
+$mailboxes = $connection->getMailboxes();
+foreach ($mailboxes as $mailbox) {
+	//printf('Mailbox %s has %s messages', $mailbox->getName(), $mailbox->count());
+	//echo "\n";
 }
 
-//$defaultProcessAction = ProcessAction::move('INBOX/processed');
+$mailbox = $connection->getMailbox('INBOX');
 
-$downloader = new Downloader($imapHost, $imapPort, $imapUsername, $imapPassword);
-$downloader->setProcessedFoldersAutomake(true)
-    ->setDefaultProcessAction($defaultProcessAction);
+$messages = $mailbox->getMessages();
+foreach($messages AS $message) {
 
+	if(!$message->isSeen()) {
 
-$criteria = new MailCriteria();
-$criteria->setUnseen(true);
+		$attachments = $message->keepUnseen()->getAttachments();
+		$own_attachments = array();
+		foreach ($attachments as $attachment) {
+			$filename = $attachment->getFilename();
+		  $own_attachments[$filename] = $attachment->getDecodedContent();
+		}
 
+	  $attachments = $own_attachments;
 
-function pipe($data)
-{
+	  $text = $message->getBodyText();
+	  foreach( $message->getTo() AS $to_obj ) {
+			$to = $to_obj->getMailbox().'@'.$to_obj->getHostname();
+		}
 
-    $descriptorspec = array(
-        0 => array("pipe", "r"),  // STDIN ist eine Pipe, von der das Child liest
-        1 => array("pipe", "w"),  // STDOUT ist eine Pipe, in die das Child schreibt
-        2 => array("pipe", "w") // STDERR ist eine Datei,
-        // in die geschrieben wird
-    );
+	  $from = $message->getFrom();
+	  $subject = $message->getSubject();
 
-    $cmd = 'php ' . escapeshellarg(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pipe.php');
+	  if(strpos ($from, '<') !== false) {
+	      $from2 = explode ('<', $from);
+	      $from3 = explode ('>', $from2[1]);
+	    $from_name = trim($from2[0]);
+	      $from_email = trim($from3[0]);
+	  } else{
+	    $from_name = $from;
+	    $from_email = $from;
+	  }
 
-    $cwd = dirname(__FILE__);
+	  $datenow = time();
 
-    $env = array();
+		if($processing == 'move') {
+	  	$mailbox = $connection->getMailbox('INBOX.' . $processed_folder );
+	  	$message->move($mailbox);
+	  }
+		if($processing == 'delete') {
+	  	$message->delete();
+		}
+	  $mailbox->expunge();
 
-    $process = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
+	  if($subject){
+	    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
+	      //Existing ticket?
+	      include_once(INCLUDES.'parser/reply_ticket.php');
+	    }
+	    else {
+	      //New Ticket
+	      include_once(INCLUDES.'parser/new_ticket.php');
+	    }
+	  }
 
-    if (is_resource($process)) {
-
-        fwrite($pipes[0], $data);
-        fclose($pipes[0]);
-
-        if ($pipes[1] !== null) {
-            $stdout = stream_get_contents($pipes[1]);
-            fclose($pipes[1]);
-        }
-
-        if ($pipes[2] !== null) {
-            $stderr = stream_get_contents($pipes[2]);
-            fclose($pipes[2]);
-        }
-
-        $return_value = proc_close($process);
-
-        if ($return_value != 0) {
-            throw new Exception("Unexpected return value {$return_value}.\r\nSTDOUT\r\n{$stdout}\r\nSTDERR\r\n{$stderr}");
-        }
-    }
+	}
 }
-
-try {
-    $downloader->fetch($criteria, function (Email $email) {
-
-//        echo $email->getFrom() ."\r\n";
-
-        pipe($email->getSource());
-
-        return true;
-    }, Downloader::FETCH_SOURCE | Downloader::FETCH_OVERVIEW);
-
-} catch (ImapException $e) {
-    // this is an imap exception/error
-    echo $e->getMessage() . "\r\n";
-    exit(1);
-
-} catch (Exception $e){
-    // this is an application exception
-    echo $e->getMessage() . "\r\n";
-    exit(2);
-}
+$mailbox = $connection->getMailbox('INBOX');
+$mailbox->expunge();

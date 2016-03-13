@@ -33,7 +33,7 @@ if(is_array($_SESSION['staff'])){
 }
 if($staff_status == 1){
 	$staff_departments = unserialize($staff['department']);
-	$staff_departments = (is_array($staff_departments)?$staff_departments:array());	
+	$staff_departments = (is_array($staff_departments)?$staff_departments:array());
 }
 
 //Autoclose Ticket

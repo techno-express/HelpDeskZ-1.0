@@ -19,10 +19,10 @@ require_once INCLUDES.'functions.php';
 // DB Connection
 $helpdeskz = new Registry();
 if($helpdeskz->config['Database']['type'] == 'mysqli'){
-	require_once INCLUDES.'classes/classMysqli.php';	
+	require_once INCLUDES.'classes/classMysqli.php';
 	$db = new MySQLIDB();
 }else{
-	require_once INCLUDES.'classes/classMysql.php';	
+	require_once INCLUDES.'classes/classMysql.php';
 	$db = new MySQLDB();
 }
 $db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);
@@ -33,7 +33,7 @@ while($r = $db->fetch_array($q)){
 	$settings[$r['field']] = $r['value'];
 }
 if($settings['email_piping'] == 'no'){
-	exit;	
+	exit;
 }
 include(INCLUDES.'language/'.$settings['client_language'].'.php');
 $text = file_get_contents('php://stdin');

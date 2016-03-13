@@ -8,9 +8,9 @@
  */
 if($params[1] == 'save'){
 	if(verifyToken('canned', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];	
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif($input->p['title'] == ''){
-		$error_msg = $LANG['ENTER_THE_TITLE'];	
+		$error_msg = $LANG['ENTER_THE_TITLE'];
 	}else{
 		$total = $db->fetchOne("SELECT COUNT(id) AS NUM FROM ".TABLE_PREFIX."canned_response");
 		$data = array('title' => $input->p['title'],
@@ -19,11 +19,11 @@ if($params[1] == 'save'){
 					);
 		$db->insert(TABLE_PREFIX."canned_response", $data);
 		header('location: '.getUrl($controller, $action, array('canned','saved')));
-		exit;	
+		exit;
 	}
 }elseif($params[1] == 'editMsg'){
 	if(verifyToken('canned', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];	
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif($input->p['title'] == ''){
 		$error_msg = $LANG['ENTER_THE_TITLE'];
 	}elseif(!is_numeric($input->p['msgid'])){
@@ -40,7 +40,7 @@ if($params[1] == 'save'){
 	if(is_numeric($params[2]) && $params[2] != 0){
 		$canned = $db->fetchRow("SELECT *, COUNT(id) as total FROM ".TABLE_PREFIX."canned_response WHERE id=".$db->real_escape_string($params[2]));
 		if($canned['total'] == 0){
-			die($LANG['ERROR_RETRIEVING_DATA']);	
+			die($LANG['ERROR_RETRIEVING_DATA']);
 		}
 		$form_action = getUrl($controller,$action,array('canned','editMsg'));
 	}else{
@@ -82,7 +82,7 @@ if($params[1] == 'save'){
 $page = (!is_numeric($params[2])?1:$params[2]);
 $max_results = $settings['page_size'];
 $count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."canned_response");
-$total_pages = ceil($count/$max_results);	
+$total_pages = ceil($count/$max_results);
 $page = ($page>$total_pages?$total_pages:$page);
 $from = ($max_results*$page) - $max_results;
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."canned_response ORDER BY position LIMIT $from, $max_results");

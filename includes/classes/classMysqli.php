@@ -35,7 +35,7 @@ class MySQLIDB
 		DBARRAY_BOTH  => MYSQLI_BOTH
 	);
 	var $database = null;
-	
+
 	function connect($db_name, $db_server, $db_user, $db_passwd, $db_prefix){
 		$this->tbl_prefix = $db_prefix;
 		$this->database = $db_name;

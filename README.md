@@ -37,7 +37,7 @@ Use the login details that you entered in the installation process.
 - Take some time and get familiar with all of the available settings. Most of them should be self-explanatory.
 - If you want to use permalinks like http://www.site.com/support/staff/ then you have to enable this option on Settings -> General -> Helpdesk -> Use SEO-friendly URLs
 - Good luck using HelpDeskZ!
-- 
+-
 ## Email Piping
 HelpDeskZ supports email piping, this allows the auto-creation of tickets from incoming emails to a set email address.
 - To enable email piping for your help desk follow this <a href="http://www.helpdeskz.com/help/knowledgebase/2/article/10/setting-up-email-piping">email piping tutorial.</a>

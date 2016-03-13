@@ -300,12 +300,12 @@ if($action == 'displayForm' || $action == 'confirmation'){
 	$previewcode = $params[1];
 	if(empty($ticket_id) || empty($previewcode)){
 		header('location: '.getUrl('submit_ticket'));
-		exit;	
+		exit;
 	}else{
 		$ticket = $db->fetchRow("SELECT COUNT(".TABLE_PREFIX."tickets.id) as total, ".TABLE_PREFIX."tickets.code, ".TABLE_PREFIX."tickets.previewcode, ".TABLE_PREFIX."tickets.priority_id, ".TABLE_PREFIX."tickets.fullname, ".TABLE_PREFIX."tickets.email, ".TABLE_PREFIX."tickets.subject, (SELECT ".TABLE_PREFIX."tickets_messages.message FROM ".TABLE_PREFIX."tickets_messages WHERE ".TABLE_PREFIX."tickets_messages.ticket_id=".TABLE_PREFIX."tickets.id ORDER BY ".TABLE_PREFIX."tickets_messages.date ASC LIMIT 1) as message FROM ".TABLE_PREFIX."tickets WHERE ".TABLE_PREFIX."tickets.code='".$db->real_escape_string($ticket_id)."' AND ".TABLE_PREFIX."tickets.previewcode='".$db->real_escape_string($previewcode)."'");
 		if($ticket['total'] == 0){
 			header('location: '.getUrl('submit_ticket'));
-			exit;	
+			exit;
 		}else{
 			$ticket['message'] = nl2br($ticket['message']);
 			$priority = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."priority WHERE id={$ticket['priority_id']}");

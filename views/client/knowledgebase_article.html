@@ -13,7 +13,7 @@
 <div class="knowledgebasearticleattachment">{{ LANG.ATTACHMENTS }}</div>
     {% for attachment in attachments %}
     <div><span class="knowledgebaseattachmenticon"></span> <a href="{{ attachment_url }}{{ attachment.id }}" target="_blank">{{ attachment.name }} ({{ attachment.filesize }})</a></div>
-        
+
     {% endfor %}
 {% endif %}
 

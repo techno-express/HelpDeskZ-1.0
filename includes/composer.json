@@ -1,0 +1,6 @@
+{
+    "require": {
+        "ddeboer/imap": "^0.5.2",
+        "php-mime-mail-parser/php-mime-mail-parser": "^2.2"
+    }
+}

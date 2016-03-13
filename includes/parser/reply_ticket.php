@@ -24,7 +24,7 @@ if($ticket['total'] != 0){
 		$status_name = $LANG['AWAITING_REPLY'];
 		$addquery = ", status='3'";
 	}else{
-		$status_name = $ticket_status[$ticket['status']];	
+		$status_name = $ticket_status[$ticket['status']];
 	}
 	$db->query("UPDATE ".TABLE_PREFIX."tickets SET last_update=".$datenow.", replies=replies+1, last_replier='{$ticket['fullname']}' {$addquery} WHERE id={$ticket['id']}");
 	$db->update(TABLE_PREFIX."tickets", $data, "id={$tdetails['id']}");
@@ -40,7 +40,7 @@ if($ticket['total'] != 0){
 			}
 			fclose($fp);
 		  }
-			
+
 		  $filesize = @filesize(UPLOAD_DIR.$filename);
 		  if($filesize){
 			  $fileinfo = array('name' => $filename, 'size' => $filesize);
@@ -60,14 +60,14 @@ if($ticket['total'] != 0){
 	/* Mailer */
 	$fullname = $from_name;
 	$email = $from_email;
-	$department_name = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."departments WHERE id={$ticket['department_id']}");	
-	$priority_name = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."priority WHERE id={$ticket['priority_id']}");	
+	$department_name = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."departments WHERE id={$ticket['department_id']}");
+	$priority_name = $db->fetchOne("SELECT name FROM ".TABLE_PREFIX."priority WHERE id={$ticket['priority_id']}");
 	$data_mail = array(
 	'id' => 'autoresponse',
 	'to' => $fullname,
 	'to_mail' => $email,
-	'vars' => array('%client_name%' => $fullname, 
-					'%client_email%' => $email, 
+	'vars' => array('%client_name%' => $fullname,
+					'%client_email%' => $email,
 					'%ticket_id%' => $ticket['code'],
 					'%ticket_subject%' => $ticket['subject'],
 					'%ticket_department%' => $department_name,

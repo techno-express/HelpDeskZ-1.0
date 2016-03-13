@@ -10,21 +10,21 @@ include(INCLUDES.'helpdesk.inc.php');
 $template_vars = array();
 if($action == 'submit'){
 	if(verifyToken('lost_password', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];	
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(validateEmail($input->p['email']) !== TRUE){
 		$error_msg = $LANG['INVALID_EMAIL_ADDRESS'];
 	}elseif($settings['use_captcha']){
 		if(strtoupper($input->p['captcha']) != $_SESSION['captcha']){
 			$error_msg = $LANG['INVALID_CAPTCHA_CODE'];
-			unset($_SESSION['captcha']);		
+			unset($_SESSION['captcha']);
 		}
 	}
-	
-	
+
+
 	if(!isset($error_msg)){
 		$user = $db->fetchRow("SELECT COUNT(id) AS total, id, fullname, email FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($input->p['email'])."'");
 		if($user['total'] == 0){
-			$error_msg = $LANG['EMAIL_WAS_NOT_FOUND'];	
+			$error_msg = $LANG['EMAIL_WAS_NOT_FOUND'];
 		}else{
 			$new_password = md5($user['id'].$user['email'].time());
 			$new_password = substr($new_password, 3, 7);

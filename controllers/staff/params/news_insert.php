@@ -11,9 +11,9 @@ if($params[1] == 'publish'){
 			$error_msg = $LANG['CSRF_ERROR'];
 	}else{
 		if($input->p['title'] == ''){
-			$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];	
+			$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];
 		}elseif($input->p['content'] == ''){
-			$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];	
+			$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];
 		}else{
 			$data = array('title' => $input->p['title'],
 							'content' => $input->p['content'],

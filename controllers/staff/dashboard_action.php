@@ -8,11 +8,11 @@
  */
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."news ORDER BY date DESC LIMIT 3");
 while($r = $db->fetch_array($q)){
-	$lastestnews[] = $r;	
+	$lastestnews[] = $r;
 }
 $q= $db->query("SELECT * FROM ".TABLE_PREFIX."login_log WHERE staff_id=".$staff['id']." ORDER BY date DESC LIMIT 10");
 while($r = $db->fetch_array($q)){
-	$login_log[] = $r;	
+	$login_log[] = $r;
 }
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."departments");
 while($r = $db->fetch_array($q)){

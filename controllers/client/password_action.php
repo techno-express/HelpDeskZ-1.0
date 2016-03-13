@@ -8,7 +8,7 @@
  */
 	if($params[0] == 'save'){
 		if(verifyToken('password', $input->p['csrfhash']) !== true){
-			$error_msg = $LANG['CSRF_ERROR'];	
+			$error_msg = $LANG['CSRF_ERROR'];
 		}elseif(empty($input->p['current_password']) || empty($input->p['new_password']) || empty($input->p['new_password2'])){
 			$error_msg = $LANG['ONE_REQUIRED_FIELD_EMPTY'];
 		}else{
@@ -22,7 +22,7 @@
 				$db->update(TABLE_PREFIX."users", $data, "id={$user['id']}");
 				$_SESSION['user']['password'] = $new_password;
 				header('location: '.getUrl('user_account','password', array('saved')));
-				exit;	
+				exit;
 			}
 		}
 	}

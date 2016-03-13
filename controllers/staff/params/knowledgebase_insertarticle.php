@@ -11,13 +11,13 @@ if($params[1] == 'publish'){
 			$error_msg = $LANG['CSRF_ERROR'];
 	}else{
 		if($input->p['title'] == ''){
-			$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];	
+			$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];
 		}elseif($input->p['content'] == ''){
-			$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];	
+			$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];
 		}elseif(!is_numeric($input->p['category'])){
 			$error_msg = $LANG['SELECT_CATEGORY'];
 		}else{
-			$uploaddir = UPLOAD_DIR.'articles/';		
+			$uploaddir = UPLOAD_DIR.'articles/';
 			if($_FILES['file1']['error'] == 0){
 				$ext = pathinfo($_FILES['file1']['name'], PATHINFO_EXTENSION);
 				$filename = md5($_FILES['file1']['name'].time()).".".$ext;

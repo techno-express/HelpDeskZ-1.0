@@ -14,11 +14,11 @@
     </tr>
     {% if client_status != 1 %}
     <tr>
-            <td class="zebraodd" nowrap="nowrap"><span class="{% if  'fullname' in emptyvars %}redtxt{% endif %}">{{ LANG.FULL_NAME }}:</span> <span class="redtxt">*</span> 
+            <td class="zebraodd" nowrap="nowrap"><span class="{% if  'fullname' in emptyvars %}redtxt{% endif %}">{{ LANG.FULL_NAME }}:</span> <span class="redtxt">*</span>
             </td>
             <td>
             <input type="text" name="fullname" size="30" value="{{ POST.fullname }}" />
-            </td>            
+            </td>
     </tr>
     <tr>
         <td class="zebraodd"><span class="{% if 'email' in emptyvars %}redtxt{% endif %}">{{ LANG.EMAIL }}:</span> <span class="redtxt">*</span> </td>
@@ -63,8 +63,8 @@
         </td></tr>
     {% endfor %}
 </table>
-        
-        
+
+
 <table width="100%" cellspacing="1" cellpadding="4" border="0">
     <tr>
         <td colspan="2" class="tbl-title"><strong>{{ LANG.YOUR_MESSAGE }}</strong></td>

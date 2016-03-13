@@ -12,7 +12,7 @@ if($params[1] == 'getStaffForm'){
 		$agent_department = unserialize($agent['department']);
 		$agent_department = (is_array($agent_department)?$agent_department:array());
 		if($agent['total'] == 0){
-			die($LANG['ERROR_RETRIEVING_DATA']);	
+			die($LANG['ERROR_RETRIEVING_DATA']);
 		}
 		$form_action = getUrl($controller,$action,array('staff','update_account'));
 	}else{
@@ -21,7 +21,7 @@ if($params[1] == 'getStaffForm'){
 	}
 	$q = $db->query("SELECT id, name FROM ".TABLE_PREFIX."departments ORDER BY dep_order ASC");
 	while($r = $db->fetch_array($q)){
-		$departments[] = $r;	
+		$departments[] = $r;
 	}
 	$template_vars['departments'] = $departments;
 	$template_vars['form_action'] = $form_action;
@@ -78,7 +78,7 @@ if($params[1] == 'getStaffForm'){
 				if($input->p['password'] != ''){
 					$password = sha1($input->p['password']);
 				}else{
-					$password = $usr['password'];	
+					$password = $usr['password'];
 				}
 				$data = array(
 								'username' => $input->p['username'],
@@ -170,9 +170,9 @@ if($params[1] == 'getStaffForm'){
 $order_list = array('id', 'username', 'fullname', 'email','admin','login','status');
 $orderby = (in_array($params[1],$order_list)?$params[1]:'id');
 $sortby = ($params[2] == 'desc'?'desc':'asc');
-$q = $db->query("SELECT * FROM ".TABLE_PREFIX."staff ORDER BY {$orderby} {$sortby}");	
+$q = $db->query("SELECT * FROM ".TABLE_PREFIX."staff ORDER BY {$orderby} {$sortby}");
 while($r = $db->fetch_array($q)){
-	$accounts[] = $r;	
+	$accounts[] = $r;
 }
 $template_vars['accounts'] = $accounts;
 $template_vars['error_msg'] = $error_msg;

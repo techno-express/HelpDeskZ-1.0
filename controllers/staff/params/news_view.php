@@ -10,7 +10,7 @@ if(is_numeric($params[1])){
 	$news = $db->fetchRow("SELECT *, COUNT(id) as total FROM ".TABLE_PREFIX."news WHERE id=".$db->real_escape_string($params[1]));
 	if($news['total'] == 0){
 		header('location: '.getUrl($controller,$action,array('view')));
-		exit;	
+		exit;
 	}else{
 		$view_single = 1;
 		$template_vars['view_single'] = $view_single;
@@ -24,16 +24,16 @@ if(is_numeric($params[1])){
 if($params[1] == 'page'){
 	$page = (!is_numeric($params[2]) || $params[2]<0?1:$params[2]);
 }else{
-	$page = 1;	
+	$page = 1;
 }
 $max_results = 5;
 $count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."news");
-$total_pages = ceil($count/$max_results);	
+$total_pages = ceil($count/$max_results);
 $page = ($page>$total_pages?$total_pages:$page);
 $from = ($max_results*$page) - $max_results;
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."news ORDER BY date DESC LIMIT $from, $max_results");
 while($r = $db->fetch_array($q)){
-	$news_result[] = $r;	
+	$news_result[] = $r;
 }
 $template_vars['page'] = $page;
 $template_vars['total_pages'] = $total_pages;

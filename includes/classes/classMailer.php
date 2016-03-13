@@ -26,23 +26,23 @@ class Mailer
 			$this->mail->IsSMTP();
 			$this->mail->SMTPAuth		= true;
 			$this->mail->SMTPSecure		= $this->smtp_ssl;
-			$this->mail->Host 			= $this->smtp_hostname;		
+			$this->mail->Host 			= $this->smtp_hostname;
 			$this->mail->Port			= $this->smtp_port;
 			$this->mail->Username		= $this->smtp_username;
-			$this->mail->Password		= $this->smtp_password;	
+			$this->mail->Password		= $this->smtp_password;
 		}
 		$this->mail->SetFrom($settings['email_ticket'], $this->company_name);
 		$this->mail->AddReplyTo($settings['email_ticket'], $this->company_name);
 		$this->mail->AddAddress($this->data['to_mail'], $this->data['from']);
 		$this->mail->Subject = $this->mail_subject;
-		$this->mail->ContentType = 'text/plain'; 
+		$this->mail->ContentType = 'text/plain';
 		$this->mail->IsHTML(false);
 		$this->mail->Body = $this->mail_content;
 		$this->mail->CharSet = 'UTF-8';
 		if($this->data['attachement'] == 1){
 			foreach($this->data['attachement_files'] as $v){
 				$attachfiles.= UPLOAD_DIR.$this->data['attachement_type'].'/'.$v['enc'];
-				$this->mail->addAttachment(UPLOAD_DIR.$this->data['attachement_type'].'/'.$v['enc'], $v['name']); 
+				$this->mail->addAttachment(UPLOAD_DIR.$this->data['attachement_type'].'/'.$v['enc'], $v['name']);
 			}
 		}
 		if(!$this->mail->Send()) {
@@ -51,7 +51,7 @@ class Mailer
 		}
 	}
 	function setVars(){
-		$vars = array_merge($this->data['vars'], array('%company_name%' => $this->company_name, '%helpdesk_url%' => $this->helpdesk_url));	
+		$vars = array_merge($this->data['vars'], array('%company_name%' => $this->company_name, '%helpdesk_url%' => $this->helpdesk_url));
 		$this->mail_subject = str_replace(array_keys($vars), array_values($vars), $this->maildata['subject']);
 		$this->mail_content = str_replace(array_keys($vars), array_values($vars), $this->maildata['message']);
 	}

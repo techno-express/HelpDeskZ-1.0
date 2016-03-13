@@ -20,7 +20,7 @@ if($action == '404notfound'){
 		$q = $db->query("SELECT * FROM ".TABLE_PREFIX."news WHERE public=1 ORDER BY date DESC LIMIT 5");
 		while($r = $db->fetch_array($q)){
 			$r['url'] = getUrl('news',$r['id'],array(strtourl($r['title'])));
-			$news[] = $r;	
+			$news[] = $r;
 		}
 		$template_vars['news'] = $news;
 		$template_name = 'home_news.html';

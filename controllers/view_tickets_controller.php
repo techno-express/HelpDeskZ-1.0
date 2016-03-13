@@ -16,13 +16,13 @@ $template_vars['ticket_status'] = $ticket_status;
 		if($action == 'ticket'){
 			if(!is_numeric($params[0])){
 				header('location: '.getUrl('view_tickets'));
-				exit;	
+				exit;
 			}
 			$ticket = $db->fetchRow("SELECT COUNT(id) AS total, id, code, department_id, fullname, email, date, last_update, status, subject, (SELECT name FROM ".TABLE_PREFIX."departments WHERE id=".TABLE_PREFIX."tickets.department_id) as department, (SELECT name FROM ".TABLE_PREFIX."priority WHERE id=".TABLE_PREFIX."tickets.priority_id) as priority  FROM ".TABLE_PREFIX."tickets WHERE ".TABLE_PREFIX."tickets.id=".$db->real_escape_string($params[0])." AND ".TABLE_PREFIX."tickets.user_id='".$user['id']."'");
 
 			if($ticket['total'] == 0){
 				$show_error = true;
-				$error_msg = $LANG['TICKET_NOT_FOUND_OR_PERMISSION'];	
+				$error_msg = $LANG['TICKET_NOT_FOUND_OR_PERMISSION'];
 			}else{
 				if($params[1] == 'reply'){
 					if($ticket['status'] == '5' && !($settings['ticket_reopen'])){
@@ -33,7 +33,7 @@ $template_vars['ticket_status'] = $ticket_status;
 						$error_msg = $LANG['ONE_REQUIRED_FIELD_EMPTY'];
 					}else{
 						if($settings['ticket_attachment'] == 1){
-							$uploaddir = UPLOAD_DIR.'tickets/';		
+							$uploaddir = UPLOAD_DIR.'tickets/';
 							if($_FILES['attachment']['error'] == 0){
 								$ext = pathinfo($_FILES['attachment']['name'], PATHINFO_EXTENSION);
 								$filename = md5($_FILES['attachment']['name'].time()).".".$ext;
@@ -135,7 +135,7 @@ $template_vars['ticket_status'] = $ticket_status;
 						}else{
 							header("Content-disposition: attachment; filename=".$attachment['name']);
 							header("Content-type: ".$attachment['filetype']);
-							readfile(UPLOAD_DIR.'tickets/'.$attachment['enc']);	
+							readfile(UPLOAD_DIR.'tickets/'.$attachment['enc']);
 							exit;
 						}
 					}
@@ -144,17 +144,24 @@ $template_vars['ticket_status'] = $ticket_status;
 				$max_results = $settings['tickets_replies'];
 				$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id={$ticket['id']}");
 
-				$total_pages = ceil($count/$max_results);	
+				$total_pages = ceil($count/$max_results);
 				$page = ($page>$total_pages?$total_pages:$page);
 				$from = ($max_results*$page) - $max_results;
 				$tickets_query = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id={$ticket['id']} ORDER BY date {$settings['show_tickets']} LIMIT $from, $max_results");
+
+
+				$fetched_tickets = array();
 				while($r = $db->fetch_array($tickets_query)){
-					$attachments = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."attachments WHERE msg_id={$r['id']}");
-					$r['message'] = $r['message'];
-					$r['attachments'] = $attachments;
-					$messages[] = $r;
+					$fetched_tickets[] = $r;
 				}
-				$template_vars['messages'] = $messages;
+				foreach($fetched_tickets as $fetched_ticket) {
+					$attachments_query = $db->query("SELECT * FROM ".TABLE_PREFIX."attachments WHERE msg_id={$fetched_ticket['id']}");
+					while($attachment = $db->fetch_array($attachments_query)){
+						$fetched_ticket['attachments'][] = $attachment;
+					}
+					$ticket_messages[] = $fetched_ticket;
+				}
+				$template_vars['messages'] = $ticket_messages;
 				$template_vars['POST'] = $input->p;
 				$template_vars['ticket'] = $ticket;
 				$template_vars['error_msg'] = $error_msg;
@@ -180,7 +187,7 @@ $template_vars['ticket_status'] = $ticket_status;
 				$chk = $db->fetchOne("SELECT COUNT(id) AS total FROM ".TABLE_PREFIX."tickets WHERE code='".$db->real_escape_string($searchcode)."' AND user_id='{$user['id']}'");
 				if($chk == 0){
 					$show_error = true;
-					$error_msg = $LANG['TICKET_NOT_FOUND'];	
+					$error_msg = $LANG['TICKET_NOT_FOUND'];
 				}else{
 					$ticketquery = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets WHERE code='".$db->real_escape_string($searchcode)."'");
 					while($r = $db->fetch_array($ticketquery)){
@@ -205,12 +212,12 @@ $template_vars['ticket_status'] = $ticket_status;
 			}
 		}elseif($action == 'page'){
 			if(is_numeric($params[0])){
-				$page = $params[0];	
+				$page = $params[0];
 			}else{
 				$page = 1;
 			}
 		}else{
-			$page = 1;	
+			$page = 1;
 		}
 		/* OLD VERSION */
 		$db->query("UPDATE ".TABLE_PREFIX."tickets SET user_id={$user['id']} WHERE email='{$user['email']}' AND user_id=0");
@@ -218,7 +225,7 @@ $template_vars['ticket_status'] = $ticket_status;
 		$page = (!is_numeric($page)?1:$page);
 		$max_results = $settings['tickets_page'];
 		$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets WHERE user_id='{$user['id']}'");
-		$total_pages = ceil($count/$max_results);	
+		$total_pages = ceil($count/$max_results);
 		$page = ($page>$total_pages?$total_pages:$page);
 		$from = ($max_results*$page) - $max_results;
 		$ticketquery = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets WHERE user_id='{$user['id']}' ORDER BY status ASC, last_update DESC LIMIT $from, $max_results");

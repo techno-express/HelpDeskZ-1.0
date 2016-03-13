@@ -15,7 +15,7 @@ if($params[1] == 'GetKBCategoryForm'){
 		$category = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."knowledgebase_category WHERE id=".$db->real_escape_string($params[2]));
 		$template_vars['category'] = $category;
 		if($category['total'] == 0){
-			die($LANG['ERROR_RETRIEVING_DATA']);	
+			die($LANG['ERROR_RETRIEVING_DATA']);
 		}
 		$form_action = getUrl($controller,$action,array('categories','editData'));
 		$cat_position = $category['position'];
@@ -24,7 +24,7 @@ if($params[1] == 'GetKBCategoryForm'){
 		$cat_position = $db->fetchOne("SELECT position FROM ".TABLE_PREFIX."knowledgebase_category ORDER BY position DESC LIMIT 1")+1;
 	}
 	$template_vars['cat_position'] = $cat_position;
-	
+
 	$template_vars['form_action'] = $form_action;
 	$template = $twig->loadTemplate('form_kbcategory.html');
 	echo $template->render($template_vars);
@@ -42,11 +42,11 @@ if($params[1] == 'GetKBCategoryForm'){
 			$db->update(TABLE_PREFIX."knowledgebase_category", $data, "id=".$db->real_escape_string($input->p['catID']));
 		}
 		header('location: '.getUrl($controller, $action, array('categories','category_updated')));
-		exit;	
+		exit;
 	}
 }elseif($params[1] == 'newCategory'){
 	if($input->p['title'] == ''){
-		$error_msg = $LANG['ENTER_THE_TITLE'];	
+		$error_msg = $LANG['ENTER_THE_TITLE'];
 	}else{
 		$data = array('name' => $input->p['title'],
 						'position' => $input->p['position'],
@@ -55,7 +55,7 @@ if($params[1] == 'GetKBCategoryForm'){
 						);
 		$db->insert(TABLE_PREFIX."knowledgebase_category", $data);
 		header('location: '.getUrl($controller, $action, array('categories','category_added')));
-		exit;	
+		exit;
 	}
 }elseif($params[1] == 'RemoveData'){
 	if(is_numeric($params[2])){
@@ -63,12 +63,12 @@ if($params[1] == 'GetKBCategoryForm'){
 		$db->delete(TABLE_PREFIX."knowledgebase_category", "parent=".$db->real_escape_string($params[2]));
 	}
 	header('location: '.getUrl($controller, $action, array('categories','category_removed')));
-	exit;	
+	exit;
 }
 
 $newarticleurl = getUrl($controller,$action,array('article',''));
 $query = $db->query("SELECT * FROM ".TABLE_PREFIX."knowledgebase_category ORDER BY parent ASC, position ASC");
-$data = array('id' => 0, 'pId' => 0, 'name' => '<span title="'.$LANG['ROOT_CATEGORY'].'">'.$LANG['ROOT_CATEGORY'].'</span> <span class="folder_add" title="'.$LANG['INSERT_CATEGORY'].'" onclick="showKBCategoryForm(0);"></span> <span class="article_add" title="'.$LANG['INSERT_ARTICLE'].'" onclick="location.href=\''.$newarticleurl.'0\';"></span>', 'open' => 'true', 'isParent' => 'true'); 
+$data = array('id' => 0, 'pId' => 0, 'name' => '<span title="'.$LANG['ROOT_CATEGORY'].'">'.$LANG['ROOT_CATEGORY'].'</span> <span class="folder_add" title="'.$LANG['INSERT_CATEGORY'].'" onclick="showKBCategoryForm(0);"></span> <span class="article_add" title="'.$LANG['INSERT_ARTICLE'].'" onclick="location.href=\''.$newarticleurl.'0\';"></span>', 'open' => 'true', 'isParent' => 'true');
 $category_nodes = json_encode($data).',';
 while($r = $db->fetch_array($query)){
 	$nocheck =  ($r['parent'] == 0?'true':'false');

@@ -11,16 +11,16 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 	$news = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."news WHERE id=$news_id");
 	if($news['total'] == 0){
 		header('location: '.getUrl($controller,$action,array('manage')));
-		exit;	
+		exit;
 	}else{
 		if($params[3] == 'update'){
 			if(verifyToken('news', $input->p['csrfhash']) !== true){
 					$error_msg = $LANG['CSRF_ERROR'];
 			}else{
 				if($input->p['title'] == ''){
-					$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];	
+					$error_msg = $LANG['ARTICLE_HAS_NOT_TITLE'];
 				}elseif($input->p['content'] == ''){
-					$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];	
+					$error_msg = $LANG['ENTER_ARTICLE_CONTENT'];
 				}else{
 					$data = array('title' => $input->p['title'],
 									'content' => $input->p['content'],
@@ -31,10 +31,10 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 					header('location: '.getUrl($controller,$action,array('manage','edit',$news_id,'updated')));
 					exit;
 				}
-		
+
 			}
 		}
-		
+
 		$news_title = ($input->p['title'] == ''?$news['title']:$input->p['title']);
 		$news_content = ($input->p['content'] == ''?$news['content']:$input->p['content']);
 		$template_vars['news'] = $news;
@@ -50,15 +50,15 @@ if($params[1] == 'edit' && is_numeric($params[2])){
 }
 if($input->p['do'] == 'update'){
 	if(verifyToken('news', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];	
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(!is_array($input->p['news_id'])){
-		$error_msg = $LANG['NO_SELECT_TICKET'];	
+		$error_msg = $LANG['NO_SELECT_TICKET'];
 	}else{
 		foreach($input->p['news_id'] as $k){
 			if(is_numeric($k)){
 				$news_id = $db->real_escape_string($k);
 				if($input->p['remove'] == 1){
-					$db->delete(TABLE_PREFIX."news", "id='$news_id'");	
+					$db->delete(TABLE_PREFIX."news", "id='$news_id'");
 				}
 			}
 		}
@@ -69,19 +69,19 @@ if($input->p['do'] == 'update'){
 if($params[1] == 'page'){
 	$page = (!is_numeric($params[2])?1:$params[2]);
 }else{
-	$page = 1;	
+	$page = 1;
 }
 $order_list = array('title', 'author', 'date', 'public');
 $orderby = (in_array($params[3],$order_list)?$params[3]:'date');
 $sortby = ($params[4] == 'asc'?'asc':'desc');
 $max_results = $settings['page_size'];
 $count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."news");
-$total_pages = ceil($count/$max_results);	
+$total_pages = ceil($count/$max_results);
 $page = ($page>$total_pages?$total_pages:$page);
 $from = ($max_results*$page) - $max_results;
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."news {$whereq} ORDER BY {$orderby} {$sortby} LIMIT $from, $max_results");
 while($r = $db->fetch_array($q)){
-	$news_result[] = $r;	
+	$news_result[] = $r;
 }
 $template_vars['news_result'] = $news_result;
 $template_vars['orderby'] = $orderby;

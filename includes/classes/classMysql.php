@@ -40,7 +40,7 @@ class MySQLDB
 		DBARRAY_BOTH  => MYSQL_BOTH
 	);
 	var $database = null;
-	
+
 	function connect($db_name, $db_server, $db_user, $db_passwd, $db_prefix){
 		$this->tbl_prefix = $db_prefix;
 		$this->database = $db_name;
@@ -56,9 +56,9 @@ class MySQLDB
 			if(!@$this->functions[select_db]($db_name, $link)){
 				return ("<strong>Error MySQL DB Conection</strong> Can not connect to $db_name");
 			}else{
-				@$this->functions['close']($link);	
+				@$this->functions['close']($link);
 			}
-		}		
+		}
 	}
 	function db_connect($db_name, $db_server, $db_user, $db_passwd){
 		$link = @$this->functions[connect]($db_server, $db_user, $db_passwd);

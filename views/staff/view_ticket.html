@@ -2,7 +2,7 @@
 {% block title %}{{ LANG.TICKET_ID }} #{{ ticket.code }}{% endblock %}
 {% block content %}
 <script>
-	var csrfhash = '{{ getToken('ticket') }}'; 
+	var csrfhash = '{{ getToken('ticket') }}';
 	var cannedmsg = {{ canned_encoded|raw }};
 	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg',''])|raw }}';
 	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB',''])|raw }}';
@@ -89,7 +89,7 @@
             <div align="center" style="margin-top:10px"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></div>
             <input type="hidden" name="csrfhash" value="" class="csrfhash" />
             </form>
-            
+
             {% if custom_fieldsdb|is_array %}
             {% set n = 1 %}
             <br><table width="100%">
@@ -119,7 +119,7 @@
         </div>
 	</div>
     <div id="ctab2">
-  
+
         <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'reply'])|raw }}" name="reply" id="reply" enctype="multipart/form-data">
         <table class="widget-table-form">
         	<tr>
@@ -138,7 +138,7 @@
                 {% for canned in cannedList %}
 				<option value="{{ canned.id }}">{{ canned.title }}</option>
 				{% endfor %}
-                </select> 
+                </select>
                 <select name="knowledgebase" id="knowledgebaseList" style="min-width:200px" onchange="addKnowledgebase(this.value);">
 	                <option value="">{{ LANG.KNOWLEDGEBASE }}</option>
                      {{ selector|raw }}
@@ -153,7 +153,7 @@
             <div><input type="file" name="attachment" /></div>
             <br /><input type="submit" name="btn2" value="{{ LANG.SUBMIT }}" />
             <input type="hidden" name="csrfhash" value="" class="csrfhash" />
-		</form> 
+		</form>
     </div>
 </div>
 
@@ -172,23 +172,27 @@
                     </div>
                 </div>
                 <div class="ticket_message">
-                       <div class="ticket_date">{{ LANG.POSTED_ON }}: {{ displayDate(message.date) }}
-                       	<span style="float:right" class="ticket_icon_quote" title="{{ LANG.QUOTE_THIS_POST }}" onclick="quote_post('{{ message.ticket_id }}','{{ message.id }}');"></span>
-                       </div>
-                        <div class="ticket_msg">
-                        {{ message.message|nl2br }}
-                        {% if message.attachments.total != 0 %}
-						<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>	
-								<div><span class="ticket_icon_trash" onclick="location.href='{{ getUrl(controller,action,['view',message.ticket_id,'remove_attachment',message.attachments.id,message.id])|raw }}';"></span> <span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,['view',message.ticket_id,'attachment',message.attachments.id,message.id])|raw }}" target="_blank">{{ message.attachments.name }} ({{ formatBytes(message.attachments.filesize) }})</a></div>
-                        {% endif %}
-                        </div>
+                	<div class="ticket_date">{{ LANG.POSTED_ON }}: {{ displayDate(message.date) }}
+                		<span style="float:right" class="ticket_icon_quote" title="{{ LANG.QUOTE_THIS_POST }}" onclick="quote_post('{{ message.ticket_id }}','{{ message.id }}');"></span>
+                	</div>
+                <div class="ticket_msg">
+									{{ message.message|nl2br }}
+							<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>
+								{% for attachment in message.attachments %}
+									<div>
+										<span class="ticket_icon_trash" onclick="location.href='{{ getUrl(controller,action,['view',message.ticket_id,'remove_attachment',message.attachments.id,message.id])|raw }}';"></span>
+										<span class="knowledgebaseattachmenticon"></span>
+										<a href="{{ getUrl(controller,action,['view',message.ticket_id,'attachment',attachment.id,message.id])|raw }}" target="_blank">{{ attachment.name }} ({{ formatBytes(attachment.filesize) }})</a>
+									</div>
+								{% endfor %}
                 </div>
-            </div>
+	            </div>
+	          </div>
             <div style="display:table-row">
             	<div class="ticket_user">
                 	<div class="ticket_icons">
                     <span class="ticket_icon_edit" title="{{ LANG.EDIT_THIS_POST }}" onclick="edit_post({{ message.id }});"></span>
-                    
+
                     <span class="ticket_icon_trash" title="{{ LANG.REMOVE_THIS_POST }}" onclick="remove_post({{ message.id }});"></span>
                     </div>
                 </div>
@@ -201,6 +205,6 @@
         </div>
        {% endfor %}
        {{ ticketpaginator(total_pages,page,getUrl(controller,action,['view',ticket.id,'#page#'])) }}
-</div>   
+</div>
 <div class="clear"></div>
 {% endblock %}

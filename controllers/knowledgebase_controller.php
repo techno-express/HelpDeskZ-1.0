@@ -11,7 +11,7 @@ include(INCLUDES.'helpdesk.inc.php');
 }
 if($settings['knowledgebase'] != 'yes'){
 	header('location: '.getUrl());
-	exit;	
+	exit;
 }
 $qch = $db->query("SELECT id, parent, public FROM ".TABLE_PREFIX."knowledgebase_category ORDER BY public ASC, parent ASC");
 $hiddencategorylist = array();
@@ -64,7 +64,7 @@ if(is_numeric($action)){
 	$cat_id = $action;
 	if(in_array($cat_id,$hiddencategorylist)){
 		header('location: '.getUrl($controller));
-		exit;		
+		exit;
 	}
 	$cat_title = getCatTitle($cat_id,1);
 }else{
@@ -84,7 +84,7 @@ if($params[0] == 'article' && is_numeric($params[1])){
 			}else{
 				header("Content-disposition: attachment; filename=".$attachment['name']);
 				header("Content-type: ".$attachment['filetype']);
-				readfile(UPLOAD_DIR.'articles/'.$attachment['enc']);	
+				readfile(UPLOAD_DIR.'articles/'.$attachment['enc']);
 				exit;
 			}
 		}
@@ -108,7 +108,7 @@ if($params[0] == 'article' && is_numeric($params[1])){
 $template_vars = array();
 $template_vars['cat_id'] = $cat_id;
 $template_vars['cat_title'] = $cat_title;
-$q = $db->query("SELECT * FROM ".TABLE_PREFIX."knowledgebase_category WHERE parent=".$db->real_escape_string($cat_id)." AND public=1 ORDER BY position ASC");	
+$q = $db->query("SELECT * FROM ".TABLE_PREFIX."knowledgebase_category WHERE parent=".$db->real_escape_string($cat_id)." AND public=1 ORDER BY position ASC");
 while($r = $db->fetch_array($q)){
 	$r['total_articles'] = $db->fetchOne("SELECT COUNT(id) AS total FROM ".TABLE_PREFIX."articles WHERE category=".$r['id']." AND public=1");
 	$r['url'] = getUrl('knowledgebase',$r['id'],array(strtourl($r['name'])));
@@ -119,7 +119,7 @@ while($r = $db->fetch_array($q)){
 			$r['article'][] = $ka;
 		}
 	}
-	$kb_category[] = $r;	
+	$kb_category[] = $r;
 }
 $template_vars['kb_category'] = $kb_category;
 
@@ -136,7 +136,7 @@ if($settings['knowledgebase_mostpopular'] == 'yes'){
 	$q = $db->query("SELECT id, title, category FROM ".TABLE_PREFIX."articles WHERE public=1 {$hiddencategorylistq} ORDER BY views DESC LIMIT {$settings['knowledgebase_mostpopulartotal']}");
 	while($r = $db->fetch_array($q)){
 		$r['url'] = getUrl('knowledgebase',$r['category'],array('article', $r['id'], strtourl($r['title'])));
-		$kb_popular[] = $r;	
+		$kb_popular[] = $r;
 	}
 	$template_vars['kb_popular'] = $kb_popular;
 }
@@ -145,7 +145,7 @@ if($settings['knowledgebase_newest'] == 'yes'){
 	$q = $db->query("SELECT id, title, category FROM ".TABLE_PREFIX."articles WHERE public=1 {$hiddencategorylistq} ORDER BY date DESC LIMIT {$settings['knowledgebase_newesttotal']}");
 	while($r = $db->fetch_array($q)){
 		$r['url'] = getUrl('knowledgebase',$r['category'],array('article', $r['id'], strtourl($r['title'])));
-		$kb_newest[] = $r;	
+		$kb_newest[] = $r;
 	}
 	$template_vars['kb_newest'] = $kb_newest;
 }
@@ -153,5 +153,5 @@ $template_vars['error_msg'] = $error_msg;
 $template = $twig->loadTemplate('knowledgebase.html');
 echo $template->render($template_vars);
 $db->close();
-exit;	
+exit;
 ?>

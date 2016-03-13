@@ -29,7 +29,7 @@ class MimeMailParser_attachment {
 	 * @var $headers An Array of the attachment headers
 	 */
 	public $headers;
-	
+
 	private  $stream;
 
 	public function __construct($filename, $content_type, $stream, $content_disposition = 'attachment', $headers = array()) {
@@ -40,7 +40,7 @@ class MimeMailParser_attachment {
 		$this->content_disposition = $content_disposition;
 		$this->headers = $headers;
 	}
-	
+
 	/**
 	 * retrieve the attachment filename
 	 * @return String
@@ -48,7 +48,7 @@ class MimeMailParser_attachment {
 	public function getFilename() {
 		return $this->filename;
 	}
-	
+
 	/**
 	 * Retrieve the Attachment Content-Type
 	 * @return String
@@ -56,7 +56,7 @@ class MimeMailParser_attachment {
 	public function getContentType() {
 		return $this->content_type;
 	}
-	
+
 	/**
 	 * Retrieve the Attachment Content-Disposition
 	 * @return String
@@ -64,7 +64,7 @@ class MimeMailParser_attachment {
 	public function getContentDisposition() {
 		return $this->content_disposition;
 	}
-	
+
 	/**
 	 * Retrieve the Attachment Headers
 	 * @return String
@@ -72,7 +72,7 @@ class MimeMailParser_attachment {
 	public function getHeaders() {
 		return $this->headers;
 	}
-	
+
 	/**
 	 * Retrieve the file extension
 	 * @return String
@@ -89,7 +89,7 @@ class MimeMailParser_attachment {
 		}
 		return $this->extension;
 	}
-	
+
 	/**
 	 * Read the contents a few bytes at a time until completed
 	 * Once read to completion, it always returns false
@@ -99,7 +99,7 @@ class MimeMailParser_attachment {
 	public function read($bytes = 2082) {
 		return feof($this->stream) ? false : fread($this->stream, $bytes);
 	}
-	
+
 	/**
 	 * Retrieve the file content in one go
 	 * Once you retreive the content you cannot use MimeMailParser_attachment::read()
@@ -108,17 +108,17 @@ class MimeMailParser_attachment {
 	public function getContent() {
 		if ($this->content === null) {
 			fseek($this->stream, 0);
-			while(($buf = $this->read()) !== false) { 
-				$this->content .= $buf; 
+			while(($buf = $this->read()) !== false) {
+				$this->content .= $buf;
 			}
 		}
 		return $this->content;
 	}
-	
+
 	/**
-	 * Allow the properties 
+	 * Allow the properties
 	 * 	MimeMailParser_attachment::$name,
-	 * 	MimeMailParser_attachment::$extension 
+	 * 	MimeMailParser_attachment::$extension
 	 * to be retrieved as public properties
 	 * @param $name Object
 	 */
@@ -130,7 +130,7 @@ class MimeMailParser_attachment {
 		}
 		return null;
 	}
-	
+
 }
 
 ?>

@@ -29,11 +29,11 @@ if(is_array($_SESSION['user'])){
 	}else{
 		clientLogout();
 	}
-}		
+}
 if($client_status == 1){
 	if(in_array($user['timezone'], $timezone)){
 		date_default_timezone_set($user['timezone']);
-	}	
+	}
 }
 //Language
 $client_languages = array();
@@ -53,10 +53,10 @@ if($input->g['lang']){
 }
 if(isset($_COOKIE['lang'])){
 	if(in_array($_COOKIE['lang'], $client_languages)){
-		$default_language = $_COOKIE['lang'];	
+		$default_language = $_COOKIE['lang'];
 	}else{
 		$default_language = $settings['client_language'];
-		setcookie('lang',$default_language, time()+604800);		
+		setcookie('lang',$default_language, time()+604800);
 	}
 }else{
 	$default_language = $settings['client_language'];
@@ -99,7 +99,7 @@ if($settings['maintenance'] == 1){
 		$template = $twig->loadTemplate('maintenance.html');
 		echo $template->render($template_vars);
 		$db->close();
-		exit;	
+		exit;
 	}
 }
 ?>

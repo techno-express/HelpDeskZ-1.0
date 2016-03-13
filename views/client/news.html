@@ -7,7 +7,7 @@
         <tr>
             <td rowspan="2">
                 <div class="calendar">
-                    <div class="day">{{ news.date|date("d") }}</div>           
+                    <div class="day">{{ news.date|date("d") }}</div>
                     <div class="month">{{ news.date|date("M") }}</div>
                 </div>
             </td>
@@ -23,7 +23,7 @@
     </table>
             <div class="newscontent">{{ news.content|raw }}</div>
 	{% endfor %}
-            
+
 {% if total_pages > 0 %}
     <div class="newspaginator">
     {% if total_pages > page %}

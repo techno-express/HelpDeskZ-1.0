@@ -28,12 +28,12 @@
             {% endif %}{% endfor %}
             </table>
 			{% if totalart != 0 %}<div style="margin-bottom:20px"></div>{% endif %}
-            
+
             {% for article in articles %}
 				<div class="knowledgebasearticlelisttitle"><a href="{{ article.url }}">{{ article.title }}</a></div>
 				<div style="margin-bottom:20px;">{{ article.content|raw }}</div>
 			{% endfor %}
-            
+
             <table width="100%">
             	<tr>
                 	{% if settings.knowledgebase_mostpopular == 'yes' %}

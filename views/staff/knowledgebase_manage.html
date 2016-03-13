@@ -2,7 +2,7 @@
 {% block title %}{{ LANG.MANAGE_KNOWLEDGEBASE }}{% endblock %}
 {% block content %}
 <script>
-	var csrfhash = '{{ getToken('knowledgebase') }}'; 
+	var csrfhash = '{{ getToken('knowledgebase') }}';
 	$(document).ready(function(){
 		$(".csrfhash").val(csrfhash);
 	});
@@ -23,7 +23,7 @@
             <th {% if params.3 == 'author' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'author',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.AUTHOR }}</a></th>
             <th {% if params.3 == 'date' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'date',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.CREATION_DATE }}</a></th>
             <th {% if params.3 == 'views' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'views',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.VIEWS }}</a></th>
-            
+
         </tr>
     </thead>
     {% if kb_article|is_array %}

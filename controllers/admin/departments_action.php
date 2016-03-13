@@ -10,7 +10,7 @@ if($params[1] == 'getDepartmentForm'){
 	if(is_numeric($params[2]) && $params[2] != 0){
 		$department = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."departments WHERE id=".$db->real_escape_string($params[2]));
 		if($department['total'] == 0){
-			die($LANG['ERROR_RETRIEVING_DATA']);	
+			die($LANG['ERROR_RETRIEVING_DATA']);
 		}
 		$dep_order = $department['dep_order'];
 		$form_action = getUrl($controller,$action,array('departments','update_department'));
@@ -27,7 +27,7 @@ if($params[1] == 'getDepartmentForm'){
 	exit;
 }elseif($params[1] == 'update_department'){
 	if(verifyToken('departments', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];		
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif($input->p['name'] == ''){
 		$error_msg = $LANG['ENTER_DEPARTMENT_NAME'];
 	}else{
@@ -50,7 +50,7 @@ if($params[1] == 'getDepartmentForm'){
 	}
 }elseif($params[1] == 'add_department'){
 	if(verifyToken('departments', $input->p['csrfhash']) !== true){
-		$error_msg = $LANG['CSRF_ERROR'];		
+		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif($input->p['name'] == ''){
 		$error_msg = $LANG['ENTER_DEPARTMENT_NAME'];
 	}else{
@@ -102,7 +102,7 @@ if($params[1] == 'getDepartmentForm'){
 $order_list = array('dep_order', 'name', 'type', 'tickets','users');
 $orderby = (in_array($params[1],$order_list)?$params[1]:'dep_order');
 $sortby = ($params[2] == 'desc'?'desc':'asc');
-$q = $db->query("SELECT ".TABLE_PREFIX."departments.*, (SELECT COUNT(*) FROM ".TABLE_PREFIX."tickets WHERE department_id=".TABLE_PREFIX."departments.id) as tickets , (SELECT COUNT(*) FROM ".TABLE_PREFIX."staff WHERE department LIKE CONCAT('%\"',".TABLE_PREFIX."departments.id,'\"%')) as users  FROM ".TABLE_PREFIX."departments ORDER BY {$orderby} {$sortby}");	
+$q = $db->query("SELECT ".TABLE_PREFIX."departments.*, (SELECT COUNT(*) FROM ".TABLE_PREFIX."tickets WHERE department_id=".TABLE_PREFIX."departments.id) as tickets , (SELECT COUNT(*) FROM ".TABLE_PREFIX."staff WHERE department LIKE CONCAT('%\"',".TABLE_PREFIX."departments.id,'\"%')) as users  FROM ".TABLE_PREFIX."departments ORDER BY {$orderby} {$sortby}");
 while($r = $db->fetch_array($q)){
 	$departments[] = $r;
 }
@@ -112,5 +112,5 @@ $template_vars['error_msg'] = $error_msg;
 $template = $twig->loadTemplate('admin_departments.html');
 echo $template->render($template_vars);
 $db->close();
-exit;	
+exit;
 ?>

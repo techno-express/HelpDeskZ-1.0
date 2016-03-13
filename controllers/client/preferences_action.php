@@ -8,12 +8,12 @@
  */
 	if($params[0] == 'save'){
 		if(verifyToken('preferences', $input->p['csrfhash']) !== true){
-			$error_msg = $LANG['CSRF_ERROR'];	
+			$error_msg = $LANG['CSRF_ERROR'];
 		}else{
 			$timezone_user = '';
 			if(!empty($input->p['timezone'])){
 				if(in_array($input->p['timezone'],$timezone)){
-					$timezone_user = $input->p['timezone'];	
+					$timezone_user = $input->p['timezone'];
 				}
 			}
 			$data = array('timezone' => $timezone_user);
