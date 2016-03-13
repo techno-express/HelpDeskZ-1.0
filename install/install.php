@@ -72,6 +72,7 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 	  `name` varchar(255) NOT NULL,
 	  `subject` varchar(255) NOT NULL,
 	  `message` text NOT NULL,
+		`enabled` tinyint(4) NOT NULL DEFAULT '1',
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=".$db_charset.";";
 	$query[] = "CREATE TABLE `".$db_prefix."error_log` (
@@ -197,7 +198,7 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 	  PRIMARY KEY (`id`),
 	  KEY `email` (`email`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=".$db_charset.";";
-	
+
 	$query[] = "INSERT INTO `".$db_prefix."departments` (`id`, `dep_order`, `name`, `type`, `autoassign`, `autoassign_web`) VALUES(1, 1, 'General', 0, 1, 0);";
     $query[] = "INSERT INTO `".$db_prefix."emails` (`id`, `orderlist`, `name`, `subject`, `message`) VALUES
 ('staff_reply', 5, 'Staff Reply', '[#%ticket_id%] %ticket_subject%', '%message%\n\n\nTicket Details\n---------------\n\nTicket ID: %ticket_id%\nDepartment: %ticket_department%\nStatus: %ticket_status%\nPriority: %ticket_priority%\n\n\nHelpdesk: %helpdesk_url%'),
@@ -316,7 +317,7 @@ function helpdeskz_saveConfigFile($db_host, $db_name, $db_user, $db_password, $d
 	{
 		return false;
 	}else{
-		return true;	
+		return true;
 	}
 }
 
@@ -337,7 +338,7 @@ function helpdeskz_agreement(){
 
     	<form method="post" action="./install.php">
 
-    
+
 	<input type="hidden" name="license" value="agree" />
 	<input type="submit" value="Continue" />
 
@@ -368,13 +369,13 @@ function helpdeskz_checksetup(){
 			$error_msg[] = 'File <strong>includes/config.php</strong> is not writable by PHP.';
 		}
 	}
-	
+
     $attach_dir = HELPDESKZ_PATH . 'uploads';
 	if ( ! file_exists($attach_dir) )
 	{
 	    @mkdir($attach_dir, 0755);
 	}
-	
+
 	if ( is_dir($attach_dir) )
     {
 	    if ( ! is_writable($attach_dir) )
@@ -390,13 +391,13 @@ function helpdeskz_checksetup(){
 	{
 		$error_msg[] = 'Folder <strong>/uploads</strong> is missing.';
 	}
-	
+
     $attach_dir = HELPDESKZ_PATH . 'uploads/articles';
 	if ( ! file_exists($attach_dir) )
 	{
 	    @mkdir($attach_dir, 0755);
 	}
-	
+
 	if ( is_dir($attach_dir) )
     {
 	    if ( ! is_writable($attach_dir) )
@@ -412,13 +413,13 @@ function helpdeskz_checksetup(){
 	{
 		$error_msg[] = 'Folder <strong>/uploads/articles</strong> is missing.';
 	}
-	
+
     $attach_dir = HELPDESKZ_PATH . 'uploads/tickets';
 	if ( ! file_exists($attach_dir) )
 	{
 	    @mkdir($attach_dir, 0755);
 	}
-	
+
 	if ( is_dir($attach_dir) )
     {
 	    if ( ! is_writable($attach_dir) )
@@ -434,7 +435,7 @@ function helpdeskz_checksetup(){
 	{
 		$error_msg[] = 'Folder <strong>/uploads/tickets</strong> is missing.';
 	}
-	
+
     if ( count($error_msg) ){
 		helpdeskz_header();
 		echo '<h3>Check Setup</h3>';
@@ -444,16 +445,16 @@ function helpdeskz_checksetup(){
         	echo $err.'<br>';
         }
 		echo '</div>';
-		helpdeskz_footer();	
+		helpdeskz_footer();
 	}else{
-		helpdeskz_database();	
+		helpdeskz_database();
 	}
 }
 
 function helpdeskz_database($error_msg =null){
 	helpdeskz_header();
 	if($error_msg !== null){
-		echo '<div class="error_box">'.$error_msg.'</div>';	
+		echo '<div class="error_box">'.$error_msg.'</div>';
 	}
 	?>
     <h3>Database settings</h3>
@@ -517,17 +518,17 @@ function helpdeskz_database($error_msg =null){
 		</table>
     </form>
     <?php
-	helpdeskz_footer();	
+	helpdeskz_footer();
 }
 
 function helpdeskz_completed(){
-	helpdeskz_header();	
+	helpdeskz_header();
 ?>
 	<h3>Installation Completed</h3>
     <p>Installation has been successfully completed, <strong>do not forget to remove</strong> <strong style="color:red">/install</strong> folder</p>
     <p><a href="../?v=staff" target="_blank">Click here to open staff panel</a></p>
 <?php
-	helpdeskz_footer();	
+	helpdeskz_footer();
 }
 if($input->p['license'] == 'agree'){
 	if($input->p['settings'] == 'install'){

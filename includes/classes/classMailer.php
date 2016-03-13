@@ -13,7 +13,7 @@ class Mailer
 	public function __construct($data_mail) {
 		$this->Mailer($data_mail);
 	}
-	
+
 	function Mailer($data_mail){
 		global $db, $settings;
 		$this->data = $data_mail;
@@ -50,9 +50,11 @@ class Mailer
 				$this->mail->addAttachment(UPLOAD_DIR.$this->data['attachement_type'].'/'.$v['enc'], $v['name']);
 			}
 		}
-		if(!$this->mail->Send()) {
-			$data = array('error' => 'Error sending email: '.$this->mail->ErrorInfo);
-			$db->insert(TABLE_PREFIX."error_log", $data);
+		if($this->maildata['enabled'] == 1) {
+			if(!$this->mail->Send()) {
+				$data = array('error' => 'Error sending email: '.$this->mail->ErrorInfo);
+				$db->insert(TABLE_PREFIX."error_log", $data);
+			}
 		}
 	}
 	function setVars(){
