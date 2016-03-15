@@ -99,7 +99,6 @@ foreach($messages AS $message) {
 		if($processing == 'delete') {
 	  	$message->delete();
 		}
-	  $mailbox->expunge();
 
 	  if($subject){
 	    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
