@@ -13,7 +13,7 @@ $('#selector option[value="{{ article_cat }}"]').attr('selected', 'selected');
 tinymce.init({
     selector: "textarea",
 	theme: "modern",
-	relative_urls: false,
+	relative_urls: false,	
 	remove_script_host: false,
 	convert_urls : true,
     file_browser_callback: RoxyFileBrowser,
@@ -113,7 +113,7 @@ function RoxyFileBrowser(field_name, url, type, win) {
                     <div><input type="file" name="file2" /></div>
                     <div><input type="file" name="file3" /></div>
                     </td>
-                </tr>
+                </tr>                   
                 {% if attachments|is_array %}
 				<tr>
 					<td valign="top">{{ LANG.ATTACHED_FILES }}</td>

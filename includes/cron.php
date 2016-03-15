@@ -8,6 +8,7 @@ define('UPLOAD_DIR', dirname(__DIR__).'/uploads/');
 require_once INCLUDES.'classes/classRegistry.php';
 require_once INCLUDES.'classes/classMailer.php';
 require_once INCLUDES.'functions.php';
+
 // DB Connection
 $helpdeskz = new Registry();
 if($helpdeskz->config['Database']['type'] == 'mysqli'){
@@ -52,8 +53,8 @@ $server = new Server(
 $connection = $server->authenticate($imapUsername, $imapPassword);
 $mailboxes = $connection->getMailboxes();
 foreach ($mailboxes as $mailbox) {
-	//printf('Mailbox %s has %s messages', $mailbox->getName(), $mailbox->count());
-	//echo "\n";
+	printf('Mailbox %s has %s messages', $mailbox->getName(), $mailbox->count());
+	echo "\n";
 }
 
 $mailbox = $connection->getMailbox('INBOX');
@@ -73,6 +74,7 @@ foreach($messages AS $message) {
 	  $attachments = $own_attachments;
 
 	  $text = $message->getBodyText();
+	  $html = $message->getBodyHtml();
 	  foreach( $message->getTo() AS $to_obj ) {
 			$to = $to_obj->getMailbox().'@'.$to_obj->getHostname();
 		}
@@ -81,11 +83,12 @@ foreach($messages AS $message) {
 	  $subject = $message->getSubject();
 
 	  if(strpos ($from, '<') !== false) {
-	      $from2 = explode ('<', $from);
-	      $from3 = explode ('>', $from2[1]);
-	    $from_name = trim($from2[0]);
-	      $from_email = trim($from3[0]);
-	  } else{
+			$from2 = explode ('<', $from);
+			$from3 = explode ('>', $from2[1]);
+			$from_name = trim($from2[0]);
+			$from_email = trim($from3[0]);
+	  }
+	  else {
 	    $from_name = $from;
 	    $from_email = $from;
 	  }
@@ -95,23 +98,62 @@ foreach($messages AS $message) {
 		if($processing == 'move') {
 	  	$mailbox = $connection->getMailbox('INBOX.' . $processed_folder );
 	  	$message->move($mailbox);
+	  	$text2 = $message->getBodyText();
+			echo $message->getId()." has been moved to INBOX." . $processed_folder."\n";
 	  }
 		if($processing == 'delete') {
 	  	$message->delete();
+			echo $message->getId()." has been deleted\n";
 		}
+	  //$mailbox->expunge();
 
 	  if($subject){
 	    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
 	      //Existing ticket?
-	      include_once(INCLUDES.'parser/reply_ticket.php');
+	      echo "reply ticket\n";
+	      //include_once(INCLUDES.'parser/reply_ticket.php');
+
+				require_once(INCLUDES.'parser/replyticket.class.php');
+				$replyticket = new replyticket;
+				$replyticket->parse(
+					$regs,
+					$LANG,
+					$from_name,
+					$from_email,
+					$to_email,
+					$password,
+					$subject,
+					$text,
+					$attachments
+				);
+
 	    }
 	    else {
 	      //New Ticket
-	      include_once(INCLUDES.'parser/new_ticket.php');
+	      echo "New ticket\n";
+	      //include_once(INCLUDES.'parser/new_ticket.php');
+
+				require_once(INCLUDES.'parser/newticket.class.php');
+				$newticket = new newticket;
+				$newticket->parse(
+					$from_name,
+					$from_email,
+					$to_email,
+					$password,
+					$subject,
+					$text,
+					$attachments
+				);
+
 	    }
 	  }
-
 	}
+	sleep(0.6);
 }
+if($processing == 'move') {
+	$mailbox = $connection->getMailbox('INBOX.' . $processed_folder );
+	$mailbox->expunge();
+}
+
 $mailbox = $connection->getMailbox('INBOX');
 $mailbox->expunge();

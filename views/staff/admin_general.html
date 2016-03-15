@@ -39,7 +39,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         "Wingdings=wingdings,zapf dingbats",
  });
 
-	var csrfhash = '{{ getToken('general_settings') }}';
+	var csrfhash = '{{ getToken('general_settings') }}'; 
 	$(function(){
 		$(".csrfhash").val(csrfhash);
         checksocialdetails('facebook');

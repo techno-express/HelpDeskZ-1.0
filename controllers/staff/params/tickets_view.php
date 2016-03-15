@@ -77,7 +77,7 @@ function display_parent_cats($parent_category,$level){
 							'name' => $staff['fullname'],
 							'message' => $input->p['message']."\n\n".$staff['signature'],
 							'ip' => $_SERVER['REMOTE_ADDR'],
-							'email' => $staff['email'],
+							'email' => $staff['email']
 							);
 				$db->insert(TABLE_PREFIX.'tickets_messages',$data);
 				$message_id = $db->lastInsertId();
@@ -124,7 +124,7 @@ function display_parent_cats($parent_category,$level){
 			exit;
 		}elseif($params[2] == 'GetMsg'){
 			if(is_numeric($params[3])){
-				$message = $db->fetchRow("SELECT id, message, ticket_id FROM ".TABLE_PREFIX."tickets_messages WHERE id=".$db->real_escape_string($params[3]));
+				$message = $db->fetchRow("SELECT id, message, ticket_id, email_to FROM ".TABLE_PREFIX."tickets_messages WHERE id=".$db->real_escape_string($params[3]));
 				$template_vars['message'] = $message;
 				$template = $twig->loadTemplate('form_editpost.html');
 				echo $template->render($template_vars);
@@ -201,17 +201,29 @@ function display_parent_cats($parent_category,$level){
 		$page = ($page>$total_pages?$total_pages:$page);
 		$from = ($max_results*$page) - $max_results;
 		$tickets_query = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid ORDER BY date DESC LIMIT $from, $max_results");
-		$fetched_tickets = array();
+		/*
 		while($r = $db->fetch_array($tickets_query)){
-			$fetched_tickets[] = $r;
+			$attachments = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."attachments WHERE msg_id={$r['id']}");
+			$r['attachments'] = $attachments;
+			$ticket_messages[] = $r;
 		}
-		foreach($fetched_tickets as $fetched_ticket) {
-			$attachments_query = $db->query("SELECT * FROM ".TABLE_PREFIX."attachments WHERE msg_id={$fetched_ticket['id']}");
-			while($attachment = $db->fetch_array($attachments_query)){
-				$fetched_ticket['attachments'][] = $attachment;
+		*/
+
+		//begin
+		$y = array();
+		while($r = $db->fetch_array($tickets_query)){
+			$y[] = $r;
+		}
+		foreach($y as $x) {
+			$attachments_query = $db->query("SELECT * FROM ".TABLE_PREFIX."attachments WHERE msg_id={$x['id']}");
+			while($a = $db->fetch_array($attachments_query)){
+				$x['attachments'][] = $a;
 			}
-			$ticket_messages[] = $fetched_ticket;
+			$x['num_attachments'] = count($x['attachments']);
+			$ticket_messages[] = $x;
 		}
+		//end
+
 		$template_vars['ticket_messages'] = $ticket_messages;
 		$template_vars['total_pages'] = $total_pages;
 		$template_vars['page'] = $page;

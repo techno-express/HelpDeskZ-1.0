@@ -3,7 +3,7 @@
 {% block content %}
 {% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
 <script>
-	var csrfhash = '{{ getToken('news') }}';
+	var csrfhash = '{{ getToken('news') }}'; 
 	$(document).ready(function(){
 		$(".csrfhash").val(csrfhash);
 	});
@@ -35,7 +35,7 @@
 	</tr>
 	{% endfor %}
     {% else %}
-	<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>
+	<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>	
 	{% endif %}
 </table>
 <div id="options" style="margin-top:20px; display:none;">

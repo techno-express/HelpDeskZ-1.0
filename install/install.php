@@ -72,7 +72,7 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 	  `name` varchar(255) NOT NULL,
 	  `subject` varchar(255) NOT NULL,
 	  `message` text NOT NULL,
-		`enabled` tinyint(4) NOT NULL DEFAULT '1',
+	  `enabled` tinyint(4) NOT NULL DEFAULT '1'
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=".$db_charset.";";
 	$query[] = "CREATE TABLE `".$db_prefix."error_log` (
@@ -184,6 +184,7 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 	  `message` text,
 	  `ip` varchar(255) DEFAULT NULL,
 	  `email` varchar(200) DEFAULT NULL,
+	  `email_to` varchar(200) DEFAULT NULL,
 	  PRIMARY KEY (`id`),
 	  KEY `ticket_id` (`ticket_id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=".$db_charset.";";

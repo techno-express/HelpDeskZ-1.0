@@ -2,7 +2,7 @@
 {% block title %}{{ LANG.CANNED_RESPONSE }}{% endblock %}
 {% block content %}
 <script>
-	var csrfhash = '{{ getToken('canned') }}';
+	var csrfhash = '{{ getToken('canned') }}'; 
 	var _cannedURL = '{{ getUrl(controller, action, ['canned','GetCannedForm',''])|raw }}';
 	$(function(){
 		$(".csrfhash").val(csrfhash);

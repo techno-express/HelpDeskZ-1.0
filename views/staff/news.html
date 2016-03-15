@@ -12,7 +12,7 @@
             <div class="newstitle"><a href="{{ getUrl(controller,action,['view',news.id])|raw }}">{{ news.title }}</a></div>
             <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author,'%date%': displayDate(news.date)}) }}</div>
             <div class="newscontent">{{ news.content|raw }}</div>
-        </div>
+        </div>        
         {% else %}
     	<ul>
         	<li>{{ LANG.NEWS }}</li>

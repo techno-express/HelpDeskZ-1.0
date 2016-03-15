@@ -32,95 +32,10 @@
 {% endif %}
 
 <div id="tabs">
-    <ul>
-        <li>{{ LANG.GENERAL }}</li>
-        <li>{{ LANG.REPLY }}</li>
-    </ul>
-    <div id="ctab1">
-		<div class="ticket_information">
-            <div class="ticket_subject">
-                <div>{{ ticket.subject }}</div>
-                <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small><br>
-            </div>
-            <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update'])|raw }}">
-            <div class="ticket_details">
-                <div class="ticket_details_block">
-                    <div class="b_title">{{ LANG.TICKET_ID }}</div>
-                    <div><input type="text" value="{{ ticket.code }}" disabled="disabled" /></div>
-                </div>
-                <div class="ticket_details_block">
-                    <div class="b_title">{{ LANG.DEPARTMENT }}</div>
-                    <div><select name="department">
-                    {% for id,name in departments %}
-                    {% if id == ticket.department_id %}
-                    <option value="{{ id }}" selected>{{ name }}</option>
-					{% else %}
-                    <option value="{{ id }}">{{ name }}</option>
-                    {% endif %}
-                    {% endfor %}
-					</select></div>
-                </div>
-                <div class="ticket_details_block">
-                    <div class="b_title">{{ LANG.STATUS }}</div>
-                    <div><select name="status">
-                    {% for id,name in ticket_status %}
-                    {% if id == ticket.status %}
-                    <option value="{{ id }}" selected>{{ name }}</option>
-					{% else %}
-                    <option value="{{ id }}">{{ name }}</option>
-                    {% endif %}
-                    {% endfor %}
-					</select>
-                    </div>
-                </div>
-                <div class="ticket_details_block">
-                    <div class="b_title">{{ LANG.PRIORITY }}</div>
-                    <div><select name="priority">
-                    {% for val in priority %}
-                    {% if val.id == ticket.priority_id %}
-                    <option value="{{ val.id }}" selected>{{ val.name }}</option>
-					{% else %}
-                    <option value="{{ val.id }}">{{ val.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                    </select></div>
-                </div>
-            </div>
-            <div align="center" style="margin-top:10px"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></div>
-            <input type="hidden" name="csrfhash" value="" class="csrfhash" />
-            </form>
 
-            {% if custom_fieldsdb|is_array %}
-            {% set n = 1 %}
-            <br><table width="100%">
-            {% for r in custom_fieldsdb %}
-				{% set result = n%2 %}
-				{% if result == 1 %}
-				<tr>
-				{% endif %}
-					<td width="25%" valign="top"><strong>{{ r.title }}</strong></td><td width="25%" valign="top">
-                    {% if r.exits == 1 %}
-                    	{% if r.values|is_array %}
-                        	{% for values in r.values %}
-                            	{{ values }}<br />
-                            {% endfor %}
-                        {% else %}
-                        	{{ r.values }}
-                        {% endif %}
-                    {% endif %}
-					</td>
-				{% if result == 0 %}
-				</tr>
-				{% endif %}
-                {% set n = n+1 %}
-			{% endfor %}
-			</table>
-            {% endif %}
-        </div>
-	</div>
     <div id="ctab2">
 
-        <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'reply'])|raw }}" name="reply" id="reply" enctype="multipart/form-data">
+        <form method="post" action="{{ getUrl(controller, action, ['create','send'])|raw }}" name="reply" id="reply" enctype="multipart/form-data">
         <table class="widget-table-form">
         	<tr>
             	<td width="150">{{ LANG.FROM }}</td>
@@ -128,7 +43,10 @@
             </tr>
         	<tr>
             	<td>{{ LANG.TO }}</td>
-                <td>{{ ticket.fullname }} &lt;{{ ticket.email }}&gt;</td>
+                <td><input style="min-width: 230px;" class="form-control" autocomplete="off" type="text" name="customer_email" placeholder="customer@email"></td>
+            </tr>
+            	<td>{{ LANG.SUBJECT }}</td>
+                <td><input style="min-width: 230px;" class="form-control" autocomplete="off" type="text" name="subject" placeholder="Subject..."></td>
             </tr>
 
         	<tr>
@@ -152,7 +70,7 @@
 			<div style="font-size:18px">{{ LANG.ATTACHMENTS }}</div>
             <div><input type="file" name="attachment" /></div>
             <br /><input type="submit" name="btn2" value="{{ LANG.SUBMIT }}" />
-            <input type="hidden" name="csrfhash" value="" class="csrfhash" />
+            <input type="hidden" name="csrfhash" value="{{ getToken('ticket') }}" class="csrfhash" />
 		</form>
     </div>
 </div>
@@ -172,7 +90,6 @@
                     </div>
                 </div>
                 <div class="ticket_message">
-	                	<div style="padding: 5px 20px; color: #999; position: absolute; right: 63px;">To: {{ message.email_to }}</div>
                        <div class="ticket_date">{{ LANG.POSTED_ON }}: {{ displayDate(message.date) }}
                        	<span style="float:right" class="ticket_icon_quote" title="{{ LANG.QUOTE_THIS_POST }}" onclick="quote_post('{{ message.ticket_id }}','{{ message.id }}');"></span>
                        </div>

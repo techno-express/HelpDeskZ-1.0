@@ -74,7 +74,7 @@ var _baseURL = '{{ getUrl(controller) }}';
             	<li><a href="{{ getUrl(controller,'knowledgebase','categories')|raw }}" {% if action == 'knowledgebase' and params.0 == 'categories' %}class="current"{% endif %}>{{ LANG.CATEGORIES }}</a></li>
             	<li><a href="{{ getUrl(controller,'knowledgebase','article')|raw }}" {% if action == 'knowledgebase' and params.0 == 'article' %}class="current"{% endif %}>{{ LANG.NEW_ARTICLE }}</a></li>
             </ul>
-
+            
         	<ul {% if action != 'news' %}style="display:none;"{% endif %} id="sm4">
             	<li><a href="{{ getUrl(controller,'news','view')|raw }}" {% if action == 'news' and params.0 == 'view' %}class="current"{% endif %}>{{ LANG.VIEW_NEWS }}</a></li>
             	<li><a href="{{ getUrl(controller,'news','manage')|raw }}" {% if action == 'news' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_NEWS }}</a></li>
@@ -92,8 +92,8 @@ var _baseURL = '{{ getUrl(controller) }}';
             	<li><a href="{{ getUrl(controller,'settings', 'staff')|raw }}" {% if action == 'settings' and params.0 == 'staff' %}class="current"{% endif %}>{{ LANG.STAFF }}</a></li>
             </ul>
             {% endif %}
-
-
+            
+            
             <div class="logout"><a href="{{ getUrl(controller,'logout')|raw }}">{{ LANG.LOGOUT }}: {{ staff.username }}</a></div>
             <div class="clear"></div>
         </div>
