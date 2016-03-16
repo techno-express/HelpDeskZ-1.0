@@ -62,8 +62,15 @@ $template_vars['filter_bar'] = $filter_bar;
 
 if($params[0] == 'view' && is_numeric($params[1])){
 	include(CONTROLLERS.'staff/params/tickets_view.php');
-}elseif($params[0] == 'canned'){
+}
+elseif($params[0] == 'canned'){
 	include(CONTROLLERS.'staff/params/tickets_canned.php');
+}
+elseif($params[0] == 'create' && $params[1] == 'new') {
+	include(CONTROLLERS.'staff/params/ticket_create.php');
+}
+elseif($params[0] == 'create' && $params[1] == 'send') {
+	include(CONTROLLERS.'staff/params/ticket_create.php');
 }
 
 $search_query = '';
