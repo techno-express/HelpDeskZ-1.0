@@ -26,7 +26,12 @@ function display_parent_cats($parent_category,$level){
 	return $selector;
 }
 
-$ticket_status = array(1 => $LANG['OPEN'], 2 => $LANG['ANSWERED'], 3 => $LANG['AWAITING_REPLY'], 4 => $LANG['IN_PROGRESS'], 5 => $LANG['CLOSED']);
+
+$get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+foreach( $get_db_ticket_status AS $get_status ) {
+	$ticket_status[$get_status['id']] = $get_status['langstring'];
+}
+//$ticket_status = array(1 => $LANG['OPEN'], 2 => $LANG['ANSWERED'], 3 => $LANG['AWAITING_REPLY'], 4 => $LANG['IN_PROGRESS'], 5 => $LANG['CLOSED']);
 
 if($params[1] == 'new'){
 		$template = $twig->loadTemplate('create_ticket.html');
@@ -135,7 +140,10 @@ if($params[1] == 'send'){
 		);
 		$db->insert(TABLE_PREFIX.'tickets_messages',$data);
 		$message_id = $db->lastInsertId();
-		$status = ($ticket['status'] == '4'?'4':'2');
+
+		$db_ticket_status = $db->fetchRow("SELECT id FROM ".TABLE_PREFIX."ticket_status WHERE langstring = 'AWAITING_REPLY' LIMIT 1");
+
+		$status = $db_ticket_status['id'];
 		$db->query("UPDATE ".TABLE_PREFIX."tickets SET last_update='$datenow', status='$status', replies=replies+1, last_replier='".$db->real_escape_string($staff['fullname'])."' WHERE id=$ticketid");
 		if(is_array($fileuploaded)){
 			foreach($fileuploaded as $f){

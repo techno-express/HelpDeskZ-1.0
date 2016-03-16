@@ -200,6 +200,14 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 	  KEY `email` (`email`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=".$db_charset.";";
 
+	$query[] = "CREATE TABLE `".$db_prefix."ticket_status` (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `langstring` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=".$db_charset.";";
+
+	$query[] = "INSERT INTO `".$db_charset."ticket_status` VALUES ('1', 'LANG.OPEN'), ('2', 'LANG.ANSWERED'), ('3', 'LANG.AWAITING_REPLY'), ('4', 'LANG.IN_PROGRESS'), ('5', 'LANG.CLOSED')";
+
 	$query[] = "INSERT INTO `".$db_prefix."departments` (`id`, `dep_order`, `name`, `type`, `autoassign`, `autoassign_web`) VALUES(1, 1, 'General', 0, 1, 0);";
     $query[] = "INSERT INTO `".$db_prefix."emails` (`id`, `orderlist`, `name`, `subject`, `message`) VALUES
 ('staff_reply', 5, 'Staff Reply', '[#%ticket_id%] %ticket_subject%', '%message%\n\n\nTicket Details\n---------------\n\nTicket ID: %ticket_id%\nDepartment: %ticket_department%\nStatus: %ticket_status%\nPriority: %ticket_priority%\n\n\nHelpdesk: %helpdesk_url%'),
@@ -306,6 +314,15 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password, $db_charse
 
 function helpdeskz_saveConfigFile($db_host, $db_name, $db_user, $db_password, $db_prefix, $db_type, $db_charset){
 	$content = '<?php
+
+	define(\'CONF_DB_DATABASE\', \''.$db_name.'\');
+	define(\'CONF_DB_USERNAME\', \''.$db_user.'\');
+	define(\'CONF_DB_PASSWORD\', \''.str_replace("'","\\'", $db_password).'\');
+	define(\'CONF_DB_HOST\', \''.$db_host.'\');
+	define(\'CONF_DB_PREFIX\', \''.$db_prefix.'\');
+	define(\'CONF_DB_TYPE\', \''.$db_type.'\');
+	define(\'CONF_DB_CHARSET\', \''.$db_charset.'\');
+	
 	$config[\'Database\'][\'dbname\'] = \''.$db_name.'\';
 	$config[\'Database\'][\'tableprefix\'] = \''.$db_prefix.'\';
 	$config[\'Database\'][\'servername\'] = \''.$db_host.'\';
