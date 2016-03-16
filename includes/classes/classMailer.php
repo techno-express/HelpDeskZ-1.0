@@ -22,7 +22,7 @@ class Mailer
 		$this->smtp_ssl = $settings['smtp_ssl'];
 		$this->smtp_username = $settings['smtp_username'];
 		$this->smtp_password = $settings['smtp_password'];
-		$this->maildata = $db->fetchRow("SELECT subject, message FROM ".TABLE_PREFIX."emails WHERE id='{$this->data['id']}'");
+		$this->maildata = $db->fetchRow("SELECT subject, message, enabled FROM ".TABLE_PREFIX."emails WHERE id='{$this->data['id']}'");
 		$this->company_name = $settings['site_name'];
 		$this->helpdesk_url = $settings['site_url'];
 		$this->setVars();
