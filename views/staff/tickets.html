@@ -106,7 +106,9 @@
 </div>
 </form>
 <div class="" style="position:relative;float:right;padding-top:10px;">
-	<div class="create_ticket" style=""><a style="display: block; padding: 2px 15px; background: #4c4c4c; color: #FFF; border-radius: 4px;" href="/support/staff/tickets/create/new">Create ticket</a></div>
+	<div class="create_ticket" style="">
+		<a style="display: block; padding: 2px 15px; background: #4c4c4c; color: #FFF; border-radius: 4px;" href="{{ getUrl(controller,action,['create','new'])|raw }}">Create ticket</a>
+	</div>
 </div>
 
 </div>
