@@ -9,7 +9,11 @@
 include(INCLUDES.'helpdesk.inc.php');
 $template_vars = array();
 	$emptyvars = array();
-$ticket_status = array(1 => $LANG['OPEN'], 2 => $LANG['ANSWERED'], 3 => $LANG['AWAITING_REPLY'], 4 => $LANG['IN_PROGRESS'], 5 => $LANG['CLOSED']);
+
+$get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+foreach( $get_db_ticket_status AS $get_status ) {
+	$ticket_status[$get_status['id']] = $get_status['langstring'];
+}
 $template_vars['ticket_status'] = $ticket_status;
 
 	if($client_status == 1){
