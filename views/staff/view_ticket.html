@@ -43,7 +43,7 @@
                 <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small><br>
             </div>
             <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update'])|raw }}">
-            <div class="ticket_details">
+            <div class="ticket_details status_{{ ticket.status_name }}">
                 <div class="ticket_details_block">
                     <div class="b_title">{{ LANG.TICKET_ID }}</div>
                     <div><input type="text" value="{{ ticket.code }}" disabled="disabled" /></div>

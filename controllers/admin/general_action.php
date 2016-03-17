@@ -135,7 +135,12 @@ $homepage = $db->fetchRow("SELECT * FROM ".TABLE_PREFIX."pages WHERE id='home'")
 $page_title = 'Settings > General';
 
 if (!extension_loaded('imap')) {
-  $error_msg .= "<br> The Php-Imap extension is not installed!";
+  if($error_msg != '') {
+    $error_msg .= "<br>\nThe Php-Imap extension is not installed!";
+  }
+  else {
+    $error_msg = "The Php-Imap extension is not installed!";
+  }
 }
 
 $template_vars['homepage'] = $homepage;

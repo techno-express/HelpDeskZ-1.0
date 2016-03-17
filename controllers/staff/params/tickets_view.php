@@ -36,6 +36,8 @@ function display_parent_cats($parent_category,$level){
 
 	$ticketid = $db->real_escape_string($params[1]);
 	$ticket = $db->fetchRow("SELECT *, count(id) as total FROM ".TABLE_PREFIX."tickets WHERE id=$ticketid");
+	$ticket['status_name'] = strtolower($ticket_status[$ticket['status']]);
+	
 	if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departments)){
 		$error_msg = $LANG['TICKET_NOT_FOUND'];
 	}else{
