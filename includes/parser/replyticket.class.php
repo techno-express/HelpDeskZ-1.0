@@ -7,10 +7,11 @@ class replyticket {
 	public function __construct() {
 		require_once INCLUDES.'global.php';
 		$this->db = $db;
+		$this->settings = $settings;
 	}
 
 	public function parse($regs, $LANG, $from_name, $from_email, $to_email, $password, $subject, $text, $attachments) {
-		include_once(INCLUDES.'language/'.$settings['client_language'].'.php');
+		include_once(INCLUDES.'language/'.$this->settings['client_language'].'.php');
 
 		$datenow = time();
 
