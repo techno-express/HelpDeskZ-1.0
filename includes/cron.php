@@ -49,9 +49,18 @@ foreach($messages AS $message) {
 		}
 
 	  $attachments = $own_attachments;
-
-	  $text = $message->getBodyText();
-	  $html = $message->getBodyHtml();
+    try {
+  	  $text = $message->getBodyText();
+  	  $html = $message->getBodyHtml();
+    }
+    catch(Ddeboer\Transcoder\Exception\IllegalCharacterException $e) {
+      $text = 'Could not get body. IllegalCharacterException';
+      $html = '';
+    }
+    catch(Ddeboer\Transcoder\Exception\UnsupportedEncodingException $e) {
+      $text = 'Could not get body. UnsupportedEncodingException';
+      $html = '';
+    }
 	  foreach( $message->getTo() AS $to_obj ) {
 			$to = $to_obj->getMailbox().'@'.$to_obj->getHostname();
 		}
@@ -74,48 +83,48 @@ foreach($messages AS $message) {
 	  	$message->delete();
 			echo $message->getId()." has been deleted\n";
 		}
-	  //$mailbox->expunge();
+  }
+  //$mailbox->expunge();
 
-	  if($subject){
-	    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
-	      //Existing ticket?
-	      echo "reply ticket\n";
-	      //include_once(INCLUDES.'parser/reply_ticket.php');
+  if($subject){
+    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
+      //Existing ticket?
+      echo "reply ticket\n";
+      //include_once(INCLUDES.'parser/reply_ticket.php');
 
-				require_once(INCLUDES.'parser/replyticket.class.php');
-				$replyticket = new replyticket($db, $settings);
-				$replyticket->parse(
-					$regs,
-					$LANG,
-					$from_name,
-					$from_email,
-					$to_email,
-					$password,
-					$subject,
-					$text,
-					$attachments
-				);
+			require_once(INCLUDES.'parser/replyticket.class.php');
+			$replyticket = new replyticket($db, $settings);
+			$replyticket->parse(
+				$regs,
+				$LANG,
+				$from_name,
+				$from_email,
+				$to_email,
+				$password,
+				$subject,
+				$text,
+				$attachments
+			);
 
-	    }
-	    else {
-	      //New Ticket
-	      echo "New ticket\n";
-	      //include_once(INCLUDES.'parser/new_ticket.php');
+    }
+    else {
+      //New Ticket
+      echo "New ticket\n";
+      //include_once(INCLUDES.'parser/new_ticket.php');
 
-				require_once(INCLUDES.'parser/newticket.class.php');
-				$newticket = new newticket($db, $settings);
-				$newticket->parse(
-					$from_name,
-					$from_email,
-					$to_email,
-					$password,
-					$subject,
-					$text,
-					$attachments
-				);
+			require_once(INCLUDES.'parser/newticket.class.php');
+			$newticket = new newticket($db, $settings);
+			$newticket->parse(
+				$from_name,
+				$from_email,
+				$to_email,
+				$password,
+				$subject,
+				$text,
+				$attachments
+			);
 
-	    }
-	  }
+    }
 	}
 	sleep(0.6);
 }
