@@ -458,16 +458,13 @@ text-align:center;
 	border-collapse:collapse;
 }
 .ticket_information .ticket_details_block{
-	background:#66b5a9;
 	color:#FFF;
 	display:table-cell;
-	border:1px solid #a4d2cb;
 	padding:10px;
 	font-size:16px;
 }
 .ticket_information .ticket_details_block .b_title{
 	text-transform:uppercase;
-	color:#dce9d2;
 	font-size:12px;
 	line-height:normal;
 }
@@ -672,4 +669,25 @@ text-align:center;
 	border-radius:5px;
 	padding:5px 10px;
 	margin:0px 5px;
+}
+
+.ticket_details.status_open > .ticket_details_block {
+	background-color: #5cb85c;
+	border: 1px solid #B4D8B4;
+}
+.ticket_details.status_answered > .ticket_details_block {
+	background-color: #66b5a9;
+	border: 1px solid #a4d2cb;
+}
+.ticket_details.status_in_progress > .ticket_details_block {
+	background-color: #428bca;
+	border: 1px solid #A2B8CC;
+}
+.ticket_details.status_awaiting_reply > .ticket_details_block {
+	background-color: #FAA732;
+	border: 1px solid #E6DACA;
+}
+.ticket_details.status_closed > .ticket_details_block {
+	background-color: rgb(191, 190, 189);
+	border: 1px solid #E0E0E0;
 }
