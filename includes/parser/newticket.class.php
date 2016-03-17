@@ -5,22 +5,14 @@ class newticket {
 	private $db = null;
 
 	public function __construct() {
-		$settings = new Registry();
-		if($settings->config['Database']['type'] == 'mysqli'){
-	    require_once INCLUDES.'classes/classMysqli.php';
-	    $this->db = new MySQLIDB();
-		}
-		else{
-	    require_once INCLUDES.'classes/classMysql.php';
-	    $this->db = new MySQLDB();
-		}
+    require_once INCLUDES.'global.php';
 
 		$this->db->connect(
-			$settings->config['Database']['dbname'],
-			$settings->config['Database']['servername'],
-			$settings->config['Database']['username'],
-			$settings->config['Database']['password'],
-			$settings->config['Database']['tableprefix']
+			CONF_DB_DATABASE,
+			CONF_DB_HOST,
+			CONF_DB_USERNAME,
+			CONF_DB_PASSWORD,
+			CONF_DB_PREFIX
 		);
 	}
 

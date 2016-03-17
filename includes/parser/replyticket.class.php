@@ -5,22 +5,14 @@ class replyticket {
 	private $db = null;
 
 	public function __construct() {
-		$settings = new Registry();
-		if($settings->config['Database']['type'] == 'mysqli'){
-	    require_once INCLUDES.'classes/classMysqli.php';
-	    $this->db = new MySQLIDB();
-		}
-		else{
-	    require_once INCLUDES.'classes/classMysql.php';
-	    $this->db = new MySQLDB();
-		}
+		require_once INCLUDES.'global.php';
 
 		$this->db->connect(
-			$settings->config['Database']['dbname'],
-			$settings->config['Database']['servername'],
-			$settings->config['Database']['username'],
-			$settings->config['Database']['password'],
-			$settings->config['Database']['tableprefix']
+			CONF_DB_DATABASE,
+			CONF_DB_HOST,
+			CONF_DB_USERNAME,
+			CONF_DB_PASSWORD,
+			CONF_DB_PREFIX
 		);
 	}
 
@@ -31,7 +23,11 @@ class replyticket {
 		$code=trim(preg_replace("/\[/", "", $regs[0]));
 		$code=trim(preg_replace("/\]/", "", $code));
 		$code=str_replace("#","",$code);
-		$ticket_status = array(1 => $LANG['OPEN'], 2 => $LANG['ANSWERED'], 3 => $LANG['AWAITING_REPLY'], 4 => $LANG['IN_PROGRESS'], 5 => $LANG['CLOSED']);
+		$get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+		foreach( $get_db_ticket_status AS $get_status ) {
+			$ticket_status[$get_status['id']] = $get_status['langstring'];
+		}
+
 		$ticket = $this->db->fetchRow("SELECT COUNT(id) AS total, id, status, fullname, code, department_id, priority_id, subject FROM ".TABLE_PREFIX."tickets WHERE email='".$this->db->real_escape_string($from_email)."' AND code='".$this->db->real_escape_string($code)."'");
 		if($ticket['total'] != 0){
 			$data = array(
@@ -71,7 +67,7 @@ class replyticket {
 							rename(UPLOAD_DIR.$filename, UPLOAD_DIR.'tickets/'.$filename_encoded);
 					  }
 					  else{
-							unlink(UPLOAD_DIR.$filename);
+							@unlink(UPLOAD_DIR.$filename);
 					  }
 				  }
 				}
@@ -95,7 +91,6 @@ class replyticket {
 							),
 			);
 			$mailer = new Mailer($data_mail);
-
 
 			if ($settings['email_piping_trigger_notification']){
 				/* response  notification for staff */

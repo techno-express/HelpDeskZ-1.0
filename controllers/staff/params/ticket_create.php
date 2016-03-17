@@ -31,7 +31,6 @@ $get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PRE
 foreach( $get_db_ticket_status AS $get_status ) {
 	$ticket_status[$get_status['id']] = $get_status['langstring'];
 }
-//$ticket_status = array(1 => $LANG['OPEN'], 2 => $LANG['ANSWERED'], 3 => $LANG['AWAITING_REPLY'], 4 => $LANG['IN_PROGRESS'], 5 => $LANG['CLOSED']);
 
 if($params[1] == 'new'){
 		$template = $twig->loadTemplate('create_ticket.html');
