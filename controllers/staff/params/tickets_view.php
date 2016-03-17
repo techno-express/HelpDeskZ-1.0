@@ -32,14 +32,14 @@ function display_parent_cats($parent_category,$level){
 
 
 $ticket_status = array();
-$q = $db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+$q = $db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status ORDER BY id ASC");
 while($r = $db->fetch_array($q)){
 	$ticket_status[$r['id']] = $LANG[$r['langstring']];
 }
 
 $ticketid = $db->real_escape_string($params[1]);
-$ticket = $db->fetchRow("SELECT *, count(id) as total FROM ".TABLE_PREFIX."tickets WHERE id=$ticketid");
-$ticket['status_name'] = str_replace('_','',strtolower($ticket_status[$ticket['status']]));
+$ticket = $db->fetchRow("SELECT ".TABLE_PREFIX."tickets.*, ".TABLE_PREFIX."ticket_status.langstring, count(".TABLE_PREFIX."tickets.id) as total FROM ".TABLE_PREFIX."tickets LEFT JOIN ".TABLE_PREFIX."ticket_status ON ".TABLE_PREFIX."tickets.status = ".TABLE_PREFIX."ticket_status.id WHERE ".TABLE_PREFIX."tickets.id=$ticketid");
+$ticket['status_name'] = str_replace('_','',strtolower($ticket['langstring']));
 
 if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departments)){
 	$error_msg = $LANG['TICKET_NOT_FOUND'];

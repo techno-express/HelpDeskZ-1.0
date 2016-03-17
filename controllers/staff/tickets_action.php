@@ -10,7 +10,7 @@
 $getvar = $_SERVER['QUERY_STRING'];
 //Ticket Status
 $ticket_status = array();
-$q = $db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+$q = $db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status ORDER BY id ASC");
 while($r = $db->fetch_array($q)){
 	$ticket_status[$r['id']] = $LANG[$r['langstring']];
 }
