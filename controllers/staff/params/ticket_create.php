@@ -71,8 +71,9 @@ if($params[1] == 'send'){
 		$template_vars['error_msg'] = $error_msg;
 		$template = $twig->loadTemplate('view_ticket.html');
 		echo $template->render($template_vars);
+		//header('location: '.getUrl($controller, $action, array('view',$ticketid,'replied')));
+		exit;
 	}
-
 
 	if($error_msg == ''){
 		$datenow = time();
