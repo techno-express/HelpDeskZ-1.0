@@ -96,6 +96,7 @@ $LANG['FROM'] = 'From';
 $LANG['TO'] = 'To';
 $LANG['ANY_STATUS'] = 'Any Status';
 $LANG['REPLY'] = 'Reply';
+$LANG['CREATE_TICKET'] = 'Create ticket';
 $LANG['CREATED'] = 'Created';
 $LANG['UPDATED'] = 'Updated';
 $LANG['QUICK_INSERT'] = 'Quick Insert';

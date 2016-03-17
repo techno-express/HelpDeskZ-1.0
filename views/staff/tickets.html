@@ -10,6 +10,12 @@
 </script>
 
 {% include 'filter_bar.html' %}
+<div class="" style="position:relative;float:right;padding-bottom:14px;">
+	<div class="create_ticket" style="">
+		<a style="display: block; padding: 2px 15px; background: #4c4c4c; color: #FFF; border-radius: 4px;" href="{{ getUrl(controller,action,['create','new'])|raw }}">{{ LANG.CREATE_TICKET }}</a>
+	</div>
+</div>
+
 <div style="margin-left:260px;">
 
 <form method="post" action="{{ getUrl(controller,action,['page',page,orderby,sortby],getvar)|raw }}">
@@ -46,6 +52,7 @@
 	{% endfor %}
     {% if total_tickets == 0 %}<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>{% endif %}
 </table>
+
 <div id="options" style="margin-top:20px; display:none;">
     <div id="tabs">
         <ul>
@@ -105,11 +112,6 @@
 	</div>
 </div>
 </form>
-<div class="" style="position:relative;float:right;padding-top:10px;">
-	<div class="create_ticket" style="">
-		<a style="display: block; padding: 2px 15px; background: #4c4c4c; color: #FFF; border-radius: 4px;" href="{{ getUrl(controller,action,['create','new'])|raw }}">Create ticket</a>
-	</div>
-</div>
 
 </div>
 <div class="clear"></div>

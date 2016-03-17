@@ -149,8 +149,10 @@ function display_parent_cats($parent_category,$level){
 				if($chk != 0){
 					$db->delete(TABLE_PREFIX."tickets_messages", "id=".$db->real_escape_string($params[3]));
 					removeAttachment($params[3],'msg');
-					//TODO: completely delete the ticket if there are no replies at all.
-					if($ticket['replies']>0){
+					if(($ticket['replies'] - 1)  == 0) {
+						$db->query("DELETE FROM ".TABLE_PREFIX."tickets WHERE id={$ticket['id']}");
+					}
+					elseif($ticket['replies']>0){
 						$db->query("UPDATE ".TABLE_PREFIX."tickets SET replies=replies-1 WHERE id={$ticket['id']}");
 					}
 				}

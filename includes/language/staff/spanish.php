@@ -96,6 +96,7 @@ $LANG['FROM'] = 'De';
 $LANG['TO'] = 'A';
 $LANG['ANY_STATUS'] = 'Cualquier estado';
 $LANG['REPLY'] = 'Responder';
+$LANG['CREATE_TICKET'] = 'Crear un billete';
 $LANG['CREATED'] = 'Creado';
 $LANG['UPDATED'] = 'Actualizado';
 $LANG['QUICK_INSERT'] = 'Inserción Rápida';
