@@ -134,6 +134,10 @@ if($params[1] == 'update_helpdesk'){
 $homepage = $db->fetchRow("SELECT * FROM ".TABLE_PREFIX."pages WHERE id='home'");
 $page_title = 'Settings > General';
 
+if (!extension_loaded('imap')) {
+  $error_msg .= "<br> The Php-Imap extension is not installed!";
+}
+
 $template_vars['homepage'] = $homepage;
 $template_vars['pagesize'] = $pagesize;
 $template_vars['timezone'] = $timezone;
