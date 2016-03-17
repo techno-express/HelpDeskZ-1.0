@@ -30,7 +30,9 @@ class replyticket {
 							'ticket_id' => $ticket['id'],
 							'date' => $datenow,
 							'message' => $text,
-							'ip' => $from_email,
+							'ip' => 'IMAP',
+							'email' => $from_email,
+							'email_to' => $to_email
 						);
 			$this->db->insert(TABLE_PREFIX."tickets_messages", $data);
 			$message_id = $this->db->lastInsertId();
