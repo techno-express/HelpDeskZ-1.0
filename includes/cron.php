@@ -59,16 +59,8 @@ foreach($messages AS $message) {
 	  $from = $message->getFrom();
 	  $subject = $message->getSubject();
 
-	  if(strpos ($from, '<') !== false) {
-			$from2 = explode ('<', $from);
-			$from3 = explode ('>', $from2[1]);
-			$from_name = trim($from2[0]);
-			$from_email = trim($from3[0]);
-	  }
-	  else {
-	    $from_name = $from;
-	    $from_email = $from;
-	  }
+    $from_name = $from->getName();
+    $from_email = $from->getMailbox().'@'.$from->getHostname();;
 
 	  $datenow = time();
 

@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="ticket_message">
-	                	<div style="padding: 5px 20px; color: #999; position: absolute; right: 63px;">To: {{ message.email_to }}</div>
+	                	<div style="padding: 5px 20px; color: #999; float: left;">To: {{ message.email_to }}</div>
                        <div class="ticket_date">{{ LANG.POSTED_ON }}: {{ displayDate(message.date) }}
                        	<span style="float:right" class="ticket_icon_quote" title="{{ LANG.QUOTE_THIS_POST }}" onclick="quote_post('{{ message.ticket_id }}','{{ message.id }}');"></span>
                        </div>

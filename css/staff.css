@@ -480,10 +480,13 @@ text-align:center;
 .ticket_conversation .ticket_user{
 	background:#f8f8f8;
 	display:table-cell;
-	width:235px;
 	border-right:5px solid #dddddd;
 	color:#333333;
-	font-size:24px;
+	font-size:19px;
+	width: 224px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .ticket_conversation .ticket_user .ticket_icons{
 	border-top:1px solid #dddddd;
