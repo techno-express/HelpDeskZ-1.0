@@ -40,7 +40,7 @@
 		<div class="ticket_information">
             <div class="ticket_subject">
                 <div>{{ ticket.subject }}</div>
-                <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small><br>
+                <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small>
             </div>
             <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update'])|raw }}">
             <div class="ticket_details status_{{ ticket.status_name }}">
@@ -161,7 +161,7 @@
         <div class="ticket_conversation {% if message.customer == 0 %}staff_message{% endif %}" id="msg_{{ message.id }}">
 	        <div style="display:table-row">
                 <div class="ticket_user">
-                	<div style="padding:10px;">
+                	<div style="padding:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 204px;">
                     {% if message.customer == 1 %}
                     	{{ ticket.fullname }}
                         <small>{{ LANG.USER }}</small>
