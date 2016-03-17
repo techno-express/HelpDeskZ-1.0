@@ -1,6 +1,6 @@
 <?php
 
-class PDO {
+class PDODB {
 
 	protected $oDb_connection; //DB Connectie Object
 	protected $sqlError = ''; //String with SQL error (connectie of SELECT/INSERT fout)

@@ -25,14 +25,19 @@ require_once INCLUDES.'timezone.inc.php';
 // DB Connection
 $helpdeskz = new Registry();
 $input = new Input_Cleaner();
-if($helpdeskz->config['Database']['type'] == 'mysqli'){
+if(CONF_DB_TYPE == 'mysqli'){
 	require_once INCLUDES.'classes/classMysqli.php';
 	$db = new MySQLIDB();
-}else{
-	require_once INCLUDES.'classes/classMysql.php';
-	$db = new MySQLDB();
 }
-$db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);
+elseif(CONF_DB_TYPE == 'PDO'){
+	require_once INCLUDES.'classes/PDODB.class.php';
+	$db = new PDODB;
+}
+else{
+	exit("No valid DB connection type found?");
+}
+//$db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);
+$db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD, CONF_DB_PREFIX);
 
 $settings = array();
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
