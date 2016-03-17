@@ -83,7 +83,7 @@ foreach($messages AS $message) {
 	      //include_once(INCLUDES.'parser/reply_ticket.php');
 
 				require_once(INCLUDES.'parser/replyticket.class.php');
-				$replyticket = new replyticket;
+				$replyticket = new replyticket($db, $settings);
 				$replyticket->parse(
 					$regs,
 					$LANG,
@@ -103,7 +103,7 @@ foreach($messages AS $message) {
 	      //include_once(INCLUDES.'parser/new_ticket.php');
 
 				require_once(INCLUDES.'parser/newticket.class.php');
-				$newticket = new newticket;
+				$newticket = new newticket($db, $settings);
 				$newticket->parse(
 					$from_name,
 					$from_email,

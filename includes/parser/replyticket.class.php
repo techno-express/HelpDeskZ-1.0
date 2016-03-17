@@ -4,8 +4,7 @@ class replyticket {
 
 	private $db = null;
 
-	public function __construct() {
-		require_once INCLUDES.'global.php';
+	public function __construct($db, $settings) {
 		$this->db = $db;
 		$this->settings = $settings;
 	}
