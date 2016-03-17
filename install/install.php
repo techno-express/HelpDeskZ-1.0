@@ -319,10 +319,10 @@ function helpdeskz_saveConfigFile($db_host, $db_name, $db_user, $db_password, $d
 	define(\'CONF_DB_USERNAME\', \''.$db_user.'\');
 	define(\'CONF_DB_PASSWORD\', \''.str_replace("'","\\'", $db_password).'\');
 	define(\'CONF_DB_HOST\', \''.$db_host.'\');
-	define(\'CONF_DB_PREFIX\', \''.$db_prefix.'\');
+	define(\'TABLE_PREFIX\', \''.$db_prefix.'\');
 	define(\'CONF_DB_TYPE\', \''.$db_type.'\');
 	define(\'CONF_DB_CHARSET\', \''.$db_charset.'\');
-	
+
 	$config[\'Database\'][\'dbname\'] = \''.$db_name.'\';
 	$config[\'Database\'][\'tableprefix\'] = \''.$db_prefix.'\';
 	$config[\'Database\'][\'servername\'] = \''.$db_host.'\';

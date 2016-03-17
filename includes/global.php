@@ -36,8 +36,7 @@ elseif(CONF_DB_TYPE == 'PDO'){
 else{
 	exit("No valid DB connection type found?");
 }
-//$db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);
-$db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD, CONF_DB_PREFIX);
+$db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
 
 $settings = array();
 $q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");

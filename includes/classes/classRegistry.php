@@ -16,23 +16,15 @@ class Registry
 
 	function Registry(){
 		define('CWD', (($getcwd = getcwd()) ? $getcwd : '.'));
-		$config = array();
-		include(INCLUDES.'config.php');
-		if (sizeof($config) == 0)
-		{
-			if (file_exists('config.php'))
-			{
-				// config.php exists, but does not define $config
+		if (file_exists(INCLUDES.'config.php')) {
+			if(filesize(INCLUDES.'config.php') < 10) {
 				die('<br /><br /><strong>Configuration</strong>: includes/config.php exists, but is not in the correct format. Please convert your config file via the new config.php.new.');
 			}
-			else
-			{
-				die('<br /><br /><strong>Configuration</strong>: includes/config.php does not exist. Please fill out the data in config.php.new and rename it to config.php');
-			}
+			include(INCLUDES.'config.php');
 		}
-
-		$this->config =& $config;
-		define('TABLE_PREFIX', trim($this->config['Database']['tableprefix']));
+		else {
+			die('<br /><br /><strong>Configuration</strong>: includes/config.php does not exist. Please fill out the data in config.php.new and rename it to config.php');
+		}
 	}
 }
 ?>

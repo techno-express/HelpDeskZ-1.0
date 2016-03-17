@@ -41,8 +41,8 @@ class MySQLDB
 	);
 	var $database = null;
 
-	function connect($db_name, $db_server, $db_user, $db_passwd, $db_prefix){
-		$this->tbl_prefix = $db_prefix;
+	function connect($db_name, $db_server, $db_user, $db_passwd){
+		$this->tbl_prefix = TABLE_PREFIX;
 		$this->database = $db_name;
 		$this->connection_master = $this->db_connect($db_name, $db_server, $db_user, $db_passwd);
 		$this->select_db($this->database);
