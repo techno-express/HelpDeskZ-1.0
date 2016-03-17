@@ -9,9 +9,10 @@
 //Query String
 $getvar = $_SERVER['QUERY_STRING'];
 //Ticket Status
-$get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
-foreach( $get_db_ticket_status AS $get_status ) {
-	$ticket_status[$get_status['id']] = $LANG[$get_status['langstring']];
+$ticket_status = array();
+$q = $db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
+while($r = $db->fetch_array($q)){
+	$ticket_status[$r['id']] = $LANG[$r['langstring']];
 }
 
 $template_vars['ticket_status'] = $ticket_status;

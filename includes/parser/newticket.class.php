@@ -5,18 +5,12 @@ class newticket {
 	private $db = null;
 
 	public function __construct() {
-    require_once INCLUDES.'global.php';
-
-		$this->db->connect(
-			CONF_DB_DATABASE,
-			CONF_DB_HOST,
-			CONF_DB_USERNAME,
-			CONF_DB_PASSWORD,
-			CONF_DB_PREFIX
-		);
+		require_once INCLUDES.'global.php';
+		$this->db = $db;
 	}
 
 	public function parse($from_name, $from_email, $to_email, $password, $subject, $text, $attachments) {
+		include_once(INCLUDES.'language/'.$settings['client_language'].'.php');
 
 		$department = $this->db->fetchRow("SELECT id, name FROM ".TABLE_PREFIX."departments WHERE autoassign=1 LIMIT 1");
 		if($department === null) {
