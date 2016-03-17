@@ -25,7 +25,7 @@ class replyticket {
 		$code=str_replace("#","",$code);
 		$get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
 		foreach( $get_db_ticket_status AS $get_status ) {
-			$ticket_status[$get_status['id']] = $get_status['langstring'];
+			$ticket_status[$get_status['id']] = $LANG[$get_status['langstring']];
 		}
 
 		$ticket = $this->db->fetchRow("SELECT COUNT(id) AS total, id, status, fullname, code, department_id, priority_id, subject FROM ".TABLE_PREFIX."tickets WHERE email='".$this->db->real_escape_string($from_email)."' AND code='".$this->db->real_escape_string($code)."'");

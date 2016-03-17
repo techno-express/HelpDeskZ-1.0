@@ -29,7 +29,7 @@ function display_parent_cats($parent_category,$level){
 
 $get_db_ticket_status = $db->fetch_array("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status");
 foreach( $get_db_ticket_status AS $get_status ) {
-	$ticket_status[$get_status['id']] = $get_status['langstring'];
+	$ticket_status[$get_status['id']] = $LANG[$get_status['langstring']];
 }
 
 if($params[1] == 'new'){
