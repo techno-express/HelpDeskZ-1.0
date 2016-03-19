@@ -54,7 +54,10 @@ function verifyToken($token_name, $token){
    return true;
 }
 function validateEmail($email) {
-	return filter_var($email, FILTER_VALIDATE_EMAIL);
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+		return true;
+	}
+	return false;
 }
 
 //TODO: So insecure. Md5? Known salt for everyone?
