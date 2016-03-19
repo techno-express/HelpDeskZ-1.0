@@ -61,10 +61,20 @@ else{
 $db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
 
 $settings = array();
-$q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
+$baseurl = $_SERVER['SERVER_NAME'];
+$company_id = $db->fetchOne("SELECT id from `".TABLE_PREFIX."companies` WHERE `baseurl` = '$baseurl'");
+if($company_id != '') {
+	$company_id = 1; //Default
+}
+$company_name = $db->fetchOne("SELECT name from `".TABLE_PREFIX."companies` WHERE id = '$company_id'");
+
+$q = $db->query("SELECT `field`, `value` FROM `".TABLE_PREFIX."company_settings` WHERE company_id = '$company_id'");
+//$q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
 while($r = $db->fetch_array($q)){
 	$settings[$r['field']] = $r['value'];
 }
+$settings['company_name'] = strtolower($company_name);
+
 if(in_array($settings['timezone'], $timezone)){
 	date_default_timezone_set($settings['timezone']);
 }
