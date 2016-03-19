@@ -54,12 +54,10 @@ function verifyToken($token_name, $token){
    return true;
 }
 function validateEmail($email) {
-	if(!preg_match("/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i", $email)) {
-		return false;
-	}else {
-		return true;
-	}
+	return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
+
+//TODO: So insecure. Md5? Known salt for everyone?
 function encrypt($string){
 	$salt = 'WEujixru894SD41';
 	$key = md5($salt);
@@ -240,7 +238,7 @@ function hdz_registerAccount($data, $sendmail=TRUE, $updateinfo=FALSE)
     $password = (isset($data['password'])?$data['password']:substr((md5(time().$fullname)),5,7));
     $data_insert = array('fullname' => $fullname,
         'email' => $email,
-        'password' => sha1($password),
+        'password' => Password::create($password),
     );
     $chk = $db->fetchRow("SELECT COUNT(id) AS total, id FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($email)."'");
     if($chk['total'] == 0){

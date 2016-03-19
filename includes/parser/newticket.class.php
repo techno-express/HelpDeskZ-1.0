@@ -29,7 +29,7 @@ class newticket {
 			$data = array(
 				'fullname' => $from_name,
 				'email' => $from_email,
-				'password' => sha1($password),
+				'password' => Password::create($password),
 			);
 
 			$this->db->insert(TABLE_PREFIX."users", $data);
@@ -47,10 +47,9 @@ class newticket {
 		else {
 			$user_id = $user['id'];
 		}
-		$ticket_id = substr(strtoupper(sha1(time().$from_email)), 0, 11);
-		$ticket_id = substr_replace($ticket_id, '-',3,0);
-		$ticket_id = substr_replace($ticket_id, '-',7,0);
-		$previewcode = substr((md5(time().$from_name)),2,12);
+
+		$ticket_id = Ticket::generateId($from_email);
+		$previewcode = substr((md5(microtime().$from_email)),2,12);
 		$data = array(
 			'code' => $ticket_id,
 			'department_id' => $department['id'],

@@ -76,8 +76,8 @@ if($params[1] == 'getStaffForm'){
 				$departmentlist = is_array($department_list)?$department_list:array();
 				$departmentlist = serialize($departmentlist);
 				if($input->p['password'] != ''){
-					$password = sha1($input->p['password']);
-				}else{
+					$password = Password::create($input->p['password']);
+				} else{
 					$password = $usr['password'];
 				}
 				$data = array(
@@ -140,7 +140,7 @@ if($params[1] == 'getStaffForm'){
 			}
 			$departmentlist = is_array($department_list)?$department_list:array();
 			$departmentlist = serialize($departmentlist);
-			$password = sha1($input->p['password']);
+			$password = Password::create($input->p['password']);
 			$data = array(
 							'username' => $input->p['username'],
 							'fullname' => $input->p['fullname'],

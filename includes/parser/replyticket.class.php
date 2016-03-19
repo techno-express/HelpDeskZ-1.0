@@ -9,14 +9,10 @@ class replyticket {
 		$this->settings = $settings;
 	}
 
-	public function parse($regs, $LANG, $from_name, $from_email, $to_email, $password, $subject, $text, $attachments) {
+	public function parse($code, $LANG, $from_name, $from_email, $to_email, $password, $subject, $text, $attachments) {
 		include_once(INCLUDES.'language/'.$this->settings['client_language'].'.php');
 
 		$datenow = time();
-
-		$code=trim(preg_replace("/\[/", "", $regs[0]));
-		$code=trim(preg_replace("/\]/", "", $code));
-		$code=str_replace("#","",$code);
 
 		$ticket_status = array();
 		$q = $this->db->query("SELECT id, langstring FROM ".TABLE_PREFIX."ticket_status ORDER BY id ASC");

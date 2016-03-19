@@ -50,7 +50,7 @@ if($params[1] == 'GetUsersForm'){
 							'timezone' => $timezone_user,
 							);
 			if($input->p['password'] != ''){
-				$data2 = array('password' => sha1($input->p['password']));
+				$data2 = array('password' => Password::create($input->p['password']));
 				$data = array_merge($data, $data2);
 			}
 			$db->update(TABLE_PREFIX."users", $data, "id=".$db->real_escape_string($input->p['userid']));
@@ -80,7 +80,7 @@ if($params[1] == 'GetUsersForm'){
 			$data = array('fullname' => $input->p['fullname'],
 							'email' => $input->p['email'],
 							'timezone' => $timezone_user,
-							'password' => sha1($input->p['password']),
+							'password' => Password::create($input->p['password'])
 							);
 			$db->insert(TABLE_PREFIX."users", $data);
 			header('location: '.getUrl($controller, $action, array('manage'), $getvar));

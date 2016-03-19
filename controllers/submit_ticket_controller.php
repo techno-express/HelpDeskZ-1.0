@@ -186,10 +186,9 @@ if($action == 'displayForm' || $action == 'confirmation'){
 							$user_id = hdz_registerAccount(array('fullname' => $input->p['fullname'],
 																'email' =>$input->p['email']));
 						}
-						$ticket_id = substr(strtoupper(sha1(time().$email)), 0, 11);
-						$ticket_id = substr_replace($ticket_id, '-',3,0);
-						$ticket_id = substr_replace($ticket_id, '-',7,0);
-						$previewcode = substr((md5(time().$fullname)),2,12);
+
+						$ticket_id = Ticket::generateId($email);
+						$previewcode = substr((md5(microtime().$email)),2,12);
 						$custom_post = serialize($custom_post);
 						$data = array(
 										'code' => $ticket_id,

@@ -1,7 +1,8 @@
 ![](/images/logo.png)
 
-Version: 1.0.3 from 1st June 2015<br>
+Version: 1.0.4 from March 19th 2016<br>
 Developed by: Evolution Script S.A.C.<br>
+Heavily adjusted by Peter Notenboom<br>
 [Help Desk Software HelpDeskZ](http://www.helpdeskz.com)
 
 HelpDeskZ is a free PHP based software which allows you to manage your site's support with a web-based support ticket system.
@@ -10,7 +11,7 @@ HelpDeskZ is a free PHP based software which allows you to manage your site's su
 
 HelpDeskZ requires:
 
-- PHP 5.x
+- PHP 5.3+
 - MySQL database
 - GD Library (only for captcha verification)
 - Mod_rewrite (only if you want to use permalinks)-

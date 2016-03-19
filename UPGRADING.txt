@@ -1,4 +1,4 @@
-Welcome to HelpDeskZ 1.0.3
+Welcome to HelpDeskZ 1.0.4
 ==========================
 
 For upgrade instructions please see below.
@@ -6,6 +6,21 @@ For upgrade instructions please see below.
 
 Changelog
 =========
+
+Version 1.0.4
+-------------
+
+- Creating tickets is now possible
+
+- Ticket status shows different colors in header
+
+- Better IMAP cron. Requires the php-imap extension, nothing else
+
+- Removed MySQL
+
+- Multiple attachments now show up properly in a ticket
+
+- Cleanup on code, some parts are now in proper Classes
 
 Version 1.0.3
 -------------

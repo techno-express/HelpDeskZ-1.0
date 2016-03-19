@@ -10,8 +10,6 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
     exit(1);
 }
 
-require_once(__DIR__.'/vendor/autoload.php');
-
 $imapHost = $settings['imap_host'];
 $imapPort = intval($settings['imap_port']);
 $imapUsername = $settings['imap_username'];
@@ -76,7 +74,6 @@ foreach($messages AS $message) {
 		if($processing == 'move') {
 	  	$mailbox = $connection->getMailbox('INBOX.' . $processed_folder );
 	  	$message->move($mailbox);
-	  	$text2 = $message->getBodyText();
 			echo $message->getId()." has been moved to INBOX." . $processed_folder."\n";
 	  }
 		if($processing == 'delete') {
@@ -86,16 +83,14 @@ foreach($messages AS $message) {
   }
   //$mailbox->expunge();
 
-  if($subject){
-    if(preg_match("/\#[[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\-[a-zA-Z0-9_]+\]/", $subject, $regs)) {
-      //Existing ticket?
-      echo "reply ticket\n";
-      //include_once(INCLUDES.'parser/reply_ticket.php');
-
+  if($subject) {
+    $ticket_id = Ticket::isTicket($subject);
+    if($ticket_id !== false) {
+      //Is an existing ticket
 			require_once(INCLUDES.'parser/replyticket.class.php');
 			$replyticket = new replyticket($db, $settings);
 			$replyticket->parse(
-				$regs,
+				$ticket_id,
 				$LANG,
 				$from_name,
 				$from_email,
@@ -109,9 +104,6 @@ foreach($messages AS $message) {
     }
     else {
       //New Ticket
-      echo "New ticket\n";
-      //include_once(INCLUDES.'parser/new_ticket.php');
-
 			require_once(INCLUDES.'parser/newticket.class.php');
 			$newticket = new newticket($db, $settings);
 			$newticket->parse(
@@ -127,10 +119,6 @@ foreach($messages AS $message) {
     }
 	}
 	sleep(0.6);
-}
-if($processing == 'move') {
-	$mailbox = $connection->getMailbox('INBOX.' . $processed_folder );
-	$mailbox->expunge();
 }
 
 $mailbox = $connection->getMailbox('INBOX');
