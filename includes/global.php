@@ -25,7 +25,7 @@ spl_autoload_register(function ($class_name) {
 	if( !class_exists($class_name) ){
 
 		$class_name = str_replace('\\', '/', $class_name); //Support for namespaces
-		$filename = __DIR__.'/includes/classes/'.$class_name . '.class.php';
+		$filename = __DIR__.'/classes/'.$class_name . '.class.php';
 		try {
 			if(file_exists($filename)) {
 				include_once($filename);
