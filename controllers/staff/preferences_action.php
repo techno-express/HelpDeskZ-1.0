@@ -10,13 +10,13 @@ if($params[0] == 'update_password'){
 	if(verifyToken('preferences', $input->p['csrfhash']) !== true){
 		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(empty($input->p['current_password']) || empty($input->p['new_password']) || empty($input->p['new_password2'])){
-		$error_msg = $LANG['ONE_REQUIRED_FIELDS_EMPTY'];
-	}elseif(sha1($input->p['current_password']) != $staff['password']){
+		$error_msg = $LANG['ONE_REQUIRED_FIELDS_EMPTY'];		
+	}elseif( Password::isEqual($staff['password'], $input->p['current_password']) === false ){
 		$error_msg = $LANG['EXISTING_PASSWORD_INCORRECT'];
 	}elseif($input->p['new_password'] != $input->p['new_password2']){
 		$error_msg = $LANG['NEW_PASSWORDS_DONOT_MATCH'];
 	}else{
-		$new_password = sha1($input->p['new_password']);
+		$new_password = Password::create($input->p['password']);
 		$data = array('password' => $new_password);
 		$db->update(TABLE_PREFIX."staff", $data, "id={$staff['id']}");
 		$_SESSION['staff']['password'] = $new_password;

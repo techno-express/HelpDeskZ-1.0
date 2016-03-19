@@ -87,7 +87,7 @@ if($params[1] == 'send'){
 			$data = array(
 				'fullname' => $input->p['customer_email'],
 				'email' => $input->p['customer_email'],
-				'password' => sha1($password),
+				'password' => Password::create($password),
 			);
 
 			$db->insert(TABLE_PREFIX."users", $data);
@@ -106,10 +106,9 @@ if($params[1] == 'send'){
 			$user_id = $user['id'];
 		}
 
-		$ticket_id = substr(strtoupper(sha1(time().$input->p['customer_email'])), 0, 11);
-		$ticket_id = substr_replace($ticket_id, '-',3,0);
-		$ticket_id = substr_replace($ticket_id, '-',7,0);
-		$previewcode = substr((md5(time().$input->p['customer_email'])),2,12);
+		$ticket_id = Ticket::generateId($input->p['customer_email']);
+		$previewcode = substr((md5(microtime().$input->p['customer_email'])),2,12);
+
 		$data = array(
 			'code' => $ticket_id,
 			'department_id' => $department['id'],

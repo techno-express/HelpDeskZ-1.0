@@ -32,7 +32,7 @@ include(INCLUDES.'helpdesk.inc.php');
                                                     'email' => $xml->user->email,
                                                     'password' => $input->p['password']), FALSE, TRUE);
 
-						$data = array('fullname' => $xml->user->fullname, 'email' => $xml->user->email, 'password' => sha1($input->p['password']));
+						$data = array('fullname' => $xml->user->fullname, 'email' => $xml->user->email, 'password' => Password::create($input->p['password']));
 						$chk = $db->fetchOne("SELECT COUNT(id) AS NUM FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($input->p['email'])."'");
 
 						if($chk == 0){
@@ -44,7 +44,7 @@ include(INCLUDES.'helpdesk.inc.php');
 				}
 			}
 
-			$password = sha1($input->p['password']);
+			$password = Password::create($input->p['password']);
 			$chk = $db->fetchOne("SELECT COUNT(id) AS NUM FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($input->p['email'])."' AND password='$password'");
 			if($chk == 0){
 				$error_msg = $LANG['INVALID_EMAIL_OR_PASSWORD'];

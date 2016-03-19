@@ -102,4 +102,3 @@ if($settings['maintenance'] == 1){
 		exit;
 	}
 }
-?>

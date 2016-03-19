@@ -36,7 +36,7 @@ if($action == 'submit'){
 						'vars' => array('%client_name%' => $user['fullname'], '%client_email%' => $user['email'], '%client_password%' => $new_password),
 						);
 						$mailer = new Mailer($data_mail);
-			$db->query("UPDATE ".TABLE_PREFIX."users SET password='".sha1($new_password)."' WHERE id={$user['id']}");
+			$db->query("UPDATE ".TABLE_PREFIX."users SET password='".Password::create($new_password)."' WHERE id={$user['id']}");
 			header('location: '.getUrl('lost_password','confirmation'));
 			exit;
 		}

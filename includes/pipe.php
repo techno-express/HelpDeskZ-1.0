@@ -21,9 +21,6 @@ $helpdeskz = new Registry();
 if($helpdeskz->config['Database']['type'] == 'mysqli'){
 	require_once INCLUDES.'classes/classMysqli.php';
 	$db = new MySQLIDB();
-}else{
-	require_once INCLUDES.'classes/classMysql.php';
-	$db = new MySQLDB();
 }
 $db->connect($helpdeskz->config['Database']['dbname'], $helpdeskz->config['Database']['servername'], $helpdeskz->config['Database']['username'], $helpdeskz->config['Database']['password'], $helpdeskz->config['Database']['tableprefix']);
 //Settings

@@ -65,6 +65,8 @@ foreach($departments as $dep_id => $dep_name){
 }
 $template_vars['filter_bar'] = $filter_bar;
 
+$trashed_tickets = $db->query("SELECT status, department_id, COUNT(id) as total FROM ".TABLE_PREFIX."tickets WHERE trash = 1 ORDER BY last_update");
+
 if($params[0] == 'view' && is_numeric($params[1])){
 	include(CONTROLLERS.'staff/params/tickets_view.php');
 }
@@ -149,11 +151,16 @@ if($input->p['do'] == 'update'){
 		foreach($input->p['ticket_id'] as $k){
 			if(is_numeric($k)){
 				$ticketid = $db->real_escape_string($k);
-				if($input->p['remove'] == 1){
+				$is_trash = $db->fetchOne("SELECT trash FROM ".TABLE_PREFIX."tickets WHERE id='$ticketid'");
+				if($input->p['remove'] == 1 && $is_trash == '1'){
 					$db->delete(TABLE_PREFIX."tickets", "id='$ticketid'");
 					$db->delete(TABLE_PREFIX."tickets_messages", "ticket_id='$ticketid'");
 					removeAttachment($ticketid,'tickets');
-				}else{
+				}
+				elseif($input->p['remove'] == 1 && $is_trash = '0'){
+					$db->query("UPDATE ".TABLE_PREFIX."tickets SET trash = 1 WHERE id='$ticketid'");
+				}
+				else{
 					if(array_key_exists($input->p['department'],$departments)){
 						$db->query("UPDATE ".TABLE_PREFIX."tickets SET department_id='".$db->real_escape_string($input->p['department'])."' WHERE id='$ticketid'");
 					}
@@ -171,13 +178,12 @@ if($input->p['do'] == 'update'){
 	}
 }
 
-
 $max_results = $settings['page_size'];
-$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets WHERE {$search_query} {$exceptiondep_query}");
+$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets WHERE trash = 0 AND {$search_query} {$exceptiondep_query}");
 $total_pages = ceil($count/$max_results);
 $page = ($page>$total_pages?$total_pages:$page);
 $from = ($max_results*$page) - $max_results;
-$q = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets WHERE {$search_query} {$exceptiondep_query} ORDER BY {$orderby} {$sortby} LIMIT $from, $max_results");
+$q = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets WHERE trash = 0 AND {$search_query} {$exceptiondep_query} ORDER BY {$orderby} {$sortby} LIMIT $from, $max_results");
 $todayis = time();
 
 while($r = $db->fetch_array($q)){

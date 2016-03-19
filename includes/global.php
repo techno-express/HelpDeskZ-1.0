@@ -17,6 +17,26 @@ define('STAFF_TEMPLATE', TEMPLATES . 'staff/');
 define('ADMIN_TEMPLATE', TEMPLATES . 'admin/');
 define('UPLOAD_DIR', ROOTPATH . 'uploads/');
 
+//Autoloader Composer vendor classes
+require_once(__DIR__.'/vendor/autoload.php');
+
+//Autoloader
+spl_autoload_register(function ($class_name) {
+	if( !class_exists($class_name) ){
+
+		$class_name = str_replace('\\', '/', $class_name); //Support for namespaces
+		$filename = __DIR__.'/includes/classes/'.$class_name . '.class.php';
+		try {
+			include_once($filename);
+		}
+		catch(Exception $e) {
+			//print_r(error_get_last(),true);
+			//"Exception..". $e->getMessage();
+			die($e->getMessage());
+		}
+	}
+});
+
 require_once INCLUDES.'classes/classRegistry.php';
 require_once INCLUDES.'classes/classInput.php';
 require_once INCLUDES.'classes/classMailer.php';
@@ -30,7 +50,7 @@ if(CONF_DB_TYPE == 'mysqli'){
 	$db = new MySQLIDB();
 }
 elseif(CONF_DB_TYPE == 'PDO'){
-	require_once INCLUDES.'classes/PDODB.class.php';
+	//require_once INCLUDES.'classes/PDODB.class.php'; //covered in Autoloader already
 	$db = new PDODB;
 }
 else{
