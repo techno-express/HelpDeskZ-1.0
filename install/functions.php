@@ -1,5 +1,5 @@
 <?php
-define('HELPDESKZ_VERSION' , '1.0.3');
+define('HELPDESKZ_VERSION' , '1.0.4');
 define('HELPDESKZ_PATH', dirname(dirname(__FILE__)).'/');
 
 function helpdeskz_header(){
