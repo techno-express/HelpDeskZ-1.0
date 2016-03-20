@@ -162,9 +162,7 @@
 	{% for note in ticket_notes %}
 
 		<div id="note1" class="bubble" style="background-color: #ffefbb; padding: 10px; border-radius: 7px;color: #3c3e43";>
-			<blockquote>
-				<p>{{ note.message }}</p>
-			</blockquote>
+			<p>{{ note.message }}</p>
 		</div>
 		<div class="arrow_box"></div>
 		<span class="staff_note">{{ note.fullname }} at {{ note.date }}</span>
