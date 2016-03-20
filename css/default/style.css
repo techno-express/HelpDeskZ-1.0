@@ -48,7 +48,7 @@ a:hover{
 	display:block;
 	width:253px;
 	height:60px;
-	background:url(../images/logo.png) no-repeat;
+	background:url(../../images/logo.png) no-repeat;
 }
 #language{
 	float:right;
@@ -434,7 +434,7 @@ text-align:center;
 /* KNOWLEDGEBASE */
 
 .knowledgebasecategorytitle{
-	background:url(../images/folder.png) no-repeat scroll 0px 50%;
+	background:url(../../images/folder.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	padding-bottom:5px;
 	margin-bottom:5px;
@@ -446,7 +446,7 @@ text-align:center;
 	color:#4c5156;
 }
 .knowledgebasearticlelist{
-	background:url(../images/file.png) no-repeat scroll 0px 50%;
+	background:url(../../images/file.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	margin-bottom:5px;
 }
@@ -454,7 +454,7 @@ text-align:center;
 
 }
 .knowledgebasearticlelisttitle{
-	background:url(../images/file.png) no-repeat scroll 0px 50%;
+	background:url(../../images/file.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	margin-bottom:5px;
 	font-size:20px;
@@ -474,7 +474,7 @@ text-align:center;
 	color:#3c3e43;
 }
 .knowledgebaseattachmenticon{
-	background:url(../images/attachment.png) no-repeat;
+	background:url(../../images/attachment.png) no-repeat;
 	width:16px;
 	height:16px;
 	display:inline-block;

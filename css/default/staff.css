@@ -30,7 +30,7 @@ img{
 	border-top:5px solid #4ab350;
 }
 #logo{
-	background:url(../images/cp/cp_logo.png) no-repeat;
+	background:url(../../images/cp/cp_logo.png) no-repeat;
 	float:left;
 	margin:10px 0px 0px 25px;
 }
@@ -526,28 +526,28 @@ text-align:center;
 	width:16px;
 	height:16px;
 	display:inline-block;
-	background:url(../images/cp/comment.png) no-repeat;
+	background:url(../../images/cp/comment.png) no-repeat;
 	cursor:pointer;
 }
 .ticket_icon_edit{
 	width:16px;
 	height:16px;
 	display:inline-block;
-	background:url(../images/cp/edit.png) no-repeat;
+	background:url(../../images/cp/edit.png) no-repeat;
 	cursor:pointer;
 }
 .ticket_icon_trash{
 	width:16px;
 	height:16px;
 	display:inline-block;
-	background:url(../images/cp/trash.png) no-repeat;
+	background:url(../../images/cp/trash.png) no-repeat;
 	cursor:pointer;
 }
 .fancytree_descr{
 	color:#666;
 }
 .folder_add{
-	background:url(../images/cp/folder_add.png) no-repeat;
+	background:url(../../images/cp/folder_add.png) no-repeat;
 	width:16px;
 	height:16px;
 	display:inline-block;
@@ -555,7 +555,7 @@ text-align:center;
 	cursor:pointer;
 }
 .article_add{
-	background:url(../images/cp/article_add.png) no-repeat;
+	background:url(../../images/cp/article_add.png) no-repeat;
 	width:16px;
 	height:16px;
 	display:inline-block;
@@ -593,7 +593,7 @@ text-align:center;
 }
 
 .knowledgebasecategorytitle{
-	background:url(../images/cp/folder.png) no-repeat scroll 0px 50%;
+	background:url(../../images/cp/folder.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	padding-bottom:5px;
 	margin-bottom:5px;
@@ -605,7 +605,7 @@ text-align:center;
 	color:#007aaa;
 }
 .knowledgebasearticlelist{
-	background:url(../images/cp/file.png) no-repeat scroll 0px 50%;
+	background:url(../../images/cp/file.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	margin-bottom:5px;
 }
@@ -613,7 +613,7 @@ text-align:center;
 	color:#4c5156;
 }
 .knowledgebasearticlelisttitle{
-	background:url(../images/cp/file.png) no-repeat scroll 0px 50%;
+	background:url(../../images/cp/file.png) no-repeat scroll 0px 50%;
 	padding-left:20px;
 	margin-bottom:5px;
 	margin-top:15px;
@@ -637,7 +637,7 @@ text-align:center;
 	padding-top:10px;
 }
 .knowledgebaseattachmenticon{
-	background:url(../images/cp/attachment.png) no-repeat;
+	background:url(../../images/cp/attachment.png) no-repeat;
 	width:16px;
 	height:16px;
 	display:inline-block;
