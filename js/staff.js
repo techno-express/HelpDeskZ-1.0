@@ -121,7 +121,7 @@ function remove_note(_ticketNoteID){
 			url:     _delnoteURL + _ticketNoteID,
 			data:    '',
 			success: function(_data) {
-				$("#note_"+_ticketNoteID).remove();
+				$("#note"+_ticketNoteID).remove();
 			}
 		});
 	}
