@@ -48,7 +48,7 @@ a:hover{
 	display:block;
 	width:253px;
 	height:60px;
-	background:url(../images/logo.png) no-repeat;
+	background:url(../../images/logo.png) no-repeat;
 }
 #language{
 	float:right;
