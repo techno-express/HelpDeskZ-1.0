@@ -108,4 +108,5 @@ $LANG['AWAITING_REPLY'] = 'Awaiting Reply';
 $LANG['IN_PROGRESS'] = 'In Progress';
 $LANG['ANSWERED'] = 'Answered';
 $LANG['CLOSED'] = 'Closed';
+$LANG['ADD_NOTE'] = 'Add note';
 ?>
