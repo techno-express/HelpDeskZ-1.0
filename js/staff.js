@@ -14,7 +14,7 @@ $(document).ready(function(){
 	$('#quicktabs').jrtabs();
 	$('#tabs').jrtabs();
 	$('#tabs2').jrtabs();
-	
+
 	$("#selectall").change(function () {
 		$(".checkall").prop('checked', $(this).prop("checked"));
 		countchecked();
@@ -22,7 +22,7 @@ $(document).ready(function(){
 	$(".checkall").click(function(){
 		countchecked();
 	});
-	
+
 	 $( "#date_from" ).datepicker({
 	onClose: function( selectedDate ) {
 	$( "#date_to" ).datepicker( "option", "minDate", selectedDate );
@@ -33,7 +33,7 @@ $(document).ready(function(){
 	$( "#date_from" ).datepicker( "option", "maxDate", selectedDate );
 	}
 	});
-	
+
 	 container_dialog = $( "#container_dialog" ).dialog({
 		autoOpen: false,
 		width: 670,
@@ -41,7 +41,7 @@ $(document).ready(function(){
 		modal: true,
 		resizable:false,
 
-	});	
+	});
 
 });
 
@@ -51,20 +51,20 @@ function countchecked() {
 		$("#options").show();
 	}else{
 		$("#selectall").attr("checked",false);
-		$("#options").hide();	
+		$("#options").hide();
 	}
 }
 
 function init_loader(){
 	dialogloader = $( "#dialog_loader" ).dialog({
-	dialogClass: "no-close",	
+	dialogClass: "no-close",
 	modal:true,
 	minHeight:50,
 	resizable: false
 	});
 }
 function stop_loader(){
-	dialogloader.dialog( "close" );		
+	dialogloader.dialog( "close" );
 }
 /* Manage Tickets Tab */
 function quote_post(_ticketID,_ticketPostID){
@@ -79,7 +79,7 @@ function quote_post(_ticketID,_ticketPostID){
 			$('html, body').animate({scrollTop : 0},800);
 			stop_loader();
 		}
-	});	
+	});
 }
 function edit_post(_ticketPostID){
 	init_loader();
@@ -100,7 +100,7 @@ function addKnowledgebase(_kbID){
 			stop_loader();
 			$("#knowledgebaseList").val("");
 		}
-	});	
+	});
 }
 function remove_post(_ticketPostID){
 	if(confirm('Are you sure you wish to continue?')){
@@ -110,6 +110,18 @@ function remove_post(_ticketPostID){
 			data:    '',
 			success: function(_data) {
 				$("#msg_"+_ticketPostID).remove();
+			}
+		});
+	}
+}
+function remove_note(_ticketNoteID){
+	if(confirm('Are you sure you wish to delete this note?')){
+		$.ajax({
+			type:    'POST',
+			url:     _delnoteURL + _ticketNoteID,
+			data:    '',
+			success: function(_data) {
+				$("#note"+_ticketNoteID).remove();
 			}
 		});
 	}
@@ -124,7 +136,7 @@ function showCannedForm(_cannedID){
 	}
 	$("#container_dialog").load(_cannedURL+_cannedID, function(){
 		container_dialog.dialog( "open" );
-		stop_loader();		
+		stop_loader();
 	});
 }
 /* Knowledgebase Tab */
@@ -138,10 +150,10 @@ function showKBCategoryForm(_knowledgeID, _parentID){
 
 	$("#container_dialog").load(_kbURL+_knowledgeID, function(){
 		$('#parentselector option:selected').attr('selected',false);
-		$('#parentselector option[value="'+_parentID+'"]').attr('selected', 'selected');		
+		$('#parentselector option[value="'+_parentID+'"]').attr('selected', 'selected');
 		container_dialog.dialog( "open" );
-		stop_loader();		
-	});	
+		stop_loader();
+	});
 }
 /* Tickets Tab */
 function showFileTypeForm(_fileID){
@@ -153,7 +165,7 @@ function showFileTypeForm(_fileID){
 	}
 	$("#container_dialog").load(_fileTypeUrl+_fileID, function(){
 		container_dialog.dialog( "open" );
-		stop_loader();		
+		stop_loader();
 	});
 }
 function showCustomFieldForm(_fieldID){
@@ -172,11 +184,11 @@ function addCustomFieldNext(){
 	type = $('input[name=field_type]:checked').val();
 	if(type !== undefined){
 		$("#customfield_step1").hide();
-		$("#customfield_"+type).show();	
+		$("#customfield_"+type).show();
 	}
 }
 function addCustomFieldBack(type){
-	$("#customfield_"+type).hide();	
+	$("#customfield_"+type).hide();
 	$("#customfield_step1").show();
 }
 /* Departments Tab */
@@ -189,7 +201,7 @@ function showDepartmentsForm(_departmentID){
 	}
 	$("#container_dialog").load(_departmentUrl+_departmentID, function(){
 		container_dialog.dialog( "open" );
-		stop_loader();		
+		stop_loader();
 	});
 }
 /* Staff Tab */
@@ -202,7 +214,7 @@ function showStaffForm(_staffID){
 	}
 	$("#container_dialog").load(_staffUrl+_staffID, function(){
 		container_dialog.dialog( "open" );
-		stop_loader();		
+		stop_loader();
 	});
 }
 /* Users Tab */
@@ -215,7 +227,7 @@ function showUserForm(_userID){
 	}
 	$("#container_dialog").load(_usersURL+_userID, function(){
 		container_dialog.dialog( "open" );
-		stop_loader();		
+		stop_loader();
 	});
 }
 

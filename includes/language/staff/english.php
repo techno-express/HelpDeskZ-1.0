@@ -406,4 +406,6 @@ $LANG['IMAP_DOWNLOADER_PROCESSACTION_OPTION_DELETE'] = 'Delete any processed ema
 $LANG['IMAP_DOWNLOADER_PROCESSACTION_OPTION_MOVE'] = 'Move emails to specific folder (specify folder below)';
 $LANG['IMAP_DOWNLOADER_PROCESSED_FOLDER'] = 'Target folder';
 $LANG['IMAP_DOWNLOADER_PROCESSED_FOLDER_INFO'] = 'Here you specify to which folder in your inbox any processed mails will be moved to (see option above).';
+$LANG['ADD_NOTE'] = 'Add note';
+
 ?>

@@ -61,6 +61,18 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 			header('location: '.getUrl($controller, $action, array('view',$ticketid,'updated')));
 			exit;
 		}
+	}elseif( $params[2] == 'addnote') {
+		if(verifyToken('ticket', $input->p['csrfhash']) !== true){
+			$error_msg = $LANG['CSRF_ERROR'];
+		}elseif(empty($input->p['note_message'])){
+			$error_msg = $LANG['ENTER_YOUR_MESSAGE'];
+		}else{
+			$staff_id = $staff['id'];
+			$message = $db->real_escape_string($input->p['note_message']);
+			$db->query("INSERT INTO ".TABLE_PREFIX."tickets_notes (ticket_id, message, staff_id) VALUES ($ticketid, '$message', $staff_id)");
+			header('location: '.getUrl($controller, $action, array('view',$ticketid,'updated')));
+			exit;
+		}
 	}elseif($params[2] == 'reply'){
 		if(verifyToken('ticket', $input->p['csrfhash']) !== true){
 			$error_msg = $LANG['CSRF_ERROR'];
@@ -163,7 +175,13 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 			}
 		}
 		exit;
-	}elseif($params[2] == 'attachment'){
+	}elseif($params[2] == 'RemoveNote'){
+		if(is_numeric($params[3])){
+			$db->delete(TABLE_PREFIX."tickets_notes", "id=".$db->real_escape_string($params[3]));
+		}
+		exit;
+	}
+	elseif($params[2] == 'attachment'){
 		if(!is_numeric($params['3'])){
 			$filename = CONTROLLERS.'home_controller.php';
 			$action = '404notfound';
@@ -213,15 +231,8 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 	$page = ($page>$total_pages?$total_pages:$page);
 	$from = ($max_results*$page) - $max_results;
 	$tickets_query = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid ORDER BY date DESC LIMIT $from, $max_results");
-	/*
-	while($r = $db->fetch_array($tickets_query)){
-		$attachments = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."attachments WHERE msg_id={$r['id']}");
-		$r['attachments'] = $attachments;
-		$ticket_messages[] = $r;
-	}
-	*/
 
-	//begin
+	//begin attachments
 	$y = array();
 	while($r = $db->fetch_array($tickets_query)){
 		$y[] = $r;
@@ -234,9 +245,18 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 		$x['num_attachments'] = count($x['attachments']);
 		$ticket_messages[] = $x;
 	}
-	//end
+	//end attachments
+
+	//begin notes
+	$ticket_notes = array();
+	$tickets_query = $db->query("SELECT ".TABLE_PREFIX."tickets_notes.*, ".TABLE_PREFIX."staff.id, ".TABLE_PREFIX."staff.username, ".TABLE_PREFIX."staff.fullname, ".TABLE_PREFIX."staff.email FROM ".TABLE_PREFIX."tickets_notes LEFT JOIN ".TABLE_PREFIX."staff ON ".TABLE_PREFIX."tickets_notes.staff_id = ".TABLE_PREFIX."staff.id WHERE ticket_id={$ticketid}");
+	while($a = $db->fetch_array($tickets_query)){
+		$ticket_notes[] = $a;
+	}
+	//end notes
 
 	$template_vars['ticket_messages'] = $ticket_messages;
+	$template_vars['ticket_notes'] = $ticket_notes;
 	$template_vars['total_pages'] = $total_pages;
 	$template_vars['page'] = $page;
 

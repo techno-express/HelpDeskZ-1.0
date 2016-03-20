@@ -7,6 +7,7 @@
 	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg',''])|raw }}';
 	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB',''])|raw }}';
 	var _delmsgURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveMsg',''])|raw }}';
+	var _delnoteURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveNote',''])|raw }}';
 	function addCannedResponse(msgid){
 		if(msgid != ''){
 			myMsg = cannedmsg[msgid]['message'];
@@ -35,6 +36,7 @@
     <ul>
         <li>{{ LANG.GENERAL }}</li>
         <li>{{ LANG.REPLY }}</li>
+				<li>{{ LANG.ADD_NOTE }}</li>
     </ul>
     <div id="ctab1">
 		<div class="ticket_information">
@@ -86,7 +88,9 @@
                     </select></div>
                 </div>
             </div>
-            <div align="center" style="margin-top:10px"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></div>
+            <div align="center" style="margin-top:10px">
+							<input type="submit" name="btn" value="{{ LANG.UPDATE }}" />
+						</div>
             <input type="hidden" name="csrfhash" value="" class="csrfhash" />
             </form>
 
@@ -155,8 +159,30 @@
             <input type="hidden" name="csrfhash" value="" class="csrfhash" />
 		</form>
     </div>
+		<div id="ctab3">
+			<form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'addnote'])|raw }}" name="addnote" id="addnote">
+				<div style="font-size:18px">Your note</div>
+				<div>
+					<textarea style="width:100%;" name="note_message" id="note_message" rows="8" cols="25"></textarea>
+				</div>
+				<input type="submit" name="btn" value="{{ LANG.ADD_NOTE }}" />
+				<input type="hidden" name="csrfhash" value="" class="csrfhash" />
+			</form>
+		</div>
 </div>
 
+
+<div id="notes">
+	{% for note in ticket_notes %}
+
+		<div id="note{{ note.id }}" class="bubble">
+			<p>{{ note.message }}</p>
+			<span class="ticket_icon_trash" title="Remove this note" onclick="remove_note({{ note.id }});"></span>
+		</div>
+		<div class="arrow_box"></div>
+		<span class="staff_note">{{ note.fullname }} at {{ note.date }}</span>
+	{% endfor %}
+</div>
         {% for message in ticket_messages %}
         <div class="ticket_conversation {% if message.customer == 0 %}staff_message{% endif %}" id="msg_{{ message.id }}">
 	        <div style="display:table-row">
