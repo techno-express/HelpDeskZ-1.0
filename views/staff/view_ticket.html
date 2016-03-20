@@ -174,13 +174,14 @@
 
 <div id="notes">
 	{% for note in ticket_notes %}
-
-		<div id="note{{ note.id }}" class="bubble">
-			<p>{{ note.message }}</p>
-			<span class="ticket_icon_trash" title="Remove this note" onclick="remove_note({{ note.id }});"></span>
+		<div id="note{{ note.id }}">
+			<div class="bubble">
+				<p>{{ note.message }}</p>
+				<span class="ticket_icon_trash" title="Remove this note" onclick="remove_note({{ note.id }});"></span>
+			</div>
+			<div class="arrow_box"></div>
+			<span class="staff_note">{{ note.fullname }} at {{ note.date }}</span>
 		</div>
-		<div class="arrow_box"></div>
-		<span class="staff_note">{{ note.fullname }} at {{ note.date }}</span>
 	{% endfor %}
 </div>
         {% for message in ticket_messages %}
