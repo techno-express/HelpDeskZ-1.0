@@ -157,6 +157,19 @@
     </div>
 </div>
 
+
+<div id="notes">
+	{% for note in ticket_notes %}
+
+		<div id="note1" class="bubble" style="background-color: #ffefbb; padding: 10px; border-radius: 7px;color: #3c3e43";>
+			<blockquote>
+				<p>{{ note.message }}</p>
+			</blockquote>
+		</div>
+		<div class="arrow_box"></div>
+		<span>{{ note.fullname }}</span>
+	{% endfor %}
+</div>
         {% for message in ticket_messages %}
         <div class="ticket_conversation {% if message.customer == 0 %}staff_message{% endif %}" id="msg_{{ message.id }}">
 	        <div style="display:table-row">

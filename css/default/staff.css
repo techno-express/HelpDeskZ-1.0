@@ -694,3 +694,22 @@ text-align:center;
 	background-color: rgb(191, 190, 189);
 	border: 1px solid #E0E0E0;
 }
+
+.arrow_box {
+	position: relative;
+	background: #ffefbb;
+}
+.arrow_box:after {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(255, 239, 187, 0);
+	border-top-color: #ffefbb;
+	border-width: 10px;
+	margin-left: -10px;
+}

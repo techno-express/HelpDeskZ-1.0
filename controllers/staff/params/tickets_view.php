@@ -213,15 +213,8 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 	$page = ($page>$total_pages?$total_pages:$page);
 	$from = ($max_results*$page) - $max_results;
 	$tickets_query = $db->query("SELECT * FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid ORDER BY date DESC LIMIT $from, $max_results");
-	/*
-	while($r = $db->fetch_array($tickets_query)){
-		$attachments = $db->fetchRow("SELECT *, COUNT(id) AS total FROM ".TABLE_PREFIX."attachments WHERE msg_id={$r['id']}");
-		$r['attachments'] = $attachments;
-		$ticket_messages[] = $r;
-	}
-	*/
 
-	//begin
+	//begin attachments
 	$y = array();
 	while($r = $db->fetch_array($tickets_query)){
 		$y[] = $r;
@@ -234,9 +227,18 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 		$x['num_attachments'] = count($x['attachments']);
 		$ticket_messages[] = $x;
 	}
-	//end
+	//end attachments
+
+	//begin notes
+	$ticket_notes = array();
+	$tickets_query = $db->query("SELECT ".TABLE_PREFIX."tickets_notes.*, ".TABLE_PREFIX."staff.id, ".TABLE_PREFIX."staff.username, ".TABLE_PREFIX."staff.fullname, ".TABLE_PREFIX."staff.email FROM ".TABLE_PREFIX."tickets_notes LEFT JOIN ".TABLE_PREFIX."staff ON ".TABLE_PREFIX."tickets_notes.staff_id = ".TABLE_PREFIX."staff.id WHERE ticket_id={$ticketid}");
+	while($a = $db->fetch_array($tickets_query)){
+		$ticket_notes[] = $a;
+	}
+	//end notes
 
 	$template_vars['ticket_messages'] = $ticket_messages;
+	$template_vars['ticket_notes'] = $ticket_notes;
 	$template_vars['total_pages'] = $total_pages;
 	$template_vars['page'] = $page;
 
