@@ -7,7 +7,7 @@
 	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg',''])|raw }}';
 	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB',''])|raw }}';
 	var _delmsgURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveMsg',''])|raw }}';
-	var _delnoteURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveNote',''])|raw }}';	
+	var _delnoteURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveNote',''])|raw }}';
 	function addCannedResponse(msgid){
 		if(msgid != ''){
 			myMsg = cannedmsg[msgid]['message'];
@@ -177,10 +177,10 @@
 
 		<div id="note{{ note.id }}" class="bubble">
 			<p>{{ note.message }}</p>
+			<span class="ticket_icon_trash" title="Remove this note" onclick="remove_note({{ note.id }});"></span>
 		</div>
 		<div class="arrow_box"></div>
 		<span class="staff_note">{{ note.fullname }} at {{ note.date }}</span>
-		<span class="ticket_icon_trash" title="Remove this note" onclick="remove_note();"></span>
 	{% endfor %}
 </div>
         {% for message in ticket_messages %}
