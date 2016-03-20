@@ -713,6 +713,12 @@ text-align:center;
 	margin-left: 9px;
 }
 
+#notes .ticket_icon_trash {
+	float: right !important;
+  margin-top: 6px !important;
+  margin-right: 8px !important;
+}
+
 .arrow_box {
 	position: relative;
 	background: #ffefbb;
