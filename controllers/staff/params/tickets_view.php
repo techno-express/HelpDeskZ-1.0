@@ -249,7 +249,7 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 
 	//begin notes
 	$ticket_notes = array();
-	$tickets_query = $db->query("SELECT ".TABLE_PREFIX."tickets_notes.*, ".TABLE_PREFIX."staff.id, ".TABLE_PREFIX."staff.username, ".TABLE_PREFIX."staff.fullname, ".TABLE_PREFIX."staff.email FROM ".TABLE_PREFIX."tickets_notes LEFT JOIN ".TABLE_PREFIX."staff ON ".TABLE_PREFIX."tickets_notes.staff_id = ".TABLE_PREFIX."staff.id WHERE ticket_id={$ticketid}");
+	$tickets_query = $db->query("SELECT ".TABLE_PREFIX."tickets_notes.*, ".TABLE_PREFIX."staff.id as staff_id, ".TABLE_PREFIX."staff.username, ".TABLE_PREFIX."staff.fullname, ".TABLE_PREFIX."staff.email FROM ".TABLE_PREFIX."tickets_notes LEFT JOIN ".TABLE_PREFIX."staff ON ".TABLE_PREFIX."tickets_notes.staff_id = ".TABLE_PREFIX."staff.id WHERE ticket_id={$ticketid}");
 	while($a = $db->fetch_array($tickets_query)){
 		$ticket_notes[] = $a;
 	}
