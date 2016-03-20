@@ -177,10 +177,7 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 		exit;
 	}elseif($params[2] == 'RemoveNote'){
 		if(is_numeric($params[3])){
-			$chk = $db->fetchOne("SELECT COUNT(id) AS NUM FROM ".TABLE_PREFIX."tickets_notes WHERE id=".$db->real_escape_string($params[3]));
-			if($chk != 0){
-				$db->delete(TABLE_PREFIX."tickets_messages", "id=".$db->real_escape_string($params[3]));
-			}
+			$db->delete(TABLE_PREFIX."tickets_notes", "id=".$db->real_escape_string($params[3]));
 		}
 		exit;
 	}
