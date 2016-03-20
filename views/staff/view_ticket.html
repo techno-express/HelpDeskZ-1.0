@@ -159,7 +159,7 @@
 		</form>
     </div>
 		<div id="ctab3">
-			<form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'addnote'])|raw }}" name="addnote" id="addnote" enctype="multipart/form-data">
+			<form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'addnote'])|raw }}" name="addnote" id="addnote">
 				<div style="font-size:18px">Your note</div>
 				<div>
 					<textarea style="width:100%;" name="note_message" id="note_message" rows="8" cols="25"></textarea>

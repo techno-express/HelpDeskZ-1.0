@@ -68,8 +68,8 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 			$error_msg = $LANG['ENTER_YOUR_MESSAGE'];
 		}else{
 			$staff_id = $staff['id'];
-			$message = $input->p['note_message'];
-			$db->query("INSERT INTO ".TABLE_PREFIX."tickets_notes (ticket_id, message, staff_id) VALUES ($ticketid, $message, $staff_id)");
+			$message = $db->real_escape_string($input->p['note_message']);
+			$db->query("INSERT INTO ".TABLE_PREFIX."tickets_notes (ticket_id, message, staff_id) VALUES ($ticketid, '$message', $staff_id)");
 			header('location: '.getUrl($controller, $action, array('view',$ticketid,'updated')));
 			exit;
 		}
