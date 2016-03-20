@@ -11,7 +11,7 @@
 {% elseif params.1 == 'customfield_deleted' %}{{ success_message(LANG.CUSTOM_FIELD_REMOVED) }}
 {% endif %}
 <script type="text/javascript">
-	var csrfhash = '{{ getToken('ticket_settings') }}'; 
+	var csrfhash = '{{ getToken('ticket_settings') }}';
 	var _fileTypeUrl = '{{ getUrl(controller,action,['tickets','getFileTypeForm',''])|raw }}';
 	var _customFieldUrl = '{{ getUrl(controller,action,['tickets','getCustomFieldForm',''])|raw }}';
 	$(function(){
@@ -21,8 +21,8 @@
 <div id="tabs">
 	<ul>
     	<li id="tab1">{{ LANG.GENERAL }}</li>
-        <li id="tab2">{{ LANG.FILE_TYPES }}</li>
-        <li id="tab3">{{ LANG.CUSTOM_FIELDS }}</li>
+      <li id="tab2">{{ LANG.FILE_TYPES }}</li>
+      <li id="tab3">{{ LANG.CUSTOM_FIELDS }}</li>
     </ul>
     <div id="ctab1">
     	<form method="post" action="{{ getUrl(controller,action,['tickets','update_general#ctab1'])|raw }}">
@@ -64,7 +64,7 @@
                 	<input type="text" name="tickets_replies" value="{{ settings.tickets_replies }}" size="30" />
                 </td>
             </tr>
-            
+
         	<tr>
             	<td>{{ LANG.DEFAULT_REPLY_TIME_DEADLINE }}<br />
                 <span class="description">{{ LANG.DEFAULT_REPLY_TIME_DEADLINE_TXT }}</span>
@@ -112,7 +112,7 @@
     <div id="ctab2">
     	<form method="post" action="{{ getUrl(controller,action,['tickets','delete_filetype#ctab2'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
-        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_FILE_TYPE }}" onclick="showFileTypeForm(0);" /> 
+        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_FILE_TYPE }}" onclick="showFileTypeForm(0);" />
 <br />
 <br />
     	<table width="100%"  class="widget-table">
@@ -132,7 +132,7 @@
             </tr>
             {% endfor %}
         </table>
-        
+
 <div id="options" style="margin-top:20px; display:none;">
     <div id="tabs2">
         <ul>
@@ -161,7 +161,7 @@
         </form>
     </div>
     <div id="ctab3">
-        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_CUSTOM_FIELD }}" onclick="showCustomFieldForm(0);" /> 
+        	<input type="button" name="btn" value="{{ LANG.ADD_NEW_CUSTOM_FIELD }}" onclick="showCustomFieldForm(0);" />
 <br />
 <br />
     	<table width="100%"  class="widget-table">

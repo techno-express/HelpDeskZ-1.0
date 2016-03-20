@@ -61,6 +61,18 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 			header('location: '.getUrl($controller, $action, array('view',$ticketid,'updated')));
 			exit;
 		}
+	}elseif( $params[2] == 'addnote') {
+		if(verifyToken('ticket', $input->p['csrfhash']) !== true){
+			$error_msg = $LANG['CSRF_ERROR'];
+		}elseif(empty($input->p['note_message'])){
+			$error_msg = $LANG['ENTER_YOUR_MESSAGE'];
+		}else{
+			$staff_id = $staff['id'];
+			$message = $input->p['note_message'];
+			$db->query("INSERT INTO ".TABLE_PREFIX."tickets_notes (ticket_id, message, staff_id) VALUES ($ticketid, $message, $staff_id)");
+			header('location: '.getUrl($controller, $action, array('view',$ticketid,'updated')));
+			exit;
+		}
 	}elseif($params[2] == 'reply'){
 		if(verifyToken('ticket', $input->p['csrfhash']) !== true){
 			$error_msg = $LANG['CSRF_ERROR'];
