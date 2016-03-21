@@ -43,6 +43,16 @@ Use the login details that you entered in the installation process.
 HelpDeskZ supports email piping, this allows the auto-creation of tickets from incoming emails to a set email address.
 - To enable email piping for your help desk follow this <a href="http://www.helpdeskz.com/help/knowledgebase/2/article/10/setting-up-email-piping">email piping tutorial.</a>
 
+## Email IMAP fetching
+HelpDeskZ now also supports email IMAP fetching, this allows the auto-creation of tickets from incoming emails to a set email address. You can delete the email, or choose to move email into a folder after it has been fetched.
+A simple cron to run cron.php will fetch and process each message.
+
+## Create a ticket yourself
+Now also supports creating a ticket from within the ticket system.
+
+## Add notes
+Want to create notes to a ticket? Only viewable for staff? No problem!
+
 ## Customize the look
 For detailed information please see this <a href="http://www.helpdeskz.com/help/knowledgebase/2/article/6/how-do-i-customize-helpdeskz-look">knowledgebase article.</a>
 
