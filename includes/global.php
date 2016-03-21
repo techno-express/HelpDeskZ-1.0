@@ -79,8 +79,8 @@ else {
 $company_name = $db->fetchOne("SELECT name from `".TABLE_PREFIX."companies` WHERE id = '$company_id'");
 $company_name = strtolower($company_name);
 
-$q = $db->query("SELECT `field`, `value` FROM `".TABLE_PREFIX."company_settings` WHERE company_id = '$company_id'");
-//$q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
+//$q = $db->query("SELECT `field`, `value` FROM `".TABLE_PREFIX."company_settings` WHERE company_id = '$company_id'");
+$q = $db->query("SELECT * FROM ".TABLE_PREFIX."settings");
 while($r = $db->fetch_array($q)){
 	$settings[$r['field']] = $r['value'];
 }
