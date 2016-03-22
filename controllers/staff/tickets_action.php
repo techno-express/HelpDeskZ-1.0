@@ -157,7 +157,7 @@ if($input->p['do'] == 'update'){
 					$db->delete(TABLE_PREFIX."tickets_messages", "ticket_id='$ticketid'");
 					removeAttachment($ticketid,'tickets');
 				}
-				elseif($input->p['remove'] == 1 && $is_trash = '0'){
+				elseif($input->p['remove'] == 1 && $is_trash == '0'){
 					$db->query("UPDATE ".TABLE_PREFIX."tickets SET trash = 1 WHERE id='$ticketid'");
 				}
 				else{
