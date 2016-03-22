@@ -38,7 +38,7 @@ while($r = $db->fetch_array($q)){
 }
 
 $ticketid = $db->real_escape_string($params[1]);
-$ticket = $db->fetchRow("SELECT ".TABLE_PREFIX."tickets.*, ".TABLE_PREFIX."ticket_status.langstring, count(".TABLE_PREFIX."tickets.id) as total FROM ".TABLE_PREFIX."tickets LEFT JOIN ".TABLE_PREFIX."ticket_status ON ".TABLE_PREFIX."tickets.status = ".TABLE_PREFIX."ticket_status.id WHERE ".TABLE_PREFIX."tickets.id=$ticketid");
+$ticket = $db->fetchRow("SELECT ".TABLE_PREFIX."tickets.*, ".TABLE_PREFIX."ticket_status.langstring, count(".TABLE_PREFIX."tickets.id) as total FROM ".TABLE_PREFIX."tickets LEFT JOIN ".TABLE_PREFIX."ticket_status ON ".TABLE_PREFIX."tickets.status = ".TABLE_PREFIX."ticket_status.id WHERE ".TABLE_PREFIX."tickets.id=$ticketid AND trash = 0");
 $ticket['status_name'] = str_replace('_','',strtolower($ticket['langstring']));
 
 if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departments)){
