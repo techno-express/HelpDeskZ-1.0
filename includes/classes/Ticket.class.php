@@ -6,7 +6,7 @@ class Ticket {
 
   }
 
-  public static function createId($variable) {
+  public static function generateId($variable) {
 
     //Original. Now sha256 instead of sha1
     $ticket_id = substr(strtoupper(hash('sha256', microtime().$variable)), 0, 11);
