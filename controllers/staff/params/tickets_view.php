@@ -38,7 +38,7 @@ while($r = $db->fetch_array($q)){
 }
 
 $ticketid = $db->real_escape_string($params[1]);
-$ticket = $db->fetchRow("SELECT ".TABLE_PREFIX."tickets.*, ".TABLE_PREFIX."ticket_status.langstring, count(".TABLE_PREFIX."tickets.id) as total FROM ".TABLE_PREFIX."tickets LEFT JOIN ".TABLE_PREFIX."ticket_status ON ".TABLE_PREFIX."tickets.status = ".TABLE_PREFIX."ticket_status.id WHERE ".TABLE_PREFIX."tickets.id=$ticketid AND trash = 0");
+$ticket = $db->fetchRow("SELECT ".TABLE_PREFIX."tickets.*, ".TABLE_PREFIX."ticket_status.langstring, count(".TABLE_PREFIX."tickets.id) as total FROM ".TABLE_PREFIX."tickets LEFT JOIN ".TABLE_PREFIX."ticket_status ON ".TABLE_PREFIX."tickets.status = ".TABLE_PREFIX."ticket_status.id WHERE ".TABLE_PREFIX."tickets.id=$ticketid");
 $ticket['status_name'] = str_replace('_','',strtolower($ticket['langstring']));
 
 if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departments)){
@@ -226,7 +226,7 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 	$page_title = '[#'.$ticket['code'].']: '.$ticket['subject'];
 		$page = (!is_numeric($params[2])?1:$params[2]);
 	$max_results = $settings['tickets_page'];
-	$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid AND trash = 0");
+	$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid");
 	$total_pages = ceil($count/$max_results);
 	$page = ($page>$total_pages?$total_pages:$page);
 	$from = ($max_results*$page) - $max_results;
