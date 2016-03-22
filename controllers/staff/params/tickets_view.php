@@ -226,7 +226,7 @@ if($ticket['total'] == 0 || !array_key_exists($ticket['department_id'],$departme
 	$page_title = '[#'.$ticket['code'].']: '.$ticket['subject'];
 		$page = (!is_numeric($params[2])?1:$params[2]);
 	$max_results = $settings['tickets_page'];
-	$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid");
+	$count = $db->fetchOne("SELECT COUNT(*) AS NUM FROM ".TABLE_PREFIX."tickets_messages WHERE ticket_id=$ticketid AND trash = 0");
 	$total_pages = ceil($count/$max_results);
 	$page = ($page>$total_pages?$total_pages:$page);
 	$from = ($max_results*$page) - $max_results;
