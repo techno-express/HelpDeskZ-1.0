@@ -7,12 +7,11 @@
  * @since 1.0.0
  */
 if($params[0] == 'update_password'){
-	print_r($staff);
 	if(verifyToken('preferences', $input->p['csrfhash']) !== true){
 		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(empty($input->p['current_password']) || empty($input->p['new_password']) || empty($input->p['new_password2'])){
 		$error_msg = $LANG['ONE_REQUIRED_FIELDS_EMPTY'];
-	}elseif( Password::isEqual($staff['new_password'], $input->p['current_password']) === false ){
+	}elseif( Password::isEqual($staff['password'], $input->p['current_password']) === false ){
 		$error_msg = $LANG['EXISTING_PASSWORD_INCORRECT'];
 	}elseif($input->p['new_password'] != $input->p['new_password2']){
 		$error_msg = $LANG['NEW_PASSWORDS_DONOT_MATCH'];
