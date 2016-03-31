@@ -43,7 +43,7 @@ while($r = $db->fetch_array($q)){
 $template_vars['priority'] = $priority;
 
 //Filter bar
-$filter_query = ($exceptiondep_query == ''?'':'WHERE '.substr($exceptiondep_query, 4));
+$filter_query = ($exceptiondep_query == '' ? 'WHERE trash = 0' : 'WHERE trash = 0 AND '.substr($exceptiondep_query, 4));
 $totalticket = $db->query("SELECT status, department_id, COUNT(id) as total FROM ".TABLE_PREFIX."tickets {$filter_query} GROUP by status, department_id");
 while($r = $db->fetch_array($totalticket)){
 	$total_dep[$r['department_id']][$r['status']] = $r['total'];

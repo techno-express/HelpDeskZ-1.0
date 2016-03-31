@@ -311,7 +311,8 @@ CREATE TABLE `{{DB_PREFIX}}tickets_messages` (
   `email` varchar(200) CHARACTER SET {{DB_CHARSET}} DEFAULT NULL,
   `email_to` varchar(200) COLLATE {{DB_COLLATE}} DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `ticket_id` (`ticket_id`)
+  KEY `ticket_id` (`ticket_id`),
+  CONSTRAINT `{{DB_PREFIX}}tickets_messages_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `{{DB_PREFIX}}tickets` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET={{DB_CHARSET}} COLLATE={{DB_COLLATE}};
 
 -- ----------------------------
@@ -325,7 +326,8 @@ CREATE TABLE `{{DB_PREFIX}}tickets_notes` (
   `staff_id` int(11) DEFAULT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `ticket_id` (`ticket_id`)
+  KEY `ticket_id` (`ticket_id`),
+  CONSTRAINT `{{DB_PREFIX}}tickets_notes_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `{{DB_PREFIX}}tickets` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET={{DB_CHARSET}} COLLATE={{DB_COLLATE}};
 
 -- ----------------------------
