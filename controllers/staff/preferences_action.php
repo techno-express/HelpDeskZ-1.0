@@ -7,6 +7,7 @@
  * @since 1.0.0
  */
 if($params[0] == 'update_password'){
+	print_r($staff);
 	if(verifyToken('preferences', $input->p['csrfhash']) !== true){
 		$error_msg = $LANG['CSRF_ERROR'];
 	}elseif(empty($input->p['current_password']) || empty($input->p['new_password']) || empty($input->p['new_password2'])){
