@@ -67,7 +67,9 @@ foreach($messages AS $message) {
 	  $subject = $message->getSubject();
 
     $from_name = $from->getName();
-    $from_email = $from->getMailbox().'@'.$from->getHostname();;
+    $from_email = $from->getMailbox().'@'.$from->getHostname();
+
+    file_put_contents('/tmp/temp.tmp', print_r( $message->getHeaders(), true), FILE_APPEND);
 
 	  $datenow = time();
 
