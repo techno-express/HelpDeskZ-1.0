@@ -2,8 +2,19 @@
 
 class Ticket {
 
-  public function __contruct() {
+  private $db = null;
 
+  public function __contruct() {
+    if(CONF_DB_TYPE == 'mysqli'){
+      $this->db = new MySQLIDB();
+    }
+    elseif(CONF_DB_TYPE == 'PDO'){
+      $this->db = new PDODB;
+    }
+    else{
+      exit("No valid DB connection type found?");
+    }
+    $this->db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
   }
 
   public static function generateId($variable) {
@@ -13,12 +24,13 @@ class Ticket {
 		$ticket_id = substr_replace($ticket_id, '-',3,0);
 		$ticket_id = substr_replace($ticket_id, '-',7,0);
 
-    // What about: OJK-235298
+    //TODO: What about: 'OJK-235298' ?
 
-    //TODO: Check if the ticket exists already? It could technically not be that unique. Performance issue.
-    // $db = new DB;
-    // SELECT `code` FROM `{{prefix}}tickets` WHERE `code` = :code" --> if result --> return self::createId($variable);
-
+    //Check if the ticket exists already? It could technically not be that unique. Performance issue.
+    $result = $this->db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
+    if($result != null) {
+      return $this->generateId($variable);
+    }
     return $ticket_id;
   }
 
@@ -28,9 +40,12 @@ class Ticket {
   		$ticket_id = trim(preg_replace("/\]/", "", $ticket_id));
   		$ticket_id = str_replace("#", "", $ticket_id);
 
-      //TODO: Check if the ticket exists in the DB? It could technically not be OUR ticket ID. Performance issue.
-      // $db = new DB;
-      // SELECT `code` FROM `{{prefix}}tickets` WHERE `code` = :code" --> if !result --> return false;
+      //Check if the ticket exists in the DB? It could technically not be OUR ticket ID. Performance issue.
+      $result = $this->db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
+      if($result == null) {
+        //Ticket ID wasn't found:
+        return false;
+      }
       return $ticket_id;
     }
     return false;
