@@ -67,7 +67,17 @@ foreach($messages AS $message) {
 	  $subject = $message->getSubject();
 
     $from_name = $from->getName();
-    $from_email = $from->getMailbox().'@'.$from->getHostname();;
+    $from_email = $from->getMailbox().'@'.$from->getHostname();
+
+    $headers = $message->getHeaders();
+    $reply_to = $headers->get('reply_to');
+    if(is_array($reply_to)) {
+      $reply_to = $reply_to[0];
+      if( is_object($reply_to) && isset($reply_to->mailbox) ) {
+        //Overwrite the "from"
+        $from_email = $reply_to->mailbox.'@'.$reply_to->host;
+      }
+    }
 
 	  $datenow = time();
 
