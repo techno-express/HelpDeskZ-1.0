@@ -2,21 +2,6 @@
 
 class Ticket {
 
-  private $db = null;
-
-  public function __contruct() {
-    if(CONF_DB_TYPE == 'mysqli'){
-      $this->db = new MySQLIDB();
-    }
-    elseif(CONF_DB_TYPE == 'PDO'){
-      $this->db = new PDODB;
-    }
-    else{
-      exit("No valid DB connection type found?");
-    }
-    $this->db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
-  }
-
   public static function generateId($variable) {
 
     //Original. Now sha256 instead of sha1
@@ -26,8 +11,19 @@ class Ticket {
 
     //TODO: What about: 'OJK-235298' ?
 
+    if(CONF_DB_TYPE == 'mysqli'){
+      $db = new MySQLIDB();
+    }
+    elseif(CONF_DB_TYPE == 'PDO'){
+      $db = new PDODB;
+    }
+    else{
+      exit("No valid DB connection type found?");
+    }
+    $db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
+
     //Check if the ticket exists already? It could technically not be that unique. Performance issue.
-    $result = $this->db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
+    $result = $db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
     if($result != null) {
       return $this->generateId($variable);
     }
@@ -40,8 +36,19 @@ class Ticket {
   		$ticket_id = trim(preg_replace("/\]/", "", $ticket_id));
   		$ticket_id = str_replace("#", "", $ticket_id);
 
+      if(CONF_DB_TYPE == 'mysqli'){
+        $db = new MySQLIDB();
+      }
+      elseif(CONF_DB_TYPE == 'PDO'){
+        $db = new PDODB;
+      }
+      else{
+        exit("No valid DB connection type found?");
+      }
+      $db->connect(CONF_DB_DATABASE, CONF_DB_HOST, CONF_DB_USERNAME, CONF_DB_PASSWORD);
+
       //Check if the ticket exists in the DB? It could technically not be OUR ticket ID. Performance issue.
-      $result = $this->db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
+      $result = $db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
       if($result == null) {
         //Ticket ID wasn't found:
         return false;
