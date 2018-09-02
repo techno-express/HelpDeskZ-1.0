@@ -25,7 +25,7 @@ class Ticket {
     //Check if the ticket exists already? It could technically not be that unique. Performance issue.
     $result = $db->fetchOne("SELECT `code` FROM `".TABLE_PREFIX."tickets` WHERE `code` = '".$ticket_id."'");
     if($result != null) {
-      return $this->generateId($variable);
+      return self::generateId($variable);
     }
     return $ticket_id;
   }
